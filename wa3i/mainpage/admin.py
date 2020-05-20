@@ -1,3 +1,7 @@
+# admin.py
 from django.contrib import admin
+from .models import * # 모든 모델을 불러옵니다.
 
-# Register your models here.
+admin.site.register(Assignment)
+admin.site.register(Category)
+admin.site.register(Question)
