@@ -15,8 +15,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'student' %}">좋은 설명</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'AI' %}">평가연습</a>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'AI' %}">평가연습
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'Study' %}">학습평가</a>
@@ -24,9 +25,8 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'Homeworkselect' %}">숙제하기</a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'Self' %}">스스로 평가
-                    </a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'Self' %}">스스로 평가</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'Notice' %}">게시판</a>
@@ -42,16 +42,18 @@
     <!-- Heading Row -->
     <div class="row align-items-center my-5">
         <div class="col-lg-2">
-            <img class="img-fluid rounded mb-4 mb-lg-0" src="{% static 'mainpage/image/logo.png' %}" width="120" height="120" alt="">
+            <img class="img-fluid rounded mb-4 mb-lg-0" src="{% static 'mainpage/image/logo.png' %}" width="120"
+                 height="120" alt="">
         </div>
         <!-- /.col-lg-8 -->
-        <div class="col-lg-5">
-            <p class="font-weight-bolder triangle-border left">스스로 학습하고 평가하는 능력을 키우는 항목입니다.</p>
+        <div class="col-lg-3">
+            <p class="font-weight-bolder triangle-border left">스스로 학습하고 평가하는 능력을 키우는 항목입니다. 
+            </p>
             <!--        <a class="btn btn-primary" href="#">Call to Action!</a>-->
         </div>
         <!-- /.col-md-4 -->
 
-        <div class="col-5" style="position: relative; left: 100px; top: 60px;">
+        <div class="col-6" style="position: relative; left: 230px; top: 60px;">
             <div class="card-body row no-gutters">
                 <div class="col">
                     <input id="name_input" class="form-control" placeholder="문항명을 입력하세요.">
@@ -70,12 +72,14 @@
                     </select>
                 </div>
             </div>
-         </div>
+        </div>
+
 
     </div>
-            <!-- /.row -->
+    <!-- /.row -->
 
-            <!-- Call to Action Well -->
+
+    <!-- Call to Action Well -->
     <div class="card text-white bg-secondary my-5 py-4 text-center">
         <div class="card-body">
             <h5 class="text-white m-0">문항 선택하기</h5>
@@ -95,7 +99,7 @@
                         </div>
                         <span class="card-footer">
                             <input type="submit" class="btn btn-outline-dark card-link" name="question" value="{{ data.question_name }}"
-                               id="{{ data.question_id }}">
+                               id="{{ data.make_question_id }}">
                         </span>
                     </div>
                 </div>
