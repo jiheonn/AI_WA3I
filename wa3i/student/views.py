@@ -8,7 +8,7 @@ import q as q
 from django.db.models import Q
 from django.http import JsonResponse
 
-from mainpage.models import Question, SelfSolveData, AssignmentQuestionRel, Keyword, Solve, Assignment,MakeQuestion
+from mainpage.models import Question, SelfSolveData, AssignmentQuestionRel, Keyword, Solve, Assignment, MakeQuestion
 
 from django.contrib.auth.hashers import check_password
 from django.urls import reverse
@@ -62,7 +62,7 @@ def Homework(request):
 
 
 def Self(request):
-    qs = Question.objects.all()
+    qs = MakeQuestion.objects.all()
     context = {
         'qs': qs
     }
@@ -114,7 +114,7 @@ def Homeworkques(request):
 
 def Selfques(request):
     question_name = request.GET['question']
-    data = Question.objects.filter(question_name=question_name)[0]
+    data = MakeQuestion.objects.filter(question_name=question_name)[0]
 
     context = {
         'data': data
@@ -126,15 +126,15 @@ def Selfdiag(request):
     question_id = request.GET['question']
     ques_ans = request.GET['ques_ans']
 
-    img = MakeQuestion.objects.filter(make_question_id=question_id).get('image')[0]
-    print(img)
+    # img = MakeQuestion.objects.filter(make_question_id=question_id).get('image')
+    # print(img.values())
 
-    data = SelfSolveData.objects.select_related('make_question').filter(make_question__make_question_id=question_id)[0]
-
+    data = SelfSolveData.objects.select_related('make_question').filter(make_question_id=question_id)[0]
+    # print(data.values())
     context = {
         'data': data,
         'ques_ans': ques_ans,
-        'img' : img
+        # 'img' : img
     }
     return render(request, 'student/Selfdiag.html', context)
 
@@ -197,8 +197,8 @@ def Homeworklist(request):
 
 def Homeworkcheck(request):
     student_id = int(request.GET['student_id'])
-    assignment_title = request.GET['assignment_title']
-    print(assignment_title.values())
+    # assignment_title = request.GET['assignment_id']
+    # print(assignment_title.values())
     data = AssignmentQuestionRel.objects.select_related('assignment','question','solve').filter(solve__student_id=student_id)
 
     context = {
