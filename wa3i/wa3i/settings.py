@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'student',
     'teacher',
     'sysop',
+    'rangefilter',
 ]
 
 MIDDLEWARE = [

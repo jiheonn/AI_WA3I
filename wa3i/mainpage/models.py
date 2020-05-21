@@ -25,7 +25,7 @@ class Assignment(models.Model):
 
 
 class AssignmentQuestionRel(models.Model):
-    as_qurel_id = models.IntegerField(primary_key=True)
+    as_qurel_id = models.AutoField(primary_key=True)
     assignment = models.ForeignKey(Assignment, models.DO_NOTHING, blank=True, null=True)
     question = models.ForeignKey('Question', models.DO_NOTHING, blank=True, null=True)
 
@@ -35,7 +35,7 @@ class AssignmentQuestionRel(models.Model):
 
 
 class Category(models.Model):
-    category_id = models.IntegerField(primary_key=True)
+    category_id = models.AutoField(primary_key=True)
     category_name = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
@@ -44,7 +44,7 @@ class Category(models.Model):
 
 
 class Keyword(models.Model):
-    keyword_id = models.IntegerField(primary_key=True)
+    keyword_id = models.AutoField(primary_key=True)
     question = models.ForeignKey('Question', models.DO_NOTHING, blank=True, null=True)
     keyword_name = models.CharField(max_length=50, blank=True, null=True)
 
@@ -54,7 +54,7 @@ class Keyword(models.Model):
 
 
 class MakeQuestion(models.Model):
-    make_question_id = models.IntegerField(primary_key=True)
+    make_question_id = models.AutoField(primary_key=True)
     teacher = models.ForeignKey('Teacher', models.DO_NOTHING, blank=True, null=True)
     question_name = models.CharField(max_length=200, blank=True, null=True)
     discription = models.TextField(blank=True, null=True)
@@ -70,7 +70,7 @@ class MakeQuestion(models.Model):
 
 
 class Mark(models.Model):
-    mark_id = models.IntegerField(primary_key=True)
+    mark_id = models.AutoField(primary_key=True)
     make_question = models.ForeignKey(MakeQuestion, models.DO_NOTHING, blank=True, null=True)
     mark_text = models.TextField(blank=True, null=True)
 
@@ -80,7 +80,7 @@ class Mark(models.Model):
 
 
 class Question(models.Model):
-    question_id = models.IntegerField(primary_key=True)
+    question_id = models.AutoField(primary_key=True)
     category = models.ForeignKey(Category, models.DO_NOTHING, blank=True, null=True)
     model_id = models.CharField(max_length=50, blank=True, null=True)
     question_name = models.CharField(max_length=100, blank=True, null=True)
@@ -98,7 +98,7 @@ class Question(models.Model):
 
 
 class SelfSolveData(models.Model):
-    self_id = models.IntegerField(primary_key=True)
+    self_id = models.AutoField(primary_key=True)
     make_question = models.ForeignKey(MakeQuestion, models.DO_NOTHING, blank=True, null=True)
     response = models.TextField(blank=True, null=True)
     score = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
@@ -110,7 +110,7 @@ class SelfSolveData(models.Model):
 
 
 class Solve(models.Model):
-    solve_id = models.IntegerField(primary_key=True)
+    solve_id = models.AutoField(primary_key=True)
     as_qurel = models.ForeignKey(AssignmentQuestionRel, models.DO_NOTHING, blank=True, null=True)
     student_id = models.IntegerField(blank=True, null=True)
     submit_date = models.DateField(blank=True, null=True)
@@ -124,7 +124,7 @@ class Solve(models.Model):
 
 
 class StudySolveData(models.Model):
-    study_id = models.IntegerField(primary_key=True)
+    study_id = models.AutoField(primary_key=True)
     question = models.ForeignKey(Question, models.DO_NOTHING, blank=True, null=True)
     school = models.CharField(max_length=30, blank=True, null=True)
     gender = models.CharField(max_length=30, blank=True, null=True)
@@ -138,7 +138,7 @@ class StudySolveData(models.Model):
 
 
 class Teacher(models.Model):
-    teacher_id = models.IntegerField(primary_key=True)
+    teacher_id = models.AutoField(primary_key=True)
     teacher_name = models.CharField(max_length=50, blank=True, null=True)
     school = models.CharField(max_length=50, blank=True, null=True)
     email = models.CharField(max_length=100, blank=True, null=True)
