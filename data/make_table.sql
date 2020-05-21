@@ -28,18 +28,16 @@ CREATE TABLE `assignment` (
 CREATE TABLE `make_question` (
   `make_question_id` int(11),
   `teacher_id` int(11),
-  # `question_id` int(11),
   `question_name` varchar(50),
   `discription` text,
   `answer` varchar(255),
-  `image` blob,
+  `image` varchar(50),
   `hint` varchar(200),
-  `ques_concept` varchar(255),
+  `made_date` date,
   `check` boolean,
   PRIMARY KEY (`make_question_id`),
   FOREIGN KEY (`teacher_id`)
       references teacher(teacher_id) on delete cascade on update cascade
-  # FOREIGN KEY (`question_id`)
 );
 CREATE TABLE `self_solve_data` (
   `self_id` int(11),
@@ -94,16 +92,16 @@ CREATE TABLE `assignment_question_rel` (
   FOREIGN KEY (`solve_id`)
       references solve(solve_id) on delete cascade on update cascade    
 );
-CREATE TABLE `category_question_rel` (
-  `cate_qurel_id` int(11),
-  `question_id` int(11),
-  `category_id` int(11),
-  PRIMARY KEY (`cate_qurel_id`),
-  FOREIGN KEY (`question_id`)
-      references question(question_id) on delete cascade on update cascade,
-  FOREIGN KEY (`category_id`)
-      references category(category_id) on delete cascade on update cascade
-);
+-- CREATE TABLE `category_question_rel` (
+--   `cate_qurel_id` int(11),
+--   `question_id` int(11),
+--   `category_id` int(11),
+--   PRIMARY KEY (`cate_qurel_id`),
+--   FOREIGN KEY (`question_id`)
+--       references question(question_id) on delete cascade on update cascade,
+--   FOREIGN KEY (`category_id`)
+--       references category(category_id) on delete cascade on update cascade
+-- );
 CREATE TABLE `study_solve_data` (
   `study_id` int(11),
   `question_id` int(11),
