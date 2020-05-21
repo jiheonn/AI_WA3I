@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from mainpage.models import Question, Assignment, AssignmentQuestionRel, Solve, Keyword, Category, Teacher
+from mainpage.models import *
 from django.http import JsonResponse
 from django.db.models import Q
 import datetime
@@ -52,7 +52,7 @@ def question_selection(request):
 
 
 def view_result(request):
-    assignment_data = Assignment.objects.all()
+    assignment_data = Assignment.objects.all().order_by('start_date')
     context = {
         'assignment_data': assignment_data
     }
