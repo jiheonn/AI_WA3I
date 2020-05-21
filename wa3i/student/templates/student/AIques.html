@@ -71,21 +71,21 @@
             <!-- Comments Form -->
             <form action="{% url 'AIdiagnosis' %}" method="GET">
             <!-- Title -->
-            <h2 class="mt-4"><input type="hidden" class="w3-btn w3-round w3-blue" name="question" value="{{ data.question_id }}"
-                                               id="{{ data.question_id }}">{{data.question_name}}</h2>
+                <h2 class="mt-4"><input type="hidden" class="w3-btn w3-round w3-blue" name="question" value="{{ data.question_id }}"
+                                                   id="{{ data.question_id }}">{{data.question_name}}</h2>
 
-            <hr>
+                <hr>
 
-            <!-- Preview Image -->
-            <img class="img-fluid rounded mb-4 mb-lg-0" src="{% static data.image %}">
+                <!-- Preview Image -->
+                <img class="img-fluid rounded mb-4 mb-lg-0" src="{% static data.image %}">
 
-            <hr>
+                <hr>
 
-            <!-- Post Content -->
-            <p>{{data.discription}}
-            </p>
+                <!-- Post Content -->
+                <p>{{data.discription}}
+                </p>
 
-            <hr>
+                <hr>
 
                 <div class="card my-4">
                     <h5 class="card-header">생각을 적어보세요:</h5>
