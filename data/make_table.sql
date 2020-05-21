@@ -6,15 +6,15 @@ CREATE TABLE `teacher` (
   `teacher_id` int(11),
   `teacher_name` varchar(50),
   `school` varchar(50),
-  `email` varchar(50),
+  `email` varchar(100),
   `password` varchar(50),
-  `approve` varchar(50),
+  `approve` boolean,
   PRIMARY KEY (`teacher_id`)
 );
 CREATE TABLE `assignment` (
   `assignment_id` varchar(50),
   `teacher_id` int(11),
-  `assignment_title` varchar(50),
+  `assignment_title` varchar(200),
   `type` varchar(50),
   `start_date` date,
   `end_date` date,
@@ -28,11 +28,11 @@ CREATE TABLE `assignment` (
 CREATE TABLE `make_question` (
   `make_question_id` int(11),
   `teacher_id` int(11),
-  `question_name` varchar(50),
+  `question_name` varchar(200),
   `discription` text,
-  `answer` varchar(255),
-  `image` varchar(50),
-  `hint` varchar(200),
+  `answer` text,
+  `image` varchar(200),
+  `hint` text,
   `made_date` date,
   `check` boolean,
   PRIMARY KEY (`make_question_id`),
@@ -58,40 +58,50 @@ CREATE TABLE `question` (
   `question_id` int(11),
   `category_id` int(11),
   `model_id` varchar(50),
-  `question_name` varchar(50),
+  `question_name` varchar(100),
   `discription` text,
-  `answer` varchar(255),
-  `image` varchar(50),
-  `hint` varchar(200),
+  `answer` text,
+  `image` varchar(200),
+  `hint` text,
   `made_date` date,
-  `QR_code` varchar(50),
+  `QR_code` varchar(100),
   `ques_concept` varchar(255),
   PRIMARY KEY (`question_id`),
   FOREIGN KEY (`category_id`)
       references category(category_id) on delete cascade on update cascade
 );
-CREATE TABLE `solve` (
-  `solve_id` int(11),
-  `student_id` int(11),
-  `modified_date` date,
-  `response` longtext,
-  `score` decimal(5,2),
-  `student_name` varchar(50),
-  PRIMARY KEY (`solve_id`)
-);
 CREATE TABLE `assignment_question_rel` (
   `as_qurel_id` int(11),
   `assignment_id` varchar(50),
   `question_id` int(11),
-  `solve_id` int(11),
   PRIMARY KEY (`as_qurel_id`),
   FOREIGN KEY (`assignment_id`)
       references assignment(assignment_id) on delete cascade on update cascade,
   FOREIGN KEY (`question_id`)
-      references question(question_id) on delete cascade on update cascade,
-  FOREIGN KEY (`solve_id`)
-      references solve(solve_id) on delete cascade on update cascade    
+      references question(question_id) on delete cascade on update cascade 
 );
+CREATE TABLE `solve` (
+  `solve_id` int(11),
+  `as_qurel_id` int(11),
+  `student_id` int(11),
+  `submit_date` date,
+  `response` longtext,
+  `score` decimal(5,2),
+  `student_name` varchar(50),
+  PRIMARY KEY (`solve_id`),
+  FOREIGN KEY (`as_qurel_id`)
+      references assignment_question_rel(as_qurel_id) on delete cascade on update cascade 
+);
+-- CREATE TABLE `question_solve_rel` (
+--   `qu_solve_id` int(11),
+--   `as_qurel_id` int(11),
+--   `solve_id` int(11),
+--   PRIMARY KEY (`qu_solve_id`),
+--   FOREIGN KEY (`as_qurel_id`)
+--       references assignment_question_rel(as_qurel_id) on delete cascade on update cascade,
+--   FOREIGN KEY (`solve_id`)
+--       references solve(solve_id) on delete cascade on update cascade
+-- );
 -- CREATE TABLE `category_question_rel` (
 --   `cate_qurel_id` int(11),
 --   `question_id` int(11),
@@ -125,7 +135,7 @@ CREATE TABLE `keyword` (
 CREATE TABLE `mark` (
   `mark_id` int(11),
   `make_question_id` int(11),
-  `mark_text` varchar(200),
+  `mark_text` text,
   PRIMARY KEY (`mark_id`),
   FOREIGN KEY (`make_question_id`)
       references make_question(make_question_id) on delete cascade on update cascade
