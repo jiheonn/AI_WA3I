@@ -70,8 +70,11 @@ def Self(request):
 
 
 def AIques(request):
-    question_name = request.GET['question']
-    data = Question.objects.filter(question_name=question_name)[0]
+    # question_name = request.GET['question']
+    # data = Question.objects.filter(question_name=question_name)[0]
+    question_id = int(request.GET['question_id'])
+    data = Question.objects.filter(question_id=question_id)[0]
+    # print(data.values())
 
     context = {
         'data': data
@@ -163,7 +166,7 @@ def AIdiag(request):
     except:
         school = ""
         gender= ""
-    data = AssignmentQuestionRel.objects.select_related('question','solve').filter(question_id=question_id)[0]
+    data = AssignmentQuestionRel.objects.select_related('question','solve').filter(question__question_id=question_id)[0]
 
     context = {
         'data': data,
