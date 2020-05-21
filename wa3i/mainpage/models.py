@@ -11,7 +11,7 @@ from django.db import models
 class Assignment(models.Model):
     assignment_id = models.CharField(primary_key=True, max_length=50)
     teacher = models.ForeignKey('Teacher', models.DO_NOTHING, blank=True, null=True)
-    assignment_title = models.CharField(max_length=50, blank=True, null=True)
+    assignment_title = models.CharField(max_length=200, blank=True, null=True)
     type = models.CharField(max_length=50, blank=True, null=True)
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
@@ -28,7 +28,6 @@ class AssignmentQuestionRel(models.Model):
     as_qurel_id = models.IntegerField(primary_key=True)
     assignment = models.ForeignKey(Assignment, models.DO_NOTHING, blank=True, null=True)
     question = models.ForeignKey('Question', models.DO_NOTHING, blank=True, null=True)
-    solve = models.ForeignKey('Solve', models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -44,16 +43,6 @@ class Category(models.Model):
         db_table = 'category'
 
 
-class CategoryQuestionRel(models.Model):
-    cate_qurel_id = models.IntegerField(primary_key=True)
-    question = models.ForeignKey('Question', models.DO_NOTHING, blank=True, null=True)
-    category = models.ForeignKey(Category, models.DO_NOTHING, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'category_question_rel'
-
-
 class Keyword(models.Model):
     keyword_id = models.IntegerField(primary_key=True)
     question = models.ForeignKey('Question', models.DO_NOTHING, blank=True, null=True)
@@ -67,12 +56,12 @@ class Keyword(models.Model):
 class MakeQuestion(models.Model):
     make_question_id = models.IntegerField(primary_key=True)
     teacher = models.ForeignKey('Teacher', models.DO_NOTHING, blank=True, null=True)
-    question_name = models.CharField(max_length=50, blank=True, null=True)
+    question_name = models.CharField(max_length=200, blank=True, null=True)
     discription = models.TextField(blank=True, null=True)
-    answer = models.CharField(max_length=255, blank=True, null=True)
-    image = models.TextField(blank=True, null=True)
-    hint = models.CharField(max_length=200, blank=True, null=True)
-    ques_concept = models.CharField(max_length=255, blank=True, null=True)
+    answer = models.TextField(blank=True, null=True)
+    image = models.CharField(max_length=200, blank=True, null=True)
+    hint = models.TextField(blank=True, null=True)
+    made_date = models.DateField(blank=True, null=True)
     check = models.IntegerField(blank=True, null=True)
 
     class Meta:
@@ -80,17 +69,27 @@ class MakeQuestion(models.Model):
         db_table = 'make_question'
 
 
+class Mark(models.Model):
+    mark_id = models.IntegerField(primary_key=True)
+    make_question = models.ForeignKey(MakeQuestion, models.DO_NOTHING, blank=True, null=True)
+    mark_text = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'mark'
+
+
 class Question(models.Model):
     question_id = models.IntegerField(primary_key=True)
     category = models.ForeignKey(Category, models.DO_NOTHING, blank=True, null=True)
     model_id = models.CharField(max_length=50, blank=True, null=True)
-    question_name = models.CharField(max_length=50, blank=True, null=True)
+    question_name = models.CharField(max_length=100, blank=True, null=True)
     discription = models.TextField(blank=True, null=True)
-    answer = models.CharField(max_length=255, blank=True, null=True)
-    image = models.CharField(max_length=50, blank=True, null=True)
-    hint = models.CharField(max_length=200, blank=True, null=True)
+    answer = models.TextField(blank=True, null=True)
+    image = models.CharField(max_length=200, blank=True, null=True)
+    hint = models.TextField(blank=True, null=True)
     made_date = models.DateField(blank=True, null=True)
-    qr_code = models.CharField(db_column='QR_code', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    qr_code = models.CharField(db_column='QR_code', max_length=100, blank=True, null=True)  # Field name made lowercase.
     ques_concept = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
@@ -112,9 +111,9 @@ class SelfSolveData(models.Model):
 
 class Solve(models.Model):
     solve_id = models.IntegerField(primary_key=True)
+    as_qurel = models.ForeignKey(AssignmentQuestionRel, models.DO_NOTHING, blank=True, null=True)
     student_id = models.IntegerField(blank=True, null=True)
-    as_qurel_id = models.IntegerField(blank=True, null=True)
-    modified_date = models.DateField(blank=True, null=True)
+    submit_date = models.DateField(blank=True, null=True)
     response = models.TextField(blank=True, null=True)
     score = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     student_name = models.CharField(max_length=50, blank=True, null=True)
@@ -128,7 +127,7 @@ class StudySolveData(models.Model):
     study_id = models.IntegerField(primary_key=True)
     question = models.ForeignKey(Question, models.DO_NOTHING, blank=True, null=True)
     school = models.CharField(max_length=30, blank=True, null=True)
-    sex = models.CharField(max_length=30, blank=True, null=True)
+    gender = models.CharField(max_length=30, blank=True, null=True)
     response = models.TextField(blank=True, null=True)
     score = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     submit_date = models.DateField(blank=True, null=True)
@@ -142,9 +141,9 @@ class Teacher(models.Model):
     teacher_id = models.IntegerField(primary_key=True)
     teacher_name = models.CharField(max_length=50, blank=True, null=True)
     school = models.CharField(max_length=50, blank=True, null=True)
-    email = models.CharField(max_length=50, blank=True, null=True)
+    email = models.CharField(max_length=100, blank=True, null=True)
     password = models.CharField(max_length=50, blank=True, null=True)
-    approve = models.CharField(max_length=50, blank=True, null=True)
+    approve = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
