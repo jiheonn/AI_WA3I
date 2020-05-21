@@ -106,7 +106,7 @@ CREATE TABLE `study_solve_data` (
   `study_id` int(11),
   `question_id` int(11),
   `school` varchar(30),
-  `sex` varchar(30),
+  `gender` varchar(30),
   `response` longtext,
   `score` decimal(5,2),
   `submit_date` date,
@@ -121,4 +121,12 @@ CREATE TABLE `keyword` (
   PRIMARY KEY (`keyword_id`),
   FOREIGN KEY (`question_id`)
       references question(question_id) on delete cascade on update cascade
+);
+CREATE TABLE `mark` (
+  `mark_id` int(11),
+  `make_question_id` int(11),
+  `mark_text` varchar(200),
+  PRIMARY KEY (`mark_id`),
+  FOREIGN KEY (`make_question_id`)
+      references make_question(make_question_id) on delete cascade on update cascade
 );
