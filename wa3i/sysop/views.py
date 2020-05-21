@@ -39,13 +39,6 @@ def quiz_produce(request):
     }
     return render(request, 'sysop/quiz_produce.html', context)
 
-def quiz_download(request):
-    makequestion = MakeQuestion.objects.all()
-    category = Category.objects.all()
-    context = {'makequestion':makequestion, 'category':category
-    }
-    return render(request, 'sysop/quiz_download.html', context)
-
 def notice(request):
     context = {
     }
@@ -59,14 +52,12 @@ def detailed_review(request):
     return render(request, 'sysop/detailed_review.html', context)
 
 def detailed_quiz(request):
-    context = {
+    question_id = request.GET.get('question_id')
+    for i in question_id:
+        makequestion = MakeQuestion.objects.select_related('teacher').filter(make_question_id=i)[0]
+    context = {'makequestion':makequestion
     }
     return render(request, 'sysop/detailed_quiz.html', context)
-
-def detailed_download(request):
-    context = {
-    }
-    return render(request, 'sysop/detailed_download.html', context)
 
 def write_quiz(request):
     context = {
@@ -80,7 +71,11 @@ def ques_review(request):
     return render(request, 'sysop/ques_review.html', context)
 
 def ques_detail(request):
-    context = {
+    question_id = request.GET.get('question_id')
+    question = []
+    for i in question_id:
+        question = Question.objects.select_related('category').filter(question_id=i)[0]
+    context = {'question':question
     }
     return render(request, 'sysop/ques_detail.html', context)
 
