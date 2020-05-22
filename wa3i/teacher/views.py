@@ -99,29 +99,30 @@ def teacher_notice(request):
 
 def view_result_detail(request):
     select_code = request.GET['select_code']
-    assignment_data = AssignmentQuestionRel.objects.select_related('solve', 'assignment').filter(
-        assignment_id=select_code).order_by('solve__student_id')
-    question_count = assignment_data.values('question_id').distinct().count()  # 문항 수
+    assignment_data = Assignment.objects.all().filter(assignment_id=select_code)
+    solve_data = Solve.objects.select_related('as_qurel').filter(
+        as_qurel_id__assignment_id=select_code).order_by('student_id')
+    question_count = solve_data.values('as_qurel_id__question_id').distinct().count()  # 문항 수
 
     result = {}
-    for i in assignment_data:
-        print(i)
+    for i in solve_data:
+        # print(i)
         test = {}
-        if i.solve.student_id in result:
-            result[i.solve.student_id]['student_id'] = i.solve.student_id
-            result[i.solve.student_id]['student_score'].append(int(i.solve.score))
-            result[i.solve.student_id]['student_response'].append(i.solve.response)
+        if i.student_id in result:
+            result[i.student_id]['student_id'] = i.student_id
+            result[i.student_id]['student_score'].append(int(i.score))
+            result[i.student_id]['student_response'].append(i.response)
         else:
             test['student_progress'] = []
             test['student_score'] = []
             test['student_response'] = []
-            test['student_id'] = i.solve.student_id
-            test['student_name'] = i.solve.student_name
+            test['student_id'] = i.student_id
+            test['student_name'] = i.student_name
             # test['student_response'] = i.solve.response
-            test['student_score'].append(int(i.solve.score))
-            test['student_response'].append(i.solve.response)
+            test['student_score'].append(int(i.score))
+            test['student_response'].append(i.response)
 
-            result[i.solve.student_id] = test
+            result[i.student_id] = test
 
     # print(result)
     for data_row in result:
@@ -139,8 +140,8 @@ def view_result_detail(request):
                 pgs = count / question_count * 100
         j['student_progress'] = round(pgs)
         total_pgs += j['student_progress']
-        # print(j['student_progress'])
-    print(len(result.values()))
+        print(j['student_progress'])
+    # print(len(result.values()))
     all_avg = total / len(result.values())
     all_pgs = round(total_pgs / len(result.values()))
 
@@ -149,7 +150,7 @@ def view_result_detail(request):
         'question_count': question_count,
         'result': result.values(),
         'result_item': result.items(),
-        'all_avg': all_avg,
+        'all_avg': round(all_avg, 2),
         'all_pgs': all_pgs
 
     }

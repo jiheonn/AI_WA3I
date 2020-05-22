@@ -169,12 +169,12 @@
         </tr>
         {% for data in assignment_data|slice:":1" %}
         <tr align="center">
-            <td>{{ data.assignment.assignment_title }}</td>
-            <td>{{ data.assignment.type }}</td>
+            <td>{{ data.assignment_title }}</td>
+            <td>{{ data.type }}</td>
             <td>{{ data.assignment_id }}</td>
-            <td>{{ data.assignment.start_date }} ~<br> {{ data.assignment.end_date }}</td>
-            <td>{{ data.assignment.grade }}</td>
-            <td>{{ data.assignment.class_field }}</td>
+            <td>{{ data.start_date }} ~<br> {{ data.assignment.end_date }}</td>
+            <td>{{ data.grade }}</td>
+            <td>{{ data.class_field }}</td>
             <td>{{ question_count }}</td>
             <td>{{ all_avg }}</td>
             <td>{{ all_pgs }}</td>
