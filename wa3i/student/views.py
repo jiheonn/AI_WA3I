@@ -1,6 +1,6 @@
 from builtins import dict
 
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.http import HttpResponse
@@ -26,6 +26,7 @@ def AI(request):
         'qs': qs
     }
     return render(request, 'student/AI.html', context)
+
 
 #
 # def Study(request):
@@ -81,19 +82,33 @@ def AIques(request):
 
 def Studyques(request):
     try:
+        # assignment_id = request.GET['code_num']
+        # data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
+        # f = data.first()
+
         assignment_id = request.GET['code_num']
         data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
         f = data.first()
+
+        da = Assignment.objects.filter(assignment_id=assignment_id)
+
+        if da.values('type')[0]['type'] == "학습평가":
+            f = data.first()
+        # else:
+        #     print("")
+            # print(data.query)
+
     except:
         question_info = request.GET['question_name'].split(',')
         question_name = question_info[0]
         assignment_id = question_info[1]
+
         data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
         f = AssignmentQuestionRel.objects.select_related('question').filter(question__question_name=question_name)[0]
 
     context = {
-        'data' : data,
-        'f' : f
+        'data': data,
+        'f': f
     }
     return render(request, 'student/Studyques.html', context)
 
@@ -107,7 +122,7 @@ def Studyques2(request):
 def Homeworkques(request):
     data = Question.objects.first()
     context = {
-        'data':data
+        'data': data
     }
     return render(request, 'student/Homeworkques.html', context)
 
@@ -146,30 +161,36 @@ def Selfgrade(request):
 
 
 def Homeworkdiag(request):
-    data = AssignmentQuestionRel.objects.select_related('question','solve').first()
+    data = AssignmentQuestionRel.objects.select_related('question', 'solve').first()
     context = {
-        'data':data
+        'data': data
     }
     return render(request, 'student/Homeworkdiag.html', context)
 
 
 def AIdiag(request):
-
     question_id = request.GET['question']
     ques_ans = request.GET['ques_ans']
     try:
-        school = "/static/student/school_gender_img/" + request.GET['category_school'] +".png"
-        gender = "/static/student/school_gender_img/" + request.GET['category_gender'] +".png"
+        school = "/static/student/school_gender_img/" + request.GET['category_school'] + ".png"
+        gender = "/static/student/school_gender_img/" + request.GET['category_gender'] + ".png"
     except:
         school = ""
-        gender= ""
-    data = AssignmentQuestionRel.objects.select_related('question','solve').filter(question__question_id=question_id)[0]
+        gender = ""
+    # data = AssignmentQuestionRel.objects.select_related('question','solve').filter(question__question_id=question_id)[0]
+    key = AssignmentQuestionRel.objects.select_related('question').filter(question__question_id=question_id)
+    data = key[0]
+
+    # solve테이블과 question테이블 조인
+    d = key.values('as_qurel_id')[0]['as_qurel_id']
+    da = Solve.objects.prefetch_related('assignment_question_rel').filter(as_qurel_id=d)
+    print(da.query)
 
     context = {
         'data': data,
-        'ques_ans' : ques_ans,
-        'school' : school,
-        'gender' : gender,
+        'ques_ans': ques_ans,
+        'school': school,
+        'gender': gender,
     }
     return render(request, 'student/AIdiag.html', context)
 
@@ -187,10 +208,10 @@ def Homeworklist(request):
     # data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
     # f = AssignmentQuestionRel.objects.select_related('question').filter(question__question_name=question_name)[0]
     student_id = int(request.GET['ID_num'])
-    rel = AssignmentQuestionRel.objects.select_related('assignment','solve').filter(solve__student_id=student_id)
+    rel = AssignmentQuestionRel.objects.select_related('assignment', 'solve').filter(solve__student_id=student_id)
 
     context = {
-        'rel':rel
+        'rel': rel
     }
     return render(request, 'student/Homeworklist.html', context)
 
@@ -199,10 +220,11 @@ def Homeworkcheck(request):
     student_id = int(request.GET['student_id'])
     # assignment_title = request.GET['assignment_id']
     # print(assignment_title.values())
-    data = AssignmentQuestionRel.objects.select_related('assignment','question','solve').filter(solve__student_id=student_id)
+    data = AssignmentQuestionRel.objects.select_related('assignment', 'question', 'solve').filter(
+        solve__student_id=student_id)
 
     context = {
-        'data' : data
+        'data': data
     }
     return render(request, 'student/Homeworkcheck.html', context)
 
@@ -271,22 +293,53 @@ def change_category(request):
     return JsonResponse(context)
 
 
+def check_code_st(request):
+    code_num = request.GET['code_num']
+    # ID_num = int(request.GET['ID_num'])
+    try:
+        code = Assignment.objects.get(assignment_id=code_num)
+
+    except:
+        code = None
+
+    if code is None:
+        overlap = "fail"
+    else:
+        overlap = "pass"
+
+        # da = Assignment.objects.filter(assignment_id=assignment_id)
+        # if da.values('type')[0]['type'] == "학습평가":
+
+        types = Assignment.objects.filter(assignment_id=code).values('type')[0]['type']
+        print(types)
+        print("hi")
+        # if types == "학습평가":
+        #     overlap = "pass"
+        # else:
+        #     overlap = "fail"
+
+    context = {
+        'overlap': overlap
+    }
+    return JsonResponse(context)
+
+
 def check_code(request):
     code_num = request.GET['code_num']
     # ID_num = int(request.GET['ID_num'])
     try:
         code = Assignment.objects.get(assignment_id=code_num)
     except:
-        code=None
+        code = None
     # try:
     #     ID = Solve.objects.filter(student_id=ID_num)
     # except:
     #     ID=None or (ID is None)
 
     if (code is None):
-        overlap="fail"
+        overlap = "fail"
     else:
-        overlap="pass"
+        overlap = "pass"
 
     context = {
         'overlap': overlap
@@ -300,12 +353,12 @@ def check_ID(request):
     try:
         ID = Solve.objects.filter(student_id=ID_num)
     except:
-        ID=None
+        ID = None
 
     if ID is None:
-        overlap="fail"
+        overlap = "fail"
     else:
-        overlap="pass"
+        overlap = "pass"
 
     context = {
         'overlap': overlap
