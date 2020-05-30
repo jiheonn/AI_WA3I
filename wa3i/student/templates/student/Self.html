@@ -1,7 +1,85 @@
 {% extends 'student/base.html' %}
 {% load static %}
 {% block content %}
+<script>
+<!--문항명검색-->
+    $(document).ready(function () {
+        $('#search_name').click(function () {
+            var name_input = $('#name_input').val();
+             $.ajax({
+                url: '/student/search_name/',
+                data: {name_input: name_input},
+                success: function (data) {
+                    var search_data = data.search_data;
+                    var num = search_data.length;
+                    if ( num == 0 ) {
+                        alert('검색 결과가 존재하지 않습니다.');
+                    } else {
+                        $("div").remove("#question_list");
+                    for (var i = 0; i < num; i++) {
+                        $("#whole_card").after(
+                                '<div id="question_list" class="col-md-3 mb-5">' +
+                                '<div class="card h-100" align="center">' +
+                                '<div class="card-body">' +
+                                '<img class="img-fluid rounded mb-4 mb-lg-0" src="' +
+                                '/static/' +
+                                search_data[i].question_image +
+                                '">' +
+                                '</div>' +
+                                '<span class="card-footer">' +
+                                '<a href="{% url ' +
+                                'Selfquestion' +
+                                '%}" class="card-link" name="q_name" id="q_name">' +
+                                search_data[i].question_name +
+                                '</a>' +
+                                '</span>' +
+                                '</div>' +
+                                '</div>'
+                        )}
+                    }}
+             });
+        });
+    });
 
+<!--검색카테고리-->
+    $(document).ready(function () {
+    $('#category_option2').change(function () {
+        var option = $("#category_option2 option:selected").val();
+        alert(option);
+        $.ajax({
+            url: '/student/change_category/',
+            data: {option: option},
+            success: function (data) {
+                var option_data = data.option_data;
+                var num = option_data.length;
+                $("div").remove("#question_list");
+                    for (var i = 0; i < num; i++) {
+                        $("#question_list").after(
+                            '<div id="question_list" class="row">' +
+                            '<div class="col-md-3 mb-5">' +
+                            '<div class="card h-100" align="center">' +
+                            '<div class="card-body">' +
+                            '<img class="img-fluid rounded mb-4 mb-lg-0" src="' +
+                            '/static/' +
+                            option_data[i].question_image +
+                            '">' +
+                            '</div>' +
+                            '<span class="card-footer">' +
+                            '<a href="{% url '+
+                            'Selfquestion' +
+                            '%}" class="card-link" name="q_name" id="q_name">' +
+                            option_data[i].question_name +
+                            '</a>' +
+                            '</span>' +
+                            '</div>' +
+                            '</div>'
+                        )
+                    }
+                }
+            });
+        });
+    });
+</script>
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
@@ -15,7 +93,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'student' %}">좋은 설명</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'AI' %}">평가연습
                     </a>
                 </li>
@@ -25,7 +103,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'Homeworkselect' %}">숙제하기</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="{% url 'Self' %}">스스로 평가</a>
                 </li>
                 <li class="nav-item">
@@ -63,7 +141,7 @@
                 </div>
 
                 <div id="category" class="col" style="left:10px">
-                    <select id="category_option" name="category">
+                    <select id="category_option2" name="category">
                         <option value="select" selected="selected">카테고리</option>
                         <option value="국어">국어</option>
                         <option value="수학">수학</option>
