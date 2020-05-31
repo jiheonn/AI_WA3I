@@ -466,10 +466,9 @@
             <div id="category" class="col-12" style="margin: 50px;">
                 <select id="category_option" name="category">
                     <option value="select" selected="selected">카테고리</option>
-                    <option value="국어">국어</option>
-                    <option value="수학">수학</option>
-                    <option value="사회">사회</option>
-                    <option value="과학">과학</option>
+                    {% for data in category_data %}
+                    <option value="{{ data.category_name }}">{{ data.category_name }}</option>
+                    {% endfor %}
                 </select>
             </div>
 

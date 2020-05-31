@@ -19,6 +19,7 @@ def index(request):
 
 
 def question_selection(request):
+    category_data = Category.objects.all()
     now = datetime.datetime.now()
     now_date = now.strftime('%Y-%m-%d')
     question_data = Question.objects.all()
@@ -29,7 +30,8 @@ def question_selection(request):
 
     context = {
         'question_data': question_data,
-        'assignment_id': assignment_id
+        'assignment_id': assignment_id,
+        'category_data': category_data
     }
     try:
         test = request.GET.getlist('question')
@@ -130,20 +132,25 @@ def view_result_detail(request):
         result[data_row]['student_score'] = sum(check_data['student_score']) / len(check_data['student_score'])
     # print(result.values())
 
-    total = 0
-    total_pgs = 0
-    for j in result.values():
-        total += j['student_score']
-        if len(j['student_response']) >= 1:
-            for c in j['student_response']:
-                count = len(j['student_response'])
-                pgs = count / question_count * 100
-        j['student_progress'] = round(pgs)
-        total_pgs += j['student_progress']
-        print(j['student_progress'])
-    # print(len(result.values()))
-    all_avg = total / len(result.values())
-    all_pgs = round(total_pgs / len(result.values()))
+    try:
+        total = 0
+        total_pgs = 0
+        for j in result.values():
+            total += j['student_score']
+            if len(j['student_response']) >= 1:
+                for c in j['student_response']:
+                    count = len(j['student_response'])
+                    pgs = count / question_count * 100
+            j['student_progress'] = round(pgs)
+            total_pgs += j['student_progress']
+            print(j['student_progress'])
+        # print(len(result.values()))
+        # print(total, len(result.values()))
+        all_avg = total / len(result.values())
+        all_pgs = round(total_pgs / len(result.values()))
+    except ZeroDivisionError:
+        all_avg = 0
+        all_pgs = 0
 
     context = {
         'assignment_data': assignment_data,
