@@ -11,28 +11,16 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import json
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-with open('information.json') as json_file:
-    json_data = json.load(json_file)
-    host_ = json_data['host']
-    user_ = json_data['user']
-    password_ = json_data['password']
-    port_ = json_data['port']
-    database_ = json_data['database']
-    secret_key = json_data['secret_key']
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = secret_key
-
-# SECRET_KEY = ''
+SECRET_KEY = 'lz$lbq745x&m$lm@5*v^o3_40xlv#_y61-d0bzzp75^##6sl)i'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -90,29 +78,13 @@ WSGI_APPLICATION = 'wa3i.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'OPTIONS': {
-#             'read_default_file': "C:/workspace/mysql.cnf",
-#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"  # strict mode 설정 추가
-#         }
-#     }
-# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': database_,  # DB명
-        'USER': user_,  # 데이터베이스 계정
-        'PASSWORD': password_,  # 계정 비밀번호
-        'HOST': host_,  # 데이테베이스 주소(IP)
-        'PORT': port_,  # 데이터베이스 포트
-
-        'OPTIONS': {
-            'init_command': 'SET sql_mode="STRICT_TRANS_TABLES"'
-        }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

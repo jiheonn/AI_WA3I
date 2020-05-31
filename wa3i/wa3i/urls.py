@@ -22,5 +22,4 @@ urlpatterns = [
     path('student/', include('student.urls')),
     path('teacher/', include('teacher.urls')),
     path('sysop/', include('sysop.urls')),
-
 ]
