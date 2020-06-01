@@ -51,9 +51,6 @@
                  }
             }
 
-
-
-
             function ScoreAlert() {
                  if (confirm("계산한 점수가 맞는지 확인해주세요.(예:1점, 아니오:0점)\n\n총 점수 : 2점\n") == true) {
                      document.location.href='{% url 'Self' %}';
@@ -75,29 +72,28 @@
             }
 
 
-<!--            function checkInfo(data) {-->
+            function checkInfo(data) {
+            code_overlap_input = document.querySelector('input[id="code_num"]');
+            // ID_overlap_input = document.querySelector('input[id="ID_num"]');
 
-<!--            code_overlap_input = document.querySelector('input[id="code_num"]');-->
-<!--            ID_overlap_input = document.querySelector('input[id="ID_num"]');-->
-
-<!--            $.ajax({-->
-<!--              url: '/student/check_code/',-->
-<!--              data: {-->
-<!--                'code_num': code_overlap_input.value,-->
-<!--                'ID_num': ID_overlap_input.value-->
-<!--              },-->
-<!--              datatype: 'json',-->
-<!--              success: function (data) {-->
-<!--                console.log(data['overlap']);-->
-<!--                if (data['overlap'] == "pass") {-->
-<!--                  document.location.href='{% url 'Studyquestion' %}';-->
-<!--                } else {-->
-<!--                  alert("코드와 ID를 다시 확인하세요.");-->
-<!--&lt;!&ndash;                  return false;&ndash;&gt;-->
-<!--                }-->
-<!--              }-->
-<!--            });-->
-<!--          }-->
+            $.ajax({
+              url: '/student/check_code_st/',
+              data: {
+                'code_num': code_overlap_input.value,
+                // 'ID_num': ID_overlap_input.value
+              },
+              datatype: 'json',
+              success: function (data) {
+                console.log(data['overlap']);
+                if (data['overlap'] == "pass") {
+                  document.location.href='{% url 'Studyquestion' %}';
+                } else {
+                  alert("코드를 다시 확인하세요.");
+                  // return false;
+                }
+              }
+            });
+          }
 
 <!--코드만 성공-->
             function checkcode(data) {
@@ -123,32 +119,32 @@
 
 
 <!--ID만-->
-            function checkID(ID_num) {
-            ID_overlap_input = document.querySelector('input[id="ID_num"]');
+    function checkID(ID_num) {
+        ID_overlap_input = document.querySelector('input[id="ID_num"]');
 
-            $.ajax({
-              url: '/student/check_ID/',
-              data: {
-                'ID_num': ID_overlap_input.value
-              },
-              datatype: 'json',
-              success: function (data) {
-                console.log(data['overlap']);
-                if (data['overlap'] == "pass") {
-                  document.location.href='{% url 'Homeworklist' %}';
-                } else {
-                  alert("코드와 ID를 다시 확인하세요.");
-                }
-              }
-            });
+        $.ajax({
+          url: '/student/check_ID/',
+          data: {
+            'ID_num': ID_overlap_input.value
+          },
+          datatype: 'json',
+          success: function (data) {
+            console.log(data['overlap']);
+            if (data['overlap'] == "pass") {
+              document.location.href='{% url 'Homeworklist' %}';
+            } else {
+              alert("코드와 ID를 다시 확인하세요.");
+            }
           }
+        });
+      }
 
 
-            function Print() {
-                var print_ans = document.getElementById("print_ans");
-                    print_ans = temp;
-                }
-        </script>
+    function Print() {
+        var print_ans = document.getElementById("print_ans");
+            print_ans = temp;
+        }
+    </script>
 
 
     </head>
