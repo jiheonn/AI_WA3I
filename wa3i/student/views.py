@@ -310,13 +310,15 @@ def check_code_st(request):
         # da = Assignment.objects.filter(assignment_id=assignment_id)
         # if da.values('type')[0]['type'] == "학습평가":
 
-        types = Assignment.objects.filter(assignment_id=code).values('type')[0]['type']
+        types = Assignment.objects.filter(assignment_id=code).values('type')
         print(types)
         print("hi")
-        # if types == "학습평가":
-        #     overlap = "pass"
-        # else:
-        #     overlap = "fail"
+        if types == "학습평가":
+            overlap = "pass"
+            print("pas")
+        else:
+            overlap = "fail"
+            print("fail")
 
     context = {
         'overlap': overlap
