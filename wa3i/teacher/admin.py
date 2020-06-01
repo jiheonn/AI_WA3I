@@ -69,6 +69,10 @@ class MarkInline(admin.TabularInline):
     model = Mark
 
 
+class SelfSolveDataInline(admin.TabularInline):
+    model = SelfSolveData
+
+
 class MakeQuestionAdmin(admin.ModelAdmin):
     list_display = [
         'make_question_id', 'teacher', 'question_name', 'discription',
@@ -83,7 +87,7 @@ class MakeQuestionAdmin(admin.ModelAdmin):
         'question_name'
     ]
     inlines = [
-        MarkInline
+        MarkInline, SelfSolveDataInline
     ]
 
 
