@@ -3,6 +3,10 @@ from mainpage.models import *
 from rangefilter.filter import DateRangeFilter, DateTimeRangeFilter
 
 
+class AssignmentQuestionRelInline(admin.TabularInline):
+    model = AssignmentQuestionRel
+
+
 class AssignmentAdmin(admin.ModelAdmin):
     list_display = [
         'assignment_id', 'teacher', 'assignment_title', 'type',
@@ -16,9 +20,16 @@ class AssignmentAdmin(admin.ModelAdmin):
         'assignment_id', 'assignment_title'
     ]
     list_display_links = ['assignment_id']
+    inlines = [
+        AssignmentQuestionRelInline
+    ]
 
 
 admin.site.register(Assignment, AssignmentAdmin)
+
+
+class SolveInline(admin.TabularInline):
+    model = Solve
 
 
 @admin.register(AssignmentQuestionRel)
@@ -26,6 +37,13 @@ class AssignmentQuestionRelAdmin(admin.ModelAdmin):
     list_display = [
         'as_qurel_id', 'assignment', 'question'
     ]
+    inlines = [
+        SolveInline
+    ]
+
+
+class QuestionInline(admin.TabularInline):
+    model = Question
 
 
 @admin.register(Category)
@@ -34,6 +52,9 @@ class CategoryAdmin(admin.ModelAdmin):
         'category_id', 'category_name'
     ]
     list_display_links = ['category_id']
+    inlines = [
+        QuestionInline
+    ]
 
 
 @admin.register(Keyword)
@@ -42,6 +63,10 @@ class KeywordAdmin(admin.ModelAdmin):
         'keyword_id', 'question', 'keyword_name'
     ]
     list_display_links = ['keyword_id']
+
+
+class MarkInline(admin.TabularInline):
+    model = Mark
 
 
 class MakeQuestionAdmin(admin.ModelAdmin):
@@ -57,6 +82,9 @@ class MakeQuestionAdmin(admin.ModelAdmin):
     search_fields = [
         'question_name'
     ]
+    inlines = [
+        MarkInline
+    ]
 
 
 admin.site.register(MakeQuestion, MakeQuestionAdmin)
@@ -68,6 +96,10 @@ class MarkAdmin(admin.ModelAdmin):
         'mark_id', 'make_question', 'mark_text'
     ]
     list_display_links = ['mark_id']
+
+
+class KeywordInline(admin.TabularInline):
+    model = Keyword
 
 
 class QuestionAdmin(admin.ModelAdmin):
@@ -83,6 +115,9 @@ class QuestionAdmin(admin.ModelAdmin):
     search_fields = [
         'question_name'
     ]
+    inlines = [
+        KeywordInline, AssignmentQuestionRelInline
+    ]
 
 
 admin.site.register(Question, QuestionAdmin)
@@ -97,6 +132,14 @@ class SolveAdmin(admin.ModelAdmin):
     list_display_links = ['student_id']
 
 
+class AssignmentInline(admin.TabularInline):
+    model = Assignment
+
+
+class MakeQuestionInline(admin.TabularInline):
+    model = MakeQuestion
+
+
 class TeacherAdmin(admin.ModelAdmin):
     list_display = [
         'teacher_id', 'teacher_name', 'school',
@@ -108,6 +151,9 @@ class TeacherAdmin(admin.ModelAdmin):
     )
     search_fields = [
         'teacher_name', 'school'
+    ]
+    inlines = [
+        AssignmentInline, MakeQuestionInline
     ]
 
 
