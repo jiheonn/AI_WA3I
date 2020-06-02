@@ -161,7 +161,12 @@ def Selfgrade(request):
 
 
 def Homeworkdiag(request):
-    data = AssignmentQuestionRel.objects.select_related('question', 'solve').first()
+    # data = AssignmentQuestionRel.objects.select_related('question', 'solve').first()
+
+    re = Solve.objects.prefetch_related('assignment_question_rel').first()
+    as_qurel_id = re.values('as_qurel_id')[0]['as_qurel_id']
+    data = AssignmentQuestionRel.objects.select_related('question').filter(as_qurel_id=as_qurel_id)
+
     context = {
         'data': data
     }
@@ -208,10 +213,19 @@ def Homeworklist(request):
     # data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
     # f = AssignmentQuestionRel.objects.select_related('question').filter(question__question_name=question_name)[0]
     student_id = int(request.GET['ID_num'])
-    rel = AssignmentQuestionRel.objects.select_related('assignment', 'solve').filter(solve__student_id=student_id)
+    # rel = AssignmentQuestionRel.objects.select_related('assignment', 'solve').filter(solve__student_id=student_id)
+
+    # 테스트
+    re = Solve.objects.prefetch_related('assignment_question_rel').filter(student_id=student_id)
+    d = re.values('as_qurel_id')[0]['as_qurel_id']
+    print(d)
+    rel = AssignmentQuestionRel.objects.prefetch_related('assignment').filter(as_qurel_id=d)
+
 
     context = {
-        'rel': rel
+        'rel': rel,
+        # 'da':da,
+        're':re
     }
     return render(request, 'student/Homeworklist.html', context)
 
@@ -220,8 +234,14 @@ def Homeworkcheck(request):
     student_id = int(request.GET['student_id'])
     # assignment_title = request.GET['assignment_id']
     # print(assignment_title.values())
-    data = AssignmentQuestionRel.objects.select_related('assignment', 'question', 'solve').filter(
-        solve__student_id=student_id)
+    # data = AssignmentQuestionRel.objects.select_related('assignment', 'question', 'solve').filter(solve__student_id=student_id)
+
+    # 테스트
+    re = Solve.objects.prefetch_related('assignment_question_rel').filter(student_id=student_id)
+    d = re.values('as_qurel_id')[0]['as_qurel_id']
+    print(d)
+    data = AssignmentQuestionRel.objects.prefetch_related('assignment','question').filter(as_qurel_id=d)
+
 
     context = {
         'data': data

@@ -1,7 +1,21 @@
 {% extends 'student/base.html' %}
 {% load static %}
 {% block content %}
-
+<script>
+    function openCity(evt, cityName) {
+      var i, x, tablinks;
+      x = document.getElementsByClassName("city");
+      for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablink");
+      for (i = 0; i < x.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" w3-indigo", "");
+      }
+      document.getElementById(cityName).style.display = "block";
+      evt.currentTarget.className += " w3-indigo";
+    }
+</script>
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
@@ -98,21 +112,6 @@
             </dd>
         </dl>
 
-        <script>
-        function openCity(evt, cityName) {
-          var i, x, tablinks;
-          x = document.getElementsByClassName("city");
-          for (i = 0; i < x.length; i++) {
-            x[i].style.display = "none";
-          }
-          tablinks = document.getElementsByClassName("tablink");
-          for (i = 0; i < x.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" w3-indigo", "");
-          }
-          document.getElementById(cityName).style.display = "block";
-          evt.currentTarget.className += " w3-indigo";
-        }
-        </script>
     </div>
 
     <div class="row my-5">

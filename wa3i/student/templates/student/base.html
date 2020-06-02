@@ -72,28 +72,28 @@
             }
 
 
-            function checkInfo(data) {
-            code_overlap_input = document.querySelector('input[id="code_num"]');
-            // ID_overlap_input = document.querySelector('input[id="ID_num"]');
-
-            $.ajax({
-              url: '/student/check_code_st/',
-              data: {
-                'code_num': code_overlap_input.value,
-                // 'ID_num': ID_overlap_input.value
-              },
-              datatype: 'json',
-              success: function (data) {
-                console.log(data['overlap']);
-                if (data['overlap'] == "pass") {
-                  document.location.href='{% url 'Studyquestion' %}';
-                } else {
-                  alert("코드를 다시 확인하세요.");
-                  // return false;
-                }
-              }
-            });
-          }
+          //   function checkInfo(data) {
+          //   code_overlap_input = document.querySelector('input[id="code_num"]');
+          //   // ID_overlap_input = document.querySelector('input[id="ID_num"]');
+          //
+          //   $.ajax({
+          //     url: '/student/check_code_st/',
+          //     data: {
+          //       'code_num': code_overlap_input.value,
+          //       // 'ID_num': ID_overlap_input.value
+          //     },
+          //     datatype: 'json',
+          //     success: function (data) {
+          //       console.log(data['overlap']);
+          //       if (data['overlap'] == "pass") {
+          //         document.location.href='{% url 'Studyquestion' %}';
+          //       } else {
+          //         alert("코드를 다시 확인하세요.");
+          //         // return false;
+          //       }
+          //     }
+          //   });
+          // }
 
 <!--코드만 성공-->
             function checkcode(data) {
