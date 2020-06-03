@@ -28,18 +28,18 @@ class AssignmentAdmin(admin.ModelAdmin):
 admin.site.register(Assignment, AssignmentAdmin)
 
 
-class SolveInline(admin.TabularInline):
-    model = Solve
-
-
-@admin.register(AssignmentQuestionRel)
-class AssignmentQuestionRelAdmin(admin.ModelAdmin):
-    list_display = [
-        'as_qurel_id', 'assignment', 'question'
-    ]
-    inlines = [
-        SolveInline
-    ]
+# class SolveInline(admin.TabularInline):
+#     model = Solve
+#
+#
+# @admin.register(AssignmentQuestionRel)
+# class AssignmentQuestionRelAdmin(admin.ModelAdmin):
+#     list_display = [
+#         'as_qurel_id', 'assignment', 'question'
+#     ]
+#     inlines = [
+#         SolveInline
+#     ]
 
 
 class QuestionInline(admin.TabularInline):
@@ -69,10 +69,6 @@ class MarkInline(admin.TabularInline):
     model = Mark
 
 
-class SelfSolveDataInline(admin.TabularInline):
-    model = SelfSolveData
-
-
 class MakeQuestionAdmin(admin.ModelAdmin):
     list_display = [
         'make_question_id', 'teacher', 'question_name', 'discription',
@@ -87,19 +83,19 @@ class MakeQuestionAdmin(admin.ModelAdmin):
         'question_name'
     ]
     inlines = [
-        MarkInline, SelfSolveDataInline
+        MarkInline
     ]
 
 
 admin.site.register(MakeQuestion, MakeQuestionAdmin)
 
 
-@admin.register(Mark)
-class MarkAdmin(admin.ModelAdmin):
-    list_display = [
-        'mark_id', 'make_question', 'mark_text'
-    ]
-    list_display_links = ['mark_id']
+# @admin.register(Mark)
+# class MarkAdmin(admin.ModelAdmin):
+#     list_display = [
+#         'mark_id', 'make_question', 'mark_text'
+#     ]
+#     list_display_links = ['mark_id']
 
 
 class KeywordInline(admin.TabularInline):

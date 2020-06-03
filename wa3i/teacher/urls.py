@@ -19,4 +19,5 @@ urlpatterns = [
     path('view_search/', views.view_search, name='view_search'),
     path('assignment_copy/', views.assignment_copy, name='assignment_copy'),
     path('change_category/', views.change_category, name='change_category'),
+    path('code_generation/', views.code_generation, name='code_generation'),
 ]
