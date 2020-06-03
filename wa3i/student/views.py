@@ -88,13 +88,14 @@ def Studyques(request):
 
         assignment_id = request.GET['code_num']
         data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
-        f = data.first()
+        # f = data.first()
 
         da = Assignment.objects.filter(assignment_id=assignment_id)
 
         if da.values('type')[0]['type'] == "학습평가":
             f = data.first()
-        # else:
+        else:
+            f = None
         #     print("")
             # print(data.query)
 
