@@ -25,8 +25,8 @@ def question_selection(request):
     question_data = Question.objects.all()
 
     assignment_id = Assignment.objects.all().values('assignment_id')
-    for i in assignment_id:
-        print(i)
+    # for i in assignment_id:
+    # print(i)
 
     context = {
         'question_data': question_data,
@@ -35,7 +35,7 @@ def question_selection(request):
     }
     try:
         test = request.GET.getlist('question')
-        print(test)
+        # print(test)
         assignment_data = Assignment(assignment_id=request.GET['code_num'],
                                      teacher=Teacher.objects.get(teacher_id=2),
                                      assignment_title=request.GET['question-title'],
@@ -143,7 +143,7 @@ def view_result_detail(request):
                     pgs = count / question_count * 100
             j['student_progress'] = round(pgs)
             total_pgs += j['student_progress']
-            print(j['student_progress'])
+            # print(j['student_progress'])
         # print(len(result.values()))
         # print(total, len(result.values()))
         all_avg = total / len(result.values())
@@ -199,7 +199,7 @@ def question_search(request):
         search_data_dict['question_name'] = i.question_name
         search_data_dict['question_image'] = i.image
         search_data.append(search_data_dict)
-    print(search_data)
+    # print(search_data)
     context = {
         'search_data': search_data
     }
@@ -219,7 +219,7 @@ def view_search(request):
         assignment_data_dict['start_date'] = i.start_date
         assignment_data_dict['end_date'] = i.end_date
         assignment_data_dict['student_grade'] = i.grade
-        assignment_data_dict['student_class'] = i.class_field
+        assignment_data_dict['student_class'] = i.school_class
         assignment_data.append(assignment_data_dict)
 
     context = {
@@ -230,7 +230,7 @@ def view_search(request):
 
 def assignment_copy(request):
     copy_code = request.GET['copy_code']
-    print(copy_code)
+    # print(copy_code)
     cp_data = AssignmentQuestionRel.objects.select_related('assignment', 'question').filter(assignment_id=copy_code)
 
     copy_data = []
@@ -266,3 +266,8 @@ def change_category(request):
         'option_data': option_data
     }
     return JsonResponse(context)
+
+
+def code_generation(request):
+    generation_code = request.GET['text']
+    print(generation_code)
