@@ -143,10 +143,9 @@
                 <div id="category" class="col" style="left:10px">
                     <select id="category_option2" name="category">
                         <option value="select" selected="selected">카테고리</option>
-                        <option value="국어">국어</option>
-                        <option value="수학">수학</option>
-                        <option value="사회">사회</option>
-                        <option value="과학">과학</option>
+                        {% for data in category %}
+                        <option value="{{ data.category_name }}">{{ data.category_name }}</option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>
@@ -176,8 +175,8 @@
                             <img class="img-fluid rounded mb-4 mb-lg-0" src="{% static data.image %}">
                         </div>
                         <span class="card-footer">
-                            <input type="submit" class="btn btn-outline-dark card-link" name="question" value="{{ data.question_name }}"
-                               id="{{ data.make_question_id }}">
+                            <button type="submit" class="w3-btn w3-round w3-dark" name="make_question_id" value="{{ data.make_question_id }}">{{ data.question_name }}
+                            </button>
                         </span>
                     </div>
                 </div>

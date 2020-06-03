@@ -8,7 +8,7 @@ import q as q
 from django.db.models import Q
 from django.http import JsonResponse
 
-from mainpage.models import Question, SelfSolveData, AssignmentQuestionRel, Keyword, Solve, Assignment, MakeQuestion
+from mainpage.models import Question, SelfSolveData, AssignmentQuestionRel, Keyword, Solve, Assignment, MakeQuestion, Category
 
 from django.contrib.auth.hashers import check_password
 from django.urls import reverse
@@ -22,8 +22,11 @@ def index(request):
 
 def AI(request):
     qs = Question.objects.all()
+    category = Category.objects.all()
+
     context = {
-        'qs': qs
+        'qs': qs,
+        'category': category
     }
     return render(request, 'student/AI.html', context)
 
@@ -64,8 +67,10 @@ def Homework(request):
 
 def Self(request):
     qs = MakeQuestion.objects.all()
+    category = Category.objects.all()
     context = {
-        'qs': qs
+        'qs': qs,
+        'category': category
     }
     return render(request, 'student/Self.html', context)
 
@@ -129,8 +134,15 @@ def Homeworkques(request):
 
 
 def Selfques(request):
-    question_name = request.GET['question']
-    data = MakeQuestion.objects.filter(question_name=question_name)[0]
+    # question_name = request.GET['question']
+    # data = MakeQuestion.objects.filter(question_name=question_name)[0]
+    #
+    # context = {
+    #     'data': data
+    # }
+
+    question_id = int(request.GET['make_question_id'])
+    data = MakeQuestion.objects.filter(make_question_id=question_id)[0]
 
     context = {
         'data': data
