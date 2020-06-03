@@ -3,6 +3,8 @@ from mainpage.models import *
 from django.http import JsonResponse
 from django.db.models import Q
 import datetime
+import string
+import random
 
 # Create your views here.
 # from django.http import HttpResponse
@@ -270,4 +272,30 @@ def change_category(request):
 
 def code_generation(request):
     generation_code = request.GET['text']
-    print(generation_code)
+    # print(generation_code)
+    assignment_id = Assignment.objects.all().values('assignment_id')
+    # print(assignment_id)
+
+    _LENGTH = 8
+    string_pool = string.ascii_uppercase + string.digits
+
+    # result = ""
+    # for j in range(_LENGTH):
+    #     result += random.choice(string_pool)
+    # print(result)
+
+    for i in assignment_id:
+        if i == generation_code:
+            result = ""
+            for j in range(_LENGTH):
+                result += random.choice(string_pool)
+            # print(result)
+        else:
+            generation_code = generation_code
+
+
+
+    context = {
+        'generation_code': generation_code
+    }
+    return JsonResponse(context)
