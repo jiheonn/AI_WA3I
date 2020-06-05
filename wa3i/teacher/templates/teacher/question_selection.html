@@ -218,6 +218,7 @@
                     url: '/teacher/code_generation/',
                     data: {text: text},
                     success: function (data) {
+                        $('#code_num').val(data.generation_code);
                     }
                 });
             });
