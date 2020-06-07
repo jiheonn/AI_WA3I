@@ -16,25 +16,26 @@
                         alert('검색 결과가 존재하지 않습니다.');
                     } else {
                         $("div").remove("#question_list");
-                    for (var i = 0; i < num; i++) {
-                        $("#whole_card").after(
-                                '<div id="question_list" class="col-md-3 mb-5">' +
-                                '<div class="card h-100" align="center">' +
-                                '<div class="card-body">' +
-                                '<img class="img-fluid rounded mb-4 mb-lg-0" src="' +
-                                '/static/' +
-                                search_data[i].question_image +
-                                '">' +
-                                '</div>' +
-                                '<span class="card-footer">' +
-                                '<a href="{% url ' +
-                                'Selfquestion' +
-                                '%}" class="card-link" name="q_name" id="q_name">' +
-                                search_data[i].question_name +
-                                '</a>' +
-                                '</span>' +
-                                '</div>' +
-                                '</div>'
+                        $("#whole_card").after('<div id="question_list" class="row">' + '</div>');
+                            for (var i = 0; i < num; i++) {
+                                $("#question_list").append(
+                                    '<div class="col-md-3 mb-5">' +
+                                    '<div class="card h-100" align="center">' +
+                                    '<div class="card-body">' +
+                                    '<img class="img-fluid rounded mb-4 mb-lg-0" src="' +
+                                    '/static/' +
+                                    search_data[i].question_image +
+                                    '">' +
+                                    '</div>' +
+                                    '<span class="card-footer">' +
+                                    '<button type="submit" class="w3-btn w3-round w3-dark" name="make_question_id" value="' +
+                                    search_data[i].make_question_id  +
+                                    '">' +
+                                    search_data[i].question_name +
+                                    '</button>' +
+                                    '</span>' +
+                                    '</div>' +
+                                    '</div>'
                         )}
                     }}
              });
@@ -45,17 +46,16 @@
     $(document).ready(function () {
     $('#category_option2').change(function () {
         var option = $("#category_option2 option:selected").val();
-        alert(option);
         $.ajax({
-            url: '/student/change_category/',
+            url: '/student/change_category_self/',
             data: {option: option},
             success: function (data) {
                 var option_data = data.option_data;
                 var num = option_data.length;
                 $("div").remove("#question_list");
+                $("#whole_card").after('<div id="question_list" class="row">' + '</div>');
                     for (var i = 0; i < num; i++) {
-                        $("#question_list").after(
-                            '<div id="question_list" class="row">' +
+                        $("#question_list").append(
                             '<div class="col-md-3 mb-5">' +
                             '<div class="card h-100" align="center">' +
                             '<div class="card-body">' +
@@ -65,11 +65,11 @@
                             '">' +
                             '</div>' +
                             '<span class="card-footer">' +
-                            '<a href="{% url '+
-                            'Selfquestion' +
-                            '%}" class="card-link" name="q_name" id="q_name">' +
+                            '<button type="submit" class="w3-btn w3-round w3-dark" name="make_question_id" value="' +
+                            option_data[i].make_question_id  +
+                            '">' +
                             option_data[i].question_name +
-                            '</a>' +
+                            '</button>' +
                             '</span>' +
                             '</div>' +
                             '</div>'
@@ -165,8 +165,7 @@
 
     <!-- Content Row -->
     <form action="{% url 'Selfquestion' %}" method="get">
-        <div class="row my-5">
-            <div id="whole_card"></div>
+        <div id="whole_card" class="row my-5">
             <div id="question_list" class="row">
                 {% for data in qs %}
                 <div class="col-md-3 mb-5">

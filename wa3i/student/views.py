@@ -31,32 +31,94 @@ def AI(request):
     return render(request, 'student/AI.html', context)
 
 
+# def Studyques(request):
+#     try:
+#         assignment_id = request.GET['code_num']
+#         data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
+#         # f = data.first()
 #
-# def Study(request):
-#     if request.method=="GET":
-#         return render(request, 'student/Study.html')
-#     elif request.method=="POST":
-#         code_num = request.POST.get('code_num')
-#         ID_num = request.POST.get('ID_num')
+#         da = Assignment.objects.filter(assignment_id=assignment_id)
 #
-#         res_data=[]
-#         if not (code_num and ID_num):
-#             res_data['error']="코드와 아이디 모두 입력하세요."
+#         if da.values('type')[0]['type'] == "학습평가":
+#             f = data.first()
 #         else:
-#             fuser = AssignmentQuestionRel.objects.get(assignment_id=code_num)
+#             f = None
 #
-#             if check_password(code_num,fuser.assignment_id):
-#                 request.session['user'] = fuser.assignment_id
-#                 return redirect(reverse('Study'))
-#             else:
-#                 res_data['error']="존재하지 않는 코드입니다."
-#         return render(request, 'student/Study.html',res_data)
+#     except:
+#         question_info = request.GET['question_name'].split(',')
+#         question_name = question_info[0]
+#         assignment_id = question_info[1]
+#
+#         data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
+#         f = AssignmentQuestionRel.objects.select_related('question').filter(question__question_name=question_name)[0]
+#
+#     context = {
+#         'data': data,
+#         'f': f
+#     }
+#     return render(request, 'student/Studyques.html', context)
+
 
 def Study(request):
+    assignment_id = request.GET['code_num']
+    data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
+
+
     context = {
+        'data':data
 
     }
     return render(request, 'student/Study.html', context)
+
+
+def Studyques(request):
+    try:
+
+        assignment_id = request.GET['code_num']
+        data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
+        f = data.first()
+
+    except:
+        # question_id = int(request.GET['question_id'])
+        # print(question_id)
+        # assignment_id = question_id[1]
+
+        question_info = request.GET['question_name'].split(',')
+        question_name = question_info[0]
+        assignment_id = question_info[1]
+
+        data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
+        f = AssignmentQuestionRel.objects.select_related('question').filter(question__question_name=question_name)[0]
+
+    context = {
+        'data': data,
+        'f': f
+    }
+    return render(request, 'student/Studyques.html', context)
+
+
+def check_code_st(request):
+    code_num = request.GET['code_num']
+
+    try:
+        code = Assignment.objects.filter(assignment_id=code_num)
+        print(code)
+    except:
+        code = None
+    print(code.values)
+    if code is None:
+        context={}
+        return render(request, 'student/Study.html', context)
+
+    else:
+        # da = Assignment.objects.filter(assignment_id=code)
+
+        if code.values('type')[0]['type'] == "학습평가":
+            context={}
+            return render(request, 'student/Studyques.html', context)
+        else:
+            context={}
+            return render(request, 'student/Study.html', context)
 
 
 def Homework(request):
@@ -75,74 +137,9 @@ def Self(request):
     return render(request, 'student/Self.html', context)
 
 
-def AIques(request):
-    question_id = int(request.GET['question_id'])
-    data = Question.objects.filter(question_id=question_id)[0]
-
-    context = {
-        'data': data
-    }
-    return render(request, 'student/AIques.html', context)
-
-
-def Studyques(request):
-    try:
-        # assignment_id = request.GET['code_num']
-        # data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
-        # f = data.first()
-
-        assignment_id = request.GET['code_num']
-        data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
-        # f = data.first()
-
-        da = Assignment.objects.filter(assignment_id=assignment_id)
-
-        if da.values('type')[0]['type'] == "학습평가":
-            f = data.first()
-        else:
-            f = None
-        #     print("")
-            # print(data.query)
-
-    except:
-        question_info = request.GET['question_name'].split(',')
-        question_name = question_info[0]
-        assignment_id = question_info[1]
-
-        data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
-        f = AssignmentQuestionRel.objects.select_related('question').filter(question__question_name=question_name)[0]
-
-    context = {
-        'data': data,
-        'f': f
-    }
-    return render(request, 'student/Studyques.html', context)
-
-
-def Studyques2(request):
-    context = {
-    }
-    return render(request, 'student/Studyques2.html', context)
-
-
-def Homeworkques(request):
-    data = Question.objects.first()
-    context = {
-        'data': data
-    }
-    return render(request, 'student/Homeworkques.html', context)
-
-
 def Selfques(request):
-    # question_name = request.GET['question']
-    # data = MakeQuestion.objects.filter(question_name=question_name)[0]
-    #
-    # context = {
-    #     'data': data
-    # }
-
-    question_id = int(request.GET['make_question_id'])
-    data = MakeQuestion.objects.filter(make_question_id=question_id)[0]
+    make_question_id = int(request.GET['make_question_id'])
+    data = MakeQuestion.objects.filter(make_question_id=make_question_id)[0]
 
     context = {
         'data': data
@@ -171,6 +168,24 @@ def Selfgrade(request):
     context = {
     }
     return render(request, 'student/Selfgrade.html', context)
+
+
+def AIques(request):
+    question_id = int(request.GET['question_id'])
+    data = Question.objects.filter(question_id=question_id)[0]
+
+    context = {
+        'data': data
+    }
+    return render(request, 'student/AIques.html', context)
+
+
+def Homeworkques(request):
+    data = Question.objects.first()
+    context = {
+        'data': data
+    }
+    return render(request, 'student/Homeworkques.html', context)
 
 
 def Homeworkdiag(request):
@@ -276,14 +291,15 @@ def Notice(request):
 
 def search(request):
     user_input = request.GET['user_input']
-    key_data = Keyword.objects.select_related('question').filter(keyword_name__icontains=user_input)
+    key_data = Keyword.objects.select_related('question').filter(keyword_name__icontains=user_input).values_list('question_id', flat=True).distinct()
+    k_data = Question.objects.filter(pk__in=key_data)
 
     search_data = []
-    for i in key_data:
+    for i in k_data:
         search_data_dict = dict()
-        search_data_dict['question_id'] = i.question.question_id
-        search_data_dict['question_name'] = i.question.question_name
-        search_data_dict['question_image'] = i.question.image
+        search_data_dict['question_id'] = i.question_id
+        search_data_dict['question_name'] = i.question_name
+        search_data_dict['question_image'] = i.image
         search_data.append(search_data_dict)
     context = {
         'search_data': search_data
@@ -293,12 +309,13 @@ def search(request):
 
 def search_name(request):
     name_input = request.GET['name_input']
-    name_data = Question.objects.filter(question_name__icontains=name_input)
+    name_data = MakeQuestion.objects.filter(question_name__icontains=name_input).values_list('make_question_id', flat=True).distinct()
+    n_data = MakeQuestion.objects.filter(pk__in=name_data)
 
     search_data = []
-    for j in name_data:
+    for j in n_data:
         search_data_dict = dict()
-        search_data_dict['question_id'] = j.question_id
+        search_data_dict['make_question_id'] = j.make_question_id
         search_data_dict['question_name'] = j.question_name
         search_data_dict['question_image'] = j.image
         search_data.append(search_data_dict)
@@ -308,9 +325,13 @@ def search_name(request):
     return JsonResponse(context)
 
 
-def change_category(request):
+def change_category_self(request):
     category_option = request.GET['option']
-    opt_data = Question.objects.select_related('category').filter(category__category_name=category_option)
+
+    if category_option == 'select':
+        opt_data = Question.objects.all()
+    else:
+        opt_data = Question.objects.select_related('category').filter(category__category_name=category_option)
 
     option_data = []
     for i in opt_data:
@@ -326,35 +347,24 @@ def change_category(request):
     return JsonResponse(context)
 
 
-def check_code_st(request):
-    code_num = request.GET['code_num']
-    # ID_num = int(request.GET['ID_num'])
-    try:
-        code = Assignment.objects.get(assignment_id=code_num)
+def change_category(request):
+    category_option = request.GET['option']
 
-    except:
-        code = None
-
-    if code is None:
-        overlap = "fail"
+    if category_option == 'select':
+        opt_data = Question.objects.all()
     else:
-        overlap = "pass"
+        opt_data = Question.objects.select_related('category').filter(category__category_name=category_option)
 
-        # da = Assignment.objects.filter(assignment_id=assignment_id)
-        # if da.values('type')[0]['type'] == "학습평가":
-
-        types = Assignment.objects.filter(assignment_id=code).values('type')
-        print(types)
-        print("hi")
-        if types == "학습평가":
-            overlap = "pass"
-            print("pas")
-        else:
-            overlap = "fail"
-            print("fail")
+    option_data = []
+    for i in opt_data:
+        option_data_dict = dict()
+        option_data_dict['question_id'] = i.question_id
+        option_data_dict['question_name'] = i.question_name
+        option_data_dict['question_image'] = i.image
+        option_data.append(option_data_dict)
 
     context = {
-        'overlap': overlap
+        'option_data': option_data
     }
     return JsonResponse(context)
 

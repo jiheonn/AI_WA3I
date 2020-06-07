@@ -97,7 +97,7 @@
                     <td>
                         <form action="{% url 'Studyquestion' %}" method="GET">
                             <button type="submit" class="w3-btn w3-round w3-dark" name="question_name"
-                                    value="{{d.question.question_name}},{{d.assignment_id}}" id="q_id">
+                                    value="{{d.question.question_name}},{{d.assignment_id}},{{d.question.question_id}}" id="q_id">
                                 {{d.question.question_name}}
                             </button>
                             <!--                        <a href="{% url 'Studyquestion' %}">{{d.question.question_name}}</a>-->
