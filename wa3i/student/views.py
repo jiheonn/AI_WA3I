@@ -60,12 +60,7 @@ def AI(request):
 
 
 def Study(request):
-    assignment_id = request.GET['code_num']
-    data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
-
-
     context = {
-        'data':data
 
     }
     return render(request, 'student/Study.html', context)
@@ -73,7 +68,6 @@ def Study(request):
 
 def Studyques(request):
     try:
-
         assignment_id = request.GET['code_num']
         data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
         f = data.first()
@@ -101,24 +95,30 @@ def check_code_st(request):
     code_num = request.GET['code_num']
 
     try:
-        code = Assignment.objects.filter(assignment_id=code_num)
-        print(code)
+        code = Assignment.objects.get(assignment_id=code_num)
+
     except:
         code = None
-    print(code.values)
+
     if code is None:
-        context={}
-        return render(request, 'student/Study.html', context)
-
+        overlap = "fail"
     else:
-        # da = Assignment.objects.filter(assignment_id=code)
+        overlap = "pass"
 
-        if code.values('type')[0]['type'] == "학습평가":
-            context={}
-            return render(request, 'student/Studyques.html', context)
-        else:
-            context={}
-            return render(request, 'student/Study.html', context)
+        # da = Assignment.objects.filter(assignment_id=assignment_id)
+        # if da.values('type')[0]['type'] == "학습평가":
+
+        # types = Assignment.objects.filter(assignment_id=code).values('type')
+
+        # if types == "학습평가":
+        #     overlap = "pass"
+        # else:
+        #     overlap = "fail"
+
+    context = {
+        'overlap': overlap
+    }
+    return JsonResponse(context)
 
 
 def Homework(request):

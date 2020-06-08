@@ -1,6 +1,7 @@
 {% extends 'student/base.html' %}
 {% load static %}
 {% block content %}
+
 <script type="text/javascript" language="javascript">
         function checkInfo(data) {
             code_overlap_input = document.querySelector('input[id="code_num"]');
@@ -14,11 +15,9 @@
                 success: function (data) {
                     console.log(data['overlap']);
                     if (data['overlap'] == "pass") {
-                        document.location.href = '{% url ' +
-                            'Studyquestion' +
-                            '%}';
+                        document.location.href='{% url 'Studyquestion' %}';
                     } else {
-                        alert("코드를 다시 확인하세요.");
+                        // alert("코드를 다시 확인하세요.");
                         return false;
                     }
                 }
@@ -40,53 +39,17 @@
 //          }
 //     }
 
-    // function CodeAle() {
-    //     var code_num = document.getElementById("code_num").value
-    //     var ID_num = document.getElementById("ID_num").value
-    //     var AImsg = confirm("입력하신 코드와 아이디가 맞는지 확인해주세요.\n맞다면 <확인>을 눌러주세요.\n\nCODE : "
-    //     + code_num + "\nID : "+ ID_num);
-    //      if ( AImsg == true) {
-    //          return checkInfo(code_num,ID_num);
-    //      }else{
-    //          return false;
-    //      }
-    // }
-
-
     function CodeAle() {
         var code_num = document.getElementById("code_num").value
         var ID_num = document.getElementById("ID_num").value
         var AImsg = confirm("입력하신 코드와 아이디가 맞는지 확인해주세요.\n맞다면 <확인>을 눌러주세요.\n\nCODE : "
         + code_num + "\nID : "+ ID_num);
          if ( AImsg == true) {
-             return document.location.href='/student/study/';
+             return checkInfo(code_num);
          }else{
              return false;
          }
     }
-
-    function checkf(data) {
-        code_overlap_input = document.querySelector('input[id="code_num"]');
-
-        $.ajax({
-            url: '/student/check_code_st/',
-            data: {
-                'code_num': code_overlap_input.value
-            },
-            datatype: 'json',
-            success: function (data) {
-                // console.log(data['overlap']);
-                // if (data['overlap'] == "pass") {
-                //     document.location.href = '{% url ' +
-                //         'Studyquestion' +
-                //         '%}';
-                // } else {
-                //     alert("코드를 다시 확인하세요.");
-                //     return false;
-                // }
-            }
-        });
-        }
 
 </script>
 <!-- Navigation -->
@@ -147,7 +110,6 @@
     <center>
         <div class="w3-container">
             <form action="{% url 'Studyquestion' %}" method="get" >
-                <form action="{% url 'Study' %}" method="get" >
 <!--                    {% csrf_token %}-->
                     <table style="text-align: center; width:600px; height:160px;">
                         <tr>
@@ -165,9 +127,9 @@
                     <button id="sub_btn" type="submit" class="w3-button w3-large w3-round w3-blue">완료</button>
                     </a>
                     <br><br>
-                </form>
             </form>
-            </div>
+
+        </div>
     </center>
     <!-- /.row -->
 
