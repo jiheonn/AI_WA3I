@@ -170,7 +170,8 @@
 
 <!-- Page Content -->
 <div class="container">
-    <form action="getBoardList.do" method="post">
+    <form action="{% url 'make_question' %}" method="GET">
+        <input type="hidden" name="path" value="{{ request.path }}">
         <!-- Heading Row -->
         <div class="row justify-content-center my-5">
             <div class="col-lg-2">
@@ -190,16 +191,16 @@
 
             <div class="col-7" style="float: none; margin: 50px auto;">
                 <!--            <form action="getBoardList.do" method="post">-->
-                <span>문항 제목 : <input id="as_name" type="text" name="" placeholder="문항 제목을 입력해 주세요."
+                <span>문항 제목 : <input id="as_name" type="text" name="question_name" placeholder="문항 제목을 입력해 주세요."
                                      style="width:635px; height: 50px; border-style: solid; border-width: 1px; margin-top: 20px; border-color: gray; margin-bottom: 25px; text-align: center;"></span><br>
-                <span>학습 개념 : <input id="as_concept" type="text" name="" placeholder="학습 개념을 입력해 주세요."
-                                     style="width:635px; height: 50px; border-style: solid; border-width: 1px; margin-top: 20px; border-color: gray; margin-bottom: 25px; text-align: center;"></span><br>
+<!--                <span>학습 개념 : <input id="as_concept" type="text" name="" placeholder="학습 개념을 입력해 주세요."-->
+<!--                                     style="width:635px; height: 50px; border-style: solid; border-width: 1px; margin-top: 20px; border-color: gray; margin-bottom: 25px; text-align: center;"></span><br>-->
                 <span>문항 내용 : <textarea id="as_discription"
                                         style="width: 100%; height:150px; padding: 20px; border-style: solid; border-width: 1px; border-color: grey; margin-top: 20px; margin-bottom: 20px;"
-                                        type="text" name="description"
+                                        type="text" name="discription"
                                         placeholder="문항 내용을 작성해 주세요."></textarea></span><br>
                 <strong>그림 또는 사진 파일은 아래의 버튼을 클릭하여 업로드해 주세요.</strong><input style="margin-top: 20px;" type="file"
-                                                                           name="file">
+                                                                           name="image">
                 <!--            </form>-->
             </div>
             <div class="col-11">
@@ -210,7 +211,7 @@
                         <th height="40px;">모범 답안</th>
                     </tr>
                     <tr>
-                        <td><textarea style="width: 100%; padding: 20px;" type="text" name="answer"
+                        <td><textarea style="width: 100%; padding: 20px;" type="text" name="hint"
                                       placeholder="도움 생각을 작성해 주세요."></textarea></td>
                         <td><textarea style="width: 100%; padding: 20px;" type="text" name="answer"
                                       placeholder="모범 답안을 작성해 주세요."></textarea></td>
@@ -223,7 +224,7 @@
                     </tr>
                     <tr>
                         <!--                    <td style="text-align: center;">1</td>-->
-                        <td><textarea style="width: 100%; padding: 20px;" type="text" name="hint"
+                        <td><textarea style="width: 100%; padding: 20px;" type="text" name="mark_text"
                                       placeholder="채점 준거를 작성해 주세요."></textarea></td>
                     </tr>
                 </table>

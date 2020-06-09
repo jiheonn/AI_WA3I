@@ -76,6 +76,28 @@ def view_result(request):
 def make_question(request):
     context = {
     }
+
+    try:
+        print(request.GET['question_name'])
+        print(request.GET['discription'])
+        print(request.GET['answer'])
+        print(request.GET['hint'])
+
+        print(request.GET['mark_text'])
+        make_question_date = MakeQuestion(teacher=Teacher.objects.get(teacher_id=2),
+                                          # make_question_id=auto?,
+                                          question_name=request.GET['question_name'],
+                                          discription=request.GET['discription'],
+                                          answer=request.GET['answer'],
+                                          # image=request.GET['image'],
+                                          hint=request.GET['hint'],
+                                          made_date=now_date)
+        make_question_date.save()
+
+        return HttpResponseRedirect(request.GET['path'])
+    except:
+        make_question_date = None
+
     return render(request, 'teacher/make_question.html', context)
 
 
