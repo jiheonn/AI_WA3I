@@ -36,8 +36,7 @@ def question_selection(request):
         'category_data': category_data
     }
     try:
-        test = request.GET.getlist('question')
-        # print(test)
+        # print(request.GET['code_num'])
         assignment_data = Assignment(assignment_id=request.GET['code_num'],
                                      teacher=Teacher.objects.get(teacher_id=2),
                                      assignment_title=request.GET['question-title'],
@@ -47,7 +46,7 @@ def question_selection(request):
                                      end_date=datetime.datetime.strptime(request.GET['end-date'], '%Y-%m-%d').date(),
                                      made_date=now_date,
                                      grade=int(request.GET['grade']),
-                                     class_field=int(request.GET['class']))
+                                     school_class=int(request.GET['class']))
         assignment_data.save()
     except:
         assignment_data = None
