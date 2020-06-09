@@ -7,7 +7,7 @@ import string
 import random
 
 # Create your views here.
-# from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 
 # def index(request):
@@ -37,6 +37,8 @@ def question_selection(request):
     }
     try:
         # print(request.GET['code_num'])
+        test = request.GET.getlist('question')
+        print(test)
         assignment_data = Assignment(assignment_id=request.GET['code_num'],
                                      teacher=Teacher.objects.get(teacher_id=2),
                                      assignment_title=request.GET['question-title'],
@@ -48,6 +50,15 @@ def question_selection(request):
                                      grade=int(request.GET['grade']),
                                      school_class=int(request.GET['class']))
         assignment_data.save()
+        # for i in test:
+        #     temp = AssignmentQuestionRel.objects.values('as_qurel_id')
+        #     temp = temp.latest('as_qurel_id')
+        #     as_qurel_id = temp['as_qurel_id'] + 1
+        #     asi_qst_rel_data = AssignmentQuestionRel(as_qurel_id=as_qurel_id,
+        #                                              assignment=request.GET['code_num'],
+        #                                              question=i)
+        #     asi_qst_rel_data.save()
+        return HttpResponseRedirect(request.GET['path'])
     except:
         assignment_data = None
 
