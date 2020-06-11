@@ -83,9 +83,10 @@ def Studyques(request):
         # f = AssignmentQuestionRel.objects.select_related('question').filter(question__question_name=question_name)[0]
 
         # 바꾼 코드
-        question_info = int(request.GET['question_id'])
+        question_info = request.GET['question_id']
         print(question_info)
-        question_id = question_info[0]
+        question_id = int(question_info[0])
+        print(type(question_id))
         assignment_id = question_info[1]
 
         data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
