@@ -27,8 +27,6 @@ def question_selection(request):
     question_data = Question.objects.all()
 
     assignment_id = Assignment.objects.all().values('assignment_id')
-    # for i in assignment_id:
-    # print(i)
 
     context = {
         'question_data': question_data,
@@ -36,9 +34,7 @@ def question_selection(request):
         'category_data': category_data
     }
     try:
-        # print(request.GET['code_num'])
-        test = request.GET.getlist('question')
-        print(test)
+        select_code_list = request.GET.getlist('question')
         assignment_data = Assignment(assignment_id=request.GET['code_num'],
                                      teacher=Teacher.objects.get(teacher_id=2),
                                      assignment_title=request.GET['question-title'],
@@ -50,15 +46,18 @@ def question_selection(request):
                                      grade=int(request.GET['grade']),
                                      school_class=int(request.GET['class']))
         assignment_data.save()
-        # for i in test:
-        #     temp = AssignmentQuestionRel.objects.values('as_qurel_id')
-        #     temp = temp.latest('as_qurel_id')
-        #     as_qurel_id = temp['as_qurel_id'] + 1
-        #     asi_qst_rel_data = AssignmentQuestionRel(as_qurel_id=as_qurel_id,
-        #                                              assignment=request.GET['code_num'],
-        #                                              question=i)
-        #     asi_qst_rel_data.save()
+
+        for i in select_code_list:
+
+            asi_qst_rel_data = AssignmentQuestionRel(
+                question_id=int(i),
+                assignment_id=request.GET['code_num']
+            )
+
+            asi_qst_rel_data.save()
+
         return HttpResponseRedirect(request.GET['path'])
+
     except:
         assignment_data = None
 
@@ -224,7 +223,8 @@ def question_search(request):
     user_input = request.GET['user_input']
 
     # sah_data = Keyword.objects.select_related('question').filter(keyword_name__icontains=user_input)
-    sah_data = Keyword.objects.select_related('question').filter(keyword_name__icontains=user_input).values_list('question_id', flat=True).distinct()
+    sah_data = Keyword.objects.select_related('question').filter(keyword_name__icontains=user_input).values_list(
+        'question_id', flat=True).distinct()
     data = Question.objects.filter(pk__in=sah_data)
     search_data = []
     for i in data:
@@ -324,8 +324,6 @@ def code_generation(request):
             # print(result)
         else:
             generation_code = generation_code
-
-
 
     context = {
         'generation_code': generation_code
