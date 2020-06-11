@@ -128,6 +128,31 @@ def check_code_st(request):
     return JsonResponse(context)
 
 
+# 테스트
+# def check_code_st(request):
+#     code_num = request.GET['code_num']
+#
+#     try:
+#         code = Assignment.objects.get(assignment_id=code_num)
+#
+#     except:
+#         code = None
+#
+#     if code is None:
+#         return render(request, 'student/Study.html')
+#     else:
+#
+#         # da = Assignment.objects.filter(assignment_id=assignment_id)
+#         # if da.values('type')[0]['type'] == "학습평가":
+#
+#         types = Assignment.objects.filter(assignment_id=code).values('type')
+#
+#         if types == "학습평가":
+#             return render(request, 'student/Studyques.html')
+#         else:
+#             return render(request, 'student/Study.html')
+
+
 def Homework(request):
     context = {
     }
@@ -217,7 +242,7 @@ def AIdiag(request):
     except:
         school = ""
         gender = ""
-    # data = AssignmentQuestionRel.objects.select_related('question','solve').filter(question__question_id=question_id)[0]
+
     key = AssignmentQuestionRel.objects.select_related('question').filter(question__question_id=question_id)
     data = key[0]
 
