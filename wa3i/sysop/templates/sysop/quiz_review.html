@@ -111,7 +111,7 @@
                     <td> {{ item.make_question_id }}</td>
                     <td> {{ item.question_name }}</td>
                     <td> {{ item.teacher.teacher_name }}</td>
-                    <td> DB없음 제작필요함</td>
+                    <td> {{ item.made_date }}</td>
                     <td>{% if item.check == 0 %}
                         미등록
                         {% else %}
@@ -146,7 +146,7 @@
         <!--                    <td>{{ item.make_question_id }}</td>-->
         <!--                    <td><a href="{% url 'detailed_review' %}" style="color: black">{{ item.question_name }}</a></td>-->
         <!--                    <td>{{ item.teacher.teacher_name }}</td>-->
-        <!--                    <td>2020년 5월 10일</td>-->
+        <!--                    <td>{{ item.made_date }}</td>-->
         <!--                    <td>{% if item.check == 0 %}-->
         <!--                        미등록-->
         <!--                         {% else %}-->

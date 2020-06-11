@@ -102,6 +102,25 @@
                 </tbody>
             </table>
         </div>
+
+        <!--        <div style="margin: 50px;">-->
+        <!--            <table style="text-align: center;">-->
+        <!--                <tr style="border: 1px solid #d6d6d6; background-color: #343a40; color: white;">-->
+        <!--                    <th width="80px">문항번호</th>-->
+        <!--                    <th width="400px">문항명</th>-->
+        <!--                    <th width="110px">과목</th>-->
+        <!--                    <th width="130px">등록일자</th>-->
+        <!--                </tr>-->
+        <!--                {% for item in question %}-->
+        <!--                <tr style="border: 1px solid #d6d6d6;">-->
+        <!--                    <td>{{ item.question_id }}</td>-->
+        <!--                    <td><a href="{% url 'ques_detail' %}" style="color: black">{{ item.question_name }}</a></td>-->
+        <!--                    <td>{{ item.category.category_name }}</td>-->
+        <!--                    <td>{{ item.made_date }}</td>-->
+        <!--                </tr>-->
+        <!--                {% endfor %}-->
+        <!--            </table>-->
+        <!--        </div>-->
     </div>
     <!-- /.row -->
 
@@ -118,7 +137,7 @@
 </footer>
 
 <!-- Bootstrap core JavaScript -->
-<script src="{% static 'mainpage/vendor/jquery/jquery.min.js' %}"></script>
+<!-- <script src="{% static 'mainpage/vendor/jquery/jquery.min.js' %}"></script> -->
 <script src="{% static 'mainpage/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
 </body>
