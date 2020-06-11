@@ -24,40 +24,13 @@
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+          integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
-    <style type="text/css">
-        #login-menu ul{
-            background-color: #343a40!important;
-            display:none;  /* 평상시에는 서브메뉴가 안보이게 하기 */
-            height:auto;
-            padding:0px;
-            margin:0px;
-            border:0px;
-            position:absolute;
-            width:100px;
-            z-index:200;
-        }
-        #login-menu:hover ul{
-            display: block;   /* 마우스 커서 올리면 서브메뉴 보이게 하기 */
-        }
-        #login-menu:hover ul li{
-            text-align: center;
-        }
-        .cooperation-center {
-            display: block;
-            margin: 0px auto;
-        }
-        .btn-center {
-            float: none;
-            margin: 50px auto;
-        }
-        .btn-file {
-            margin-top: 20px;
-        }
-    </style>
+    <link href="{% static 'teacher/css/teacher.css' %}" rel="stylesheet">
+
 </head>
 
 <body>
@@ -102,12 +75,13 @@
                     <a class="nav-link" href="{% url 'teacher_notice' %}">게시판</a>
                 </li>
             </ul>
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" href="#"></a>-->
-<!--                </li>-->
+            <!--                <li class="nav-item">-->
+            <!--                    <a class="nav-link" href="#"></a>-->
+            <!--                </li>-->
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown" id="login-menu">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="user-name"><i class="fa fa-user fa-fw"></i> User </a>
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="user-name"><i
+                            class="fa fa-user fa-fw"></i> User </a>
                     <ul>
                         <li><a class="nav-link" href="#">로그인</a></li>
                         <li><a class="nav-link" href="#">회원가입</a></li>
@@ -124,11 +98,12 @@
     <!-- Heading Row -->
     <div class="row justify-content-center my-5">
         <div class="col-lg-2">
-            <img class="img-fluid rounded mb-4 mb-lg-0" src="{% static 'mainpage/image/logo.png' %}"  width="120" height="120"  alt="">
+            <img class="img-fluid rounded mb-4 mb-lg-0" src="{% static 'mainpage/image/logo.png' %}" width="120"
+                 height="120" alt="">
         </div>
         <!-- /.col-lg-8 -->
         <div class="col-lg-5">
-<!--            <h1 class="font-weight-light">응답분석</h1><br>-->
+            <!--            <h1 class="font-weight-light">응답분석</h1><br>-->
             <p class="font-weight-bolder triangle-border left">
                 Excel에 입력된 학생들의 응답을 빠르게 분석하는<br>
                 도구입니다. 아래 파일 불러오기 버튼을 클릭하여<br>
@@ -151,7 +126,7 @@
 </div>
 <!-- /.container -->
 
-<img class="img-fluid rounded mb-4 mb-lg-0 cooperation-center" src="{% static 'teacher/images/cooperation.png' %}">
+<img class="img-fluid rounded mb-4 mb-lg-0 cooper-img" src="{% static 'teacher/images/cooperation.png' %}">
 
 <!-- Footer -->
 <footer class="py-5 bg-dark">
