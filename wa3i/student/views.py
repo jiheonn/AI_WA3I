@@ -8,7 +8,8 @@ import q as q
 from django.db.models import Q
 from django.http import JsonResponse
 
-from mainpage.models import Question, SelfSolveData, AssignmentQuestionRel, Keyword, Solve, Assignment, MakeQuestion, Category
+from mainpage.models import Question, SelfSolveData, AssignmentQuestionRel, Keyword, Solve, Assignment, MakeQuestion, \
+    Category
 
 from django.contrib.auth.hashers import check_password
 from django.urls import reverse
@@ -73,16 +74,22 @@ def Studyques(request):
         f = data.first()
 
     except:
-        # question_id = int(request.GET['question_id'])
-        # print(question_id)
-        # assignment_id = question_id[1]
-
+        # 원래 코드
         question_info = request.GET['question_name'].split(',')
         question_name = question_info[0]
         assignment_id = question_info[1]
 
         data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
         f = AssignmentQuestionRel.objects.select_related('question').filter(question__question_name=question_name)[0]
+
+        # 바꾼 코드
+        # assignment_id = request.GET['code_num']
+        # question_info = int(request.GET['question_id'])
+        # question_id = question_info[0]
+        # assignment_id = question_info[1]
+        #
+        # data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
+        # f = AssignmentQuestionRel.objects.select_related('question').filter(question__question_id=question_id)[0]
 
     context = {
         'data': data,
@@ -109,7 +116,7 @@ def check_code_st(request):
         # if da.values('type')[0]['type'] == "학습평가":
 
         # types = Assignment.objects.filter(assignment_id=code).values('type')
-
+        #
         # if types == "학습평가":
         #     overlap = "pass"
         # else:
@@ -249,11 +256,10 @@ def Homeworklist(request):
     print(d)
     rel = AssignmentQuestionRel.objects.prefetch_related('assignment').filter(as_qurel_id=d)
 
-
     context = {
         'rel': rel,
         # 'da':da,
-        're':re
+        're': re
     }
     return render(request, 'student/Homeworklist.html', context)
 
@@ -268,8 +274,7 @@ def Homeworkcheck(request):
     re = Solve.objects.prefetch_related('assignment_question_rel').filter(student_id=student_id)
     d = re.values('as_qurel_id')[0]['as_qurel_id']
     print(d)
-    data = AssignmentQuestionRel.objects.prefetch_related('assignment','question').filter(as_qurel_id=d)
-
+    data = AssignmentQuestionRel.objects.prefetch_related('assignment', 'question').filter(as_qurel_id=d)
 
     context = {
         'data': data
@@ -291,7 +296,8 @@ def Notice(request):
 
 def search(request):
     user_input = request.GET['user_input']
-    key_data = Keyword.objects.select_related('question').filter(keyword_name__icontains=user_input).values_list('question_id', flat=True).distinct()
+    key_data = Keyword.objects.select_related('question').filter(keyword_name__icontains=user_input).values_list(
+        'question_id', flat=True).distinct()
     k_data = Question.objects.filter(pk__in=key_data)
 
     search_data = []
@@ -309,7 +315,8 @@ def search(request):
 
 def search_name(request):
     name_input = request.GET['name_input']
-    name_data = MakeQuestion.objects.filter(question_name__icontains=name_input).values_list('make_question_id', flat=True).distinct()
+    name_data = MakeQuestion.objects.filter(question_name__icontains=name_input).values_list('make_question_id',
+                                                                                             flat=True).distinct()
     n_data = MakeQuestion.objects.filter(pk__in=name_data)
 
     search_data = []
