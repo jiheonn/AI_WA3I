@@ -36,9 +36,9 @@
     <!--    <link href="{% static 'mainpage/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">-->
 
     <!--    &lt;!&ndash; Custom styles for this template &ndash;&gt;-->
-<!--        <link href="{% static 'mainpage/css/small-business.css' %}" rel="stylesheet">-->
-<!--        <link href="{% static 'mainpage/css/speech-bubble.css' %}" rel="stylesheet">-->
-<!--        <link href="{% static 'mainpage/css/basic.css' %}" rel="stylesheet">-->
+    <!--        <link href="{% static 'mainpage/css/small-business.css' %}" rel="stylesheet">-->
+    <!--        <link href="{% static 'mainpage/css/speech-bubble.css' %}" rel="stylesheet">-->
+    <!--        <link href="{% static 'mainpage/css/basic.css' %}" rel="stylesheet">-->
 
     <!--    <link rel="stylesheet" type="text/css" href="{% static 'teacher/css/main.css' %}">-->
 
@@ -53,98 +53,8 @@
     <!--    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"-->
     <!--          integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">-->
 
-    <style type="text/css">
-        #login-menu ul {
-            background-color: #343a40 !important;
-            display: none; /* 평상시에는 서브메뉴가 안보이게 하기 */
-            height: auto;
-            padding: 0px;
-            margin: 0px;
-            border: 0px;
-            position: absolute;
-            width: 100px;
-            z-index: 200;
-        }
+    <link href="{% static 'teacher/css/teacher.css' %}" rel="stylesheet">
 
-        #login-menu:hover ul {
-            display: block; /* 마우스 커서 올리면 서브메뉴 보이게 하기 */
-        }
-
-        #login-menu:hover ul li {
-            text-align: center;
-        }
-
-        /*search*/
-        .form-control-borderless {
-            border: none;
-        }
-
-        .form-control-borderless:hover, .form-control-borderless:active, .form-control-borderless:focus {
-            border: none;
-            outline: none;
-            box-shadow: none;
-        }
-
-        .btn21 {
-            width: 80px;
-            /*height: 50px;*/
-            /*font-size:30px;*/
-            /*font-family: 'Nanum Gothic';*/
-            /*color: white;*/
-            /*line-height: 50px;*/
-            text-align: center;
-            /*background: blue;*/
-            border: solid 2px grey;
-            border-radius: 12px;
-        }
-    </style>
-    <!--    <script>-->
-    <!--        $(document).ready(function () {-->
-    <!--            $('#view_search').click(function () {-->
-    <!--                var user_input = $('#user_input').val();-->
-    <!--                $.ajax({-->
-    <!--                    url: '/teacher/view_search/',-->
-    <!--                    data: {user_input: user_input},-->
-    <!--                    success: function (data) {-->
-    <!--                        var assignment_data = data.assignment_data;-->
-    <!--                        var num = assignment_data.length;-->
-    <!--                        if (num == 0) {-->
-    <!--                            alert('검색 결과가 존재하지 않습니다.');-->
-    <!--                        } else {-->
-    <!--                            $("tr").remove("#asi_tr");-->
-    <!--                            for (var i = 0; i < num; i++) {-->
-    <!--                                $("#asi_info").append(-->
-    <!--                                    '<tr id="asi_tr" align = "center">' +-->
-    <!--                                    '<td>' +-->
-    <!--                                    assignment_data[i].assignment_title +-->
-    <!--                                    '</td>' +-->
-    <!--                                    '<td>' +-->
-    <!--                                    assignment_data[i].assignment_type +-->
-    <!--                                    '</td>' +-->
-    <!--                                    '<td>' +-->
-    <!--                                    assignment_data[i].assignment_id +-->
-    <!--                                    '</td>' +-->
-    <!--                                    '<td>' +-->
-    <!--                                    assignment_data[i].start_date +-->
-    <!--                                    '~' +-->
-    <!--                                    assignment_data[i].end_date +-->
-    <!--                                    '</td>' +-->
-    <!--                                    '<td>' +-->
-    <!--                                    assignment_data[i].student_grade +-->
-    <!--                                    '</td>' +-->
-    <!--                                    '<td>' +-->
-    <!--                                    assignment_data[i].student_class +-->
-    <!--                                    '</td>' +-->
-    <!--                                    '<td><button class="btn21">더보기</button></td>' +-->
-    <!--                                    '</tr>'-->
-    <!--                                )-->
-    <!--                            }-->
-    <!--                        }-->
-    <!--                    }-->
-    <!--                });-->
-    <!--            });-->
-    <!--        });-->
-    <!--    </script>-->
 </head>
 
 <body>
@@ -227,38 +137,38 @@
         </div>
         <!-- /.col-md-4 -->
     </div>
-<!--    <div id="search" class="container">-->
-<!--        <br/>-->
-<!--        <div class="row justify-content-center">-->
-<!--            <div class="col-12 col-md-10 col-lg-8">-->
-<!--                <div class="card card-sm">-->
-<!--                    <div class="card-body row no-gutters align-items-center">-->
-<!--                        <div class="col-auto">-->
-<!--                            <i class="fas fa-search h4 text-body"></i>-->
-<!--                        </div>-->
-<!--                        &lt;!&ndash;end of col&ndash;&gt;-->
-<!--                        <div class="col">-->
-<!--                            <input id="user_input" class="form-control form-control-lg form-control-borderless"-->
-<!--                                   type="search" placeholder="제목을 입력해 주세요.">-->
-<!--                        </div>-->
-<!--                        &lt;!&ndash;end of col&ndash;&gt;-->
-<!--                        <div class="col-auto">-->
-<!--                            <button id="view_search" class="w3-button w3-large w3-round w3-blue" type="submit">검색-->
-<!--                            </button>-->
-<!--                        </div>-->
-<!--                        &lt;!&ndash;end of col&ndash;&gt;-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            &lt;!&ndash;end of col&ndash;&gt;-->
-<!--        </div>-->
-<!--    </div>-->
+    <!--    <div id="search" class="container">-->
+    <!--        <br/>-->
+    <!--        <div class="row justify-content-center">-->
+    <!--            <div class="col-12 col-md-10 col-lg-8">-->
+    <!--                <div class="card card-sm">-->
+    <!--                    <div class="card-body row no-gutters align-items-center">-->
+    <!--                        <div class="col-auto">-->
+    <!--                            <i class="fas fa-search h4 text-body"></i>-->
+    <!--                        </div>-->
+    <!--                        &lt;!&ndash;end of col&ndash;&gt;-->
+    <!--                        <div class="col">-->
+    <!--                            <input id="user_input" class="form-control form-control-lg form-control-borderless"-->
+    <!--                                   type="search" placeholder="제목을 입력해 주세요.">-->
+    <!--                        </div>-->
+    <!--                        &lt;!&ndash;end of col&ndash;&gt;-->
+    <!--                        <div class="col-auto">-->
+    <!--                            <button id="view_search" class="w3-button w3-large w3-round w3-blue" type="submit">검색-->
+    <!--                            </button>-->
+    <!--                        </div>-->
+    <!--                        &lt;!&ndash;end of col&ndash;&gt;-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--            &lt;!&ndash;end of col&ndash;&gt;-->
+    <!--        </div>-->
+    <!--    </div>-->
     <div class="container">
         <form action="{% url 'view_result_detail' %}" method="GET">
 
-            <table style="text-align: center; width:100%;" id="asi_info" class="display">
+            <table id="asi_info" class="display">
                 <thead>
-                <tr style="background-color: #343a40; color: white;">
+                <tr class="asi_info_tr">
                     <th>제목</th>
                     <th>타입</th>
                     <th>코드</th>
@@ -285,39 +195,11 @@
                 {% endfor %}
                 </tbody>
             </table>
-
-            <!--            <table id="asi_info" border="1" bordercolor="gray" width="1200" height="300" align="center"-->
-            <!--                   style="margin-top: 50px; margin-left: auto; margin-right: auto; margin-bottom: 50px;">-->
-            <!--                <tr align="center" bgcolor="#2E4A62" style="font-weight: bold; color: white; height: 35px;">-->
-            <!--                    <td>제목</td>-->
-            <!--                    <td>타입</td>-->
-            <!--                    <td>코드</td>-->
-            <!--                    <td>기간</td>-->
-            <!--                    <td style="width: 40px;">학년</td>-->
-            <!--                    <td style="width: 40px;">반</td>-->
-            <!--                    <td>결과 보기</td>-->
-            <!--                </tr>-->
-            <!--                {% for data in assignment_data %}-->
-            <!--                <tr id="asi_tr" align="center">-->
-            <!--                    <td>{{ data.assignment_title }}</td>-->
-            <!--                    <td>{{ data.type }}</td>-->
-            <!--                    <td>{{ data.assignment_id }}</td>-->
-            <!--                    <td>{{ data.start_date }} &nbsp ~ &nbsp{{ data.end_date }}</td>-->
-            <!--                    <td>{{ data.grade }}</td>-->
-            <!--                    <td>{{ data.school_class }}</td>-->
-            <!--                    <td>-->
-            <!--                        <button type="submit" class="btn21" name="select_code" value="{{ data.assignment_id }}">더보기-->
-            <!--                        </button>-->
-            <!--                    </td>-->
-            <!--                </tr>-->
-            <!--                {% endfor %}-->
-            <!--            </table>-->
         </form>
     </div>
 </div>
 <!-- /.container -->
-<img class="img-fluid rounded mb-4 mb-lg-0" src="{% static 'teacher/images/cooperation.png' %}"
-     style="display: block; margin: 0px auto;">
+<img class="img-fluid rounded mb-4 mb-lg-0 cooper-img" src="{% static 'teacher/images/cooperation.png' %}">
 
 <!-- Footer -->
 <footer class="py-5 bg-dark">

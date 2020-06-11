@@ -20,35 +20,15 @@
     <link href="{% static 'mainpage/css/speech-bubble.css' %}" rel="stylesheet">
     <link href="{% static 'mainpage/css/basic.css' %}" rel="stylesheet">
 
-	<link rel="stylesheet" type="text/css" href="{% static 'teacher/css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'teacher/css/main.css' %}">
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+          integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
+    <link href="{% static 'teacher/css/teacher.css' %}" rel="stylesheet">
 
-    <style type="text/css">
-        #login-menu ul{
-            background-color: #343a40!important;
-            display:none;  /* 평상시에는 서브메뉴가 안보이게 하기 */
-            height:auto;
-            padding:0px;
-            margin:0px;
-            border:0px;
-            position:absolute;
-            width:100px;
-            z-index:200;
-        }
-        #login-menu:hover ul{
-            display: block;   /* 마우스 커서 올리면 서브메뉴 보이게 하기 */
-        }
-        #login-menu:hover ul li{
-            text-align: center;
-        }
-        textarea{
-            resize : none;
-        }
-    </style>
 </head>
 
 <body>
@@ -93,12 +73,10 @@
                     <a class="nav-link" href="{% url 'teacher_notice' %}">게시판</a>
                 </li>
             </ul>
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" href="#"></a>-->
-<!--                </li>-->
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown" id="login-menu">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="user-name"><i class="fa fa-user fa-fw"></i> User </a>
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="user-name"><i
+                            class="fa fa-user fa-fw"></i> User </a>
                     <ul>
                         <li><a class="nav-link" href="#">로그인</a></li>
                         <li><a class="nav-link" href="#">회원가입</a></li>
@@ -115,30 +93,29 @@
     <!-- Heading Row -->
     <div class="row justify-content-center my-5">
         <div class="col-lg-2">
-            <img class="img-fluid rounded mb-4 mb-lg-0" src="{% static 'mainpage/image/logo.png' %}"  width="120" height="120"  alt="">
+            <img class="img-fluid rounded mb-4 mb-lg-0" src="{% static 'mainpage/image/logo.png' %}" width="120"
+                 height="120" alt="">
         </div>
         <!-- /.col-lg-8 -->
         <div class="col-lg-5">
-<!--            <h1 class="font-weight-light">Bigram Tree</h1><br>-->
             <p class="font-weight-bolder triangle-border left">
                 분석하고자 하는 학생들의 응답을 아래 입력 칸에 작성해 주세요.
                 입력 형식은 텍스트로 부탁드립니다.</p>
-            <!--        <a class="btn btn-primary" href="#">Call to Action!</a>-->
         </div>
         <!-- /.col-md-4 -->
     </div>
     <!-- /.row -->
-    <div class="col-7" style="float: none; margin: 50px auto; border-style: solid; border-width: 1px; border-color: gray;">
-        <textarea style="width: 630px; height: 300px; line-height: 70px;" type="text" name="" placeholder="   학생들의 응답 텍스트를 여기에 작성해 주세요."></textarea>
+    <div class="col-7 text-box">
+        <textarea type="text" name="" placeholder="   학생들의 응답 텍스트를 여기에 작성해 주세요."></textarea>
     </div>
-    <div class="col-lg-3" style="float: none; margin: 50px auto;">
+    <div class="col-lg-3 btn-center">
         <button type="submit" class="w3-button w3-large w3-round w3-blue">Bigram Tree 결과 보기</button>
     </div>
 
 </div>
 <!-- /.container -->
 
-<img class="img-fluid rounded mb-4 mb-lg-0" src="{% static 'teacher/images/cooperation.png' %}" style="display: block; margin: 0px auto;">
+<img class="img-fluid rounded mb-4 mb-lg-0 cooper-img" src="{% static 'teacher/images/cooperation.png' %}">
 
 <!-- Footer -->
 <footer class="py-5 bg-dark">

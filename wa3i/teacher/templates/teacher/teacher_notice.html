@@ -22,29 +22,13 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'teacher/css/main.css' %}">
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+          integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
-    <style type="text/css">
-        #login-menu ul{
-            background-color: #343a40!important;
-            display:none;  /* 평상시에는 서브메뉴가 안보이게 하기 */
-            height:auto;
-            padding:0px;
-            margin:0px;
-            border:0px;
-            position:absolute;
-            width:100px;
-            z-index:200;
-        }
-        #login-menu:hover ul{
-            display: block;   /* 마우스 커서 올리면 서브메뉴 보이게 하기 */
-        }
-        #login-menu:hover ul li{
-            text-align: center;
-        }
-    </style>
+    <link href="{% static 'teacher/css/teacher.css' %}" rel="stylesheet">
+
 </head>
 
 <body>
@@ -89,12 +73,13 @@
                     <a class="nav-link" href="{% url 'teacher_notice' %}">게시판</a>
                 </li>
             </ul>
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" href="#"></a>-->
-<!--                </li>-->
+            <!--                <li class="nav-item">-->
+            <!--                    <a class="nav-link" href="#"></a>-->
+            <!--                </li>-->
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown" id="login-menu">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="user-name"><i class="fa fa-user fa-fw"></i> User </a>
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="user-name"><i
+                            class="fa fa-user fa-fw"></i> User </a>
                     <ul>
                         <li><a class="nav-link" href="#">로그인</a></li>
                         <li><a class="nav-link" href="#">회원가입</a></li>
@@ -111,11 +96,12 @@
     <!-- Heading Row -->
     <div class="row justify-content-center my-5">
         <div class="col-lg-2">
-            <img class="img-fluid rounded mb-4 mb-lg-0" src="{% static 'mainpage/image/logo.png' %}"  width="120" height="120"  alt="">
+            <img class="img-fluid rounded mb-4 mb-lg-0" src="{% static 'mainpage/image/logo.png' %}" width="120"
+                 height="120" alt="">
         </div>
         <!-- /.col-lg-8 -->
         <div class="col-lg-5">
-<!--            <h1 class="font-weight-light">게시판</h1><br>-->
+            <!--            <h1 class="font-weight-light">게시판</h1><br>-->
             <p class="font-weight-bolder triangle-border left">
                 WA3I의 공지사항과 다양한 학습자료를 열람할 수 있습니다.</p>
             <!--        <a class="btn btn-primary" href="#">Call to Action!</a>-->
@@ -127,7 +113,7 @@
 </div>
 <!-- /.container -->
 
-<img class="img-fluid rounded mb-4 mb-lg-0" src="{% static 'teacher/images/cooperation.png' %}" style="display: block; margin: 0px auto;">
+<img class="img-fluid rounded mb-4 mb-lg-0 cooper-img" src="{% static 'teacher/images/cooperation.png' %}">
 
 <!-- Footer -->
 <footer class="py-5 bg-dark">

@@ -29,40 +29,8 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
           integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
-    <style type="text/css">
-        #login-menu ul {
-            background-color: #343a40 !important;
-            display: none; /* 평상시에는 서브메뉴가 안보이게 하기 */
-            height: auto;
-            padding: 0px;
-            margin: 0px;
-            border: 0px;
-            position: absolute;
-            width: 100px;
-            z-index: 200;
-        }
+    <link href="{% static 'teacher/css/teacher.css' %}" rel="stylesheet">
 
-        #login-menu:hover ul {
-            display: block; /* 마우스 커서 올리면 서브메뉴 보이게 하기 */
-        }
-
-        #login-menu:hover ul li {
-            text-align: center;
-        }
-
-        .btn21 {
-            width: 80px;
-            /*height: 50px;*/
-            /*font-size:30px;*/
-            /*font-family: 'Nanum Gothic';*/
-            /*color: white;*/
-            /*line-height: 50px;*/
-            text-align: center;
-            /*background: blue;*/
-            border: solid 2px grey;
-            border-radius: 12px;
-        }
-    </style>
     <script>
         $(document).ready(function () {
             var abc = {};
@@ -153,14 +121,14 @@
         <!-- /.col-md-4 -->
     </div>
     <table border="1" bordercolor="gray" width="1200" height="100" align="center"
-           style="margin-top: 50px; margin-left: auto; margin-right: auto;">
-        <tr align="center" bgcolor="#2E4A62" style="font-weight: bold; color: white;">
+           class="table-center">
+        <tr align="center" bgcolor="#2E4A62" class="table-tr">
             <td>제목</td>
             <td>타입</td>
             <td>코드</td>
             <td>기간</td>
             <td>학년</td>
-            <td style="width: 40px;">반</td>
+            <td class="class-box-width">반</td>
             <td>문항수</td>
             <td>전체 평균점수</td>
             <td>평균 진행률(%)</td>
@@ -189,8 +157,8 @@
     </table>
 
     <table border="1" bordercolor="gray" width="1200" height="100" align="center"
-           style="margin-top: 50px; margin-left: auto; margin-right: auto;">
-        <tr align="center" bgcolor="#2E4A62" style="font-weight: bold; color: white;">
+           class="table-center">
+        <tr align="center" bgcolor="#2E4A62" class="table-tr">
             <td width="90">학생ID</td>
             <td width="70">학생이름</td>
             <td width="70">평균점수</td>
@@ -198,47 +166,32 @@
             <td>학생응답</td>
         </tr>
 
-            {% for data in result %}
-<tr align="center">
-    <td>{{ data.student_id }}</td>
-    <td>{{ data.student_name }}</td>
-    <td>{{ data.student_score }}</td>
-    <td>{{ data.student_progress}}</td>
-    <td align="left" style="padding: 20px;">
-<!--        {{ data.student_response }}-->
-        {% for i in data.student_response %}
-            {{ i }}
-            <br><br>
+        {% for data in result %}
+        <tr align="center">
+            <td>{{ data.student_id }}</td>
+            <td>{{ data.student_name }}</td>
+            <td>{{ data.student_score }}</td>
+            <td>{{ data.student_progress}}</td>
+            <td align="left" class="pad20">
+                {% for i in data.student_response %}
+                {{ i }}
+                <br><br>
+                {% endfor %}
+            </td>
+        </tr>
         {% endfor %}
-    </td>
-</tr>
-{% endfor %}
 
-<!--        {% for data in result %}-->
-<!--        <tr align="center">-->
-<!--&lt;!&ndash;            <td>{{ data.solve.student_id }}</td>&ndash;&gt;-->
-<!--&lt;!&ndash;            <td>{{ data.solve.student_name }}</td>&ndash;&gt;-->
-<!--            <td>{{ result }}</td>-->
-<!--            <td>{{ data }}</td>-->
-<!--            <td>{{ data.student_score }}</td>-->
-<!--            <td>100</td>-->
-<!--            <td align="left" style="padding: 20px;">-->
-<!--                {{ data.student_response }}-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--        {% endfor %}-->
     </table>
 
     <!-- /.row -->
-    <div class="col-lg-0" style="float: none; margin: 50px auto;">
+    <div class="col-lg-0 btn-center">
         <form action="{% url 'view_result' %}">
             <button type="submit" class="w3-button w3-large w3-round w3-blue">이전</button>
         </form>
     </div>
 </div>
 <!-- /.container -->
-<img class="img-fluid rounded mb-4 mb-lg-0" src="{% static 'teacher/images/cooperation.png' %}"
-     style="display: block; margin: 0px auto;">
+<img class="img-fluid rounded mb-4 mb-lg-0 cooper-img" src="{% static 'teacher/images/cooperation.png' %}">
 
 <!-- Footer -->
 <footer class="py-5 bg-dark">
