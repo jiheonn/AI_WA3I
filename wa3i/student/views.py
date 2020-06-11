@@ -75,21 +75,21 @@ def Studyques(request):
 
     except:
         # 원래 코드
-        question_info = request.GET['question_name'].split(',')
-        question_name = question_info[0]
-        assignment_id = question_info[1]
-
-        data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
-        f = AssignmentQuestionRel.objects.select_related('question').filter(question__question_name=question_name)[0]
-
-        # 바꾼 코드
-        # assignment_id = request.GET['code_num']
-        # question_info = int(request.GET['question_id'])
-        # question_id = question_info[0]
+        # question_info = request.GET['question_name'].split(',')
+        # question_name = question_info[0]
         # assignment_id = question_info[1]
         #
         # data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
-        # f = AssignmentQuestionRel.objects.select_related('question').filter(question__question_id=question_id)[0]
+        # f = AssignmentQuestionRel.objects.select_related('question').filter(question__question_name=question_name)[0]
+
+        # 바꾼 코드
+        question_info = int(request.GET['question_id'])
+        print(question_info)
+        question_id = question_info[0]
+        assignment_id = question_info[1]
+
+        data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
+        f = AssignmentQuestionRel.objects.select_related('question').filter(question__question_id=question_id)[0]
 
     context = {
         'data': data,
@@ -109,8 +109,10 @@ def check_code_st(request):
 
     if code is None:
         overlap = "fail"
+        print("f")
     else:
         overlap = "pass"
+        print("p")
 
         # da = Assignment.objects.filter(assignment_id=assignment_id)
         # if da.values('type')[0]['type'] == "학습평가":
