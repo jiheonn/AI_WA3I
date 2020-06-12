@@ -32,7 +32,7 @@ class MakeQuestion(models.Model):
     image = models.CharField(max_length=200)
     hint = models.TextField()
     made_date = models.DateField()
-    upload_check = models.IntegerField()
+    upload_check = models.IntegerField(blank=True, null=True)
 
 
 class SelfSolveData(models.Model):
