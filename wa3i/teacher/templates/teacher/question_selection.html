@@ -1,212 +1,147 @@
+{% extends 'teacher/base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="ko">
+{% block content %}
 
-<head>
+<!-- Bootstrap core CSS -->
+<link href="{% static 'mainpage/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<!-- Custom styles for this template -->
+<link href="{% static 'mainpage/css/small-business.css' %}" rel="stylesheet">
+<link href="{% static 'mainpage/css/speech-bubble.css' %}" rel="stylesheet">
+<link href="{% static 'mainpage/css/basic.css' %}" rel="stylesheet">
 
-    <title>WA3i</title>
+<link rel="stylesheet" type="text/css" href="{% static 'teacher/css/main.css' %}">
 
-    <!-- Bootstrap core CSS -->
-    <link href="{% static 'mainpage/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
-    <!-- Custom styles for this template -->
-    <link href="{% static 'mainpage/css/small-business.css' %}" rel="stylesheet">
-    <link href="{% static 'mainpage/css/speech-bubble.css' %}" rel="stylesheet">
-    <link href="{% static 'mainpage/css/basic.css' %}" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="{% static 'teacher/css/main.css' %}">
+<!-- search -->
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+      integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link href="{% static 'teacher/css/teacher.css' %}" rel="stylesheet">
+<link href="{% static 'teacher/css/question_selection.css' %}" rel="stylesheet">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-
-    <!-- search -->
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
-          integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-
-    <link href="{% static 'teacher/css/teacher.css' %}" rel="stylesheet">
-    <link href="{% static 'teacher/css/question_selection.css' %}" rel="stylesheet">
-
-    <script>
-        jQuery(function ($) {
-            /* Checkbox  */
-            var checkBox = $('.ctm-check');
-            var addClassCheckBox = function ($input) {
-                if ($input.prop('checked')) {
-                    $input.parent().addClass('checked');
-                } else {
-                    $input.parent().removeClass('checked');
-                }
-            };
-            checkBox.on('change', 'input', function () {
-                addClassCheckBox($(this));
-            })
-        });
-        $(document).ready(function () {
-            $('#copy').click(function () {
-                var copy_code = prompt("복사할 시험지의 코드를 입력해 주세요.");
-                $.ajax({
-                    url: '/teacher/assignment_copy/',
-                    data: {copy_code: copy_code},
-                    success: function (data) {
-                        var copy_data = data.copy_data;
-                        var num = copy_data.length;
-                        if (num == 0) {
-                            if (copy_code) {
-                                alert('시험지가 존재하지 않습니다. 코드를 다시 확인해 주세요.');
-                            }
-                        } else {
-                            for (var i = 0; i < num; i++) {
-                                var assignment_type = copy_data[i].assignment_type;
-                                var assignment_title = copy_data[i].assignment_title;
-                                var question_id = copy_data[i].question_id;
-                                $('#evaluation_type').val(assignment_type).prop("selected", true);
-                                $('#as_name').val(assignment_title);
-                                $('input:checkbox[id=' + question_id + ']').prop("checked", true);
-                            }
+<script>
+    jQuery(function ($) {
+        /* Checkbox  */
+        var checkBox = $('.ctm-check');
+        var addClassCheckBox = function ($input) {
+            if ($input.prop('checked')) {
+                $input.parent().addClass('checked');
+            } else {
+                $input.parent().removeClass('checked');
+            }
+        };
+        checkBox.on('change', 'input', function () {
+            addClassCheckBox($(this));
+        })
+    });
+    $(document).ready(function () {
+        $('#copy').click(function () {
+            var copy_code = prompt("복사할 시험지의 코드를 입력해 주세요.");
+            $.ajax({
+                url: '/teacher/assignment_copy/',
+                data: {copy_code: copy_code},
+                success: function (data) {
+                    var copy_data = data.copy_data;
+                    var num = copy_data.length;
+                    if (num == 0) {
+                        if (copy_code) {
+                            alert('시험지가 존재하지 않습니다. 코드를 다시 확인해 주세요.');
                         }
-                        jQuery(function ($) {
-                            /* Checkbox  */
-                            var checkBox = $('.ctm-check');
-                            var addClassCheckBox = function ($input) {
-                                if ($input.prop('checked')) {
-                                    $input.parent().addClass('checked');
-                                } else {
-                                    $input.parent().removeClass('checked');
-                                }
-                            };
-                            checkBox.on('change', 'input', function () {
-                                addClassCheckBox($(this));
-                            })
-                        });
-                    }
-                })
-            })
-        });
-        $(document).ready(function () {
-            $('#input_text').keyup(function () {
-                if ($(this).val().length > $(this).attr('maxlength')) {
-                    alert('입력 제한 길이를 초과하였습니다.');
-                    $(this).val($(this).val().substr(0, $(this).attr('maxlength')));
-                }
-            });
-        });
-        $(document).ready(function () {
-            $('#code_num').keyup(function () {
-                if ($(this).val().length > $(this).attr('maxlength')) {
-                    alert('최대 8자리 입력을 초과하였습니다.');
-                    $(this).val($(this).val().substr(0, $(this).attr('maxlength')));
-                }
-            });
-        });
-        $(document).ready(function () {
-            $('#make-submit').click(function () {
-                var code_num = $('#code_num').val();
-                var as_name = $('#as_name').val();
-                var type = $('#evaluation_type option:selected').val();
-                var check_num = $('input:checked').length;
-                var st_date = $('#start-date').val();
-                var en_date = $('#end-date').val();
-                var result = confirm("코드 : " + code_num + "\n시험지 제목 : " + as_name + "\n타입 : " + type + "\n문항 수 : " + check_num + "\n시작날짜 : " + st_date + "\n종료날짜 : " + en_date + "\n\n입력한 정보로 생성하겠습니까?");
-                if (result) {
-                    alert('문항 선택이 완료되었습니다.');
-                }
-            });
-        });
-        $(document).ready(function () {
-            $('#code_generate').click(function () {
-                var text = "";
-                var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-                for (var i = 0; i < 8; i++)
-                    text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-                $.ajax({
-                    url: '/teacher/code_generation/',
-                    data: {text: text},
-                    success: function (data) {
-                        $('#code_num').val(data.generation_code);
-                    }
-                });
-            });
-        });
-        $(document).ready(function () {
-            $('#search').click(function () {
-                var user_input = $('#user_input').val();
-                $.ajax({
-                    url: '/teacher/question_search/',
-                    data: {user_input: user_input},
-                    success: function (data) {
-                        var search_data = data.search_data;
-                        var num = search_data.length;
-                        if (num == 0) {
-                            alert('검색 결과가 존재하지 않습니다.');
-                        } else {
-                            $("div").remove("#question_list");
-                            $("#category_option").after('<div id="question_list" class="row qstlst-margin">' + '</div>');
-                            for (var i = 0; i < num; i++) {
-                                $("#question_list").append(
-                                    '<div class="col-md-3 mb-5">' +
-                                    '<div class="card h-100" align="center">' +
-                                    '<div class="card-body">' +
-                                    '<img class="img-fluid rounded mb-4 mb-lg-0 question-img" src="' +
-                                    '/static/' +
-                                    search_data[i].question_image +
-                                    '">' +
-                                    '</div>' +
-                                    '<span class="card-footer ctm-check">' +
-                                    '<input type="checkbox" id="' +
-                                    search_data[i].question_id +
-                                    '" name="question" value="' +
-                                    search_data[i].question_id +
-                                    '">' +
-                                    '<label for="' +
-                                    search_data[i].question_id +
-                                    '"><i></i>' +
-                                    search_data[i].question_name +
-                                    '</label>' +
-                                    '</span>' +
-                                    '</div>' +
-                                    '</div>'
-                                )
-                            }
+                    } else {
+                        for (var i = 0; i < num; i++) {
+                            var assignment_type = copy_data[i].assignment_type;
+                            var assignment_title = copy_data[i].assignment_title;
+                            var question_id = copy_data[i].question_id;
+                            $('#evaluation_type').val(assignment_type).prop("selected", true);
+                            $('#as_name').val(assignment_title);
+                            $('input:checkbox[id=' + question_id + ']').prop("checked", true);
                         }
-                        jQuery(function ($) {
-                            /* Checkbox  */
-                            var checkBox = $('.ctm-check');
-                            var addClassCheckBox = function ($input) {
-                                if ($input.prop('checked')) {
-                                    $input.parent().addClass('checked');
-                                } else {
-                                    $input.parent().removeClass('checked');
-                                }
-                            };
-                            checkBox.on('change', 'input', function () {
-                                addClassCheckBox($(this));
-                            })
-                        });
                     }
-                });
+                    jQuery(function ($) {
+                        /* Checkbox  */
+                        var checkBox = $('.ctm-check');
+                        var addClassCheckBox = function ($input) {
+                            if ($input.prop('checked')) {
+                                $input.parent().addClass('checked');
+                            } else {
+                                $input.parent().removeClass('checked');
+                            }
+                        };
+                        checkBox.on('change', 'input', function () {
+                            addClassCheckBox($(this));
+                        })
+                    });
+                }
+            })
+        })
+    });
+    $(document).ready(function () {
+        $('#input_text').keyup(function () {
+            if ($(this).val().length > $(this).attr('maxlength')) {
+                alert('입력 제한 길이를 초과하였습니다.');
+                $(this).val($(this).val().substr(0, $(this).attr('maxlength')));
+            }
+        });
+    });
+    $(document).ready(function () {
+        $('#code_num').keyup(function () {
+            if ($(this).val().length > $(this).attr('maxlength')) {
+                alert('최대 8자리 입력을 초과하였습니다.');
+                $(this).val($(this).val().substr(0, $(this).attr('maxlength')));
+            }
+        });
+    });
+    $(document).ready(function () {
+        $('#make-submit').click(function () {
+            var code_num = $('#code_num').val();
+            var as_name = $('#as_name').val();
+            var type = $('#evaluation_type option:selected').val();
+            var check_num = $('input:checked').length;
+            var st_date = $('#start-date').val();
+            var en_date = $('#end-date').val();
+            var result = confirm("코드 : " + code_num + "\n시험지 제목 : " + as_name + "\n타입 : " + type + "\n문항 수 : " + check_num + "\n시작날짜 : " + st_date + "\n종료날짜 : " + en_date + "\n\n입력한 정보로 생성하겠습니까?");
+            if (result) {
+                alert('문항 선택이 완료되었습니다.');
+            }
+        });
+    });
+    $(document).ready(function () {
+        $('#code_generate').click(function () {
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+            for (var i = 0; i < 8; i++)
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+            $.ajax({
+                url: '/teacher/code_generation/',
+                data: {text: text},
+                success: function (data) {
+                    $('#code_num').val(data.generation_code);
+                }
             });
         });
-        $(document).ready(function () {
-            $('#category_option').change(function () {
-                var option = $("#category_option option:selected").val();
-                $.ajax({
-                    url: '/teacher/change_category/',
-                    data: {option: option},
-                    success: function (data) {
-                        var option_data = data.option_data;
-                        var num = option_data.length;
+    });
+    $(document).ready(function () {
+        $('#search').click(function () {
+            var user_input = $('#user_input').val();
+            $.ajax({
+                url: '/teacher/question_search/',
+                data: {user_input: user_input},
+                success: function (data) {
+                    var search_data = data.search_data;
+                    var num = search_data.length;
+                    if (num == 0) {
+                        alert('검색 결과가 존재하지 않습니다.');
+                    } else {
                         $("div").remove("#question_list");
                         $("#category_option").after('<div id="question_list" class="row qstlst-margin">' + '</div>');
                         for (var i = 0; i < num; i++) {
@@ -216,102 +151,101 @@
                                 '<div class="card-body">' +
                                 '<img class="img-fluid rounded mb-4 mb-lg-0 question-img" src="' +
                                 '/static/' +
-                                option_data[i].question_image +
+                                search_data[i].question_image +
                                 '">' +
                                 '</div>' +
                                 '<span class="card-footer ctm-check">' +
                                 '<input type="checkbox" id="' +
-                                option_data[i].question_id +
+                                search_data[i].question_id +
                                 '" name="question" value="' +
-                                option_data[i].question_id +
+                                search_data[i].question_id +
                                 '">' +
                                 '<label for="' +
-                                option_data[i].question_id +
+                                search_data[i].question_id +
                                 '"><i></i>' +
-                                option_data[i].question_name +
+                                search_data[i].question_name +
                                 '</label>' +
                                 '</span>' +
                                 '</div>' +
                                 '</div>'
                             )
-
                         }
-                        jQuery(function ($) {
-                            /* Checkbox  */
-                            var checkBox = $('.ctm-check');
-                            var addClassCheckBox = function ($input) {
-                                if ($input.prop('checked')) {
-                                    $input.parent().addClass('checked');
-                                } else {
-                                    $input.parent().removeClass('checked');
-                                }
-                            };
-                            checkBox.on('change', 'input', function () {
-                                addClassCheckBox($(this));
-                            })
-                        });
                     }
-                })
-            })
+                    jQuery(function ($) {
+                        /* Checkbox  */
+                        var checkBox = $('.ctm-check');
+                        var addClassCheckBox = function ($input) {
+                            if ($input.prop('checked')) {
+                                $input.parent().addClass('checked');
+                            } else {
+                                $input.parent().removeClass('checked');
+                            }
+                        };
+                        checkBox.on('change', 'input', function () {
+                            addClassCheckBox($(this));
+                        })
+                    });
+                }
+            });
         });
-    </script>
-</head>
+    });
+    $(document).ready(function () {
+        $('#category_option').change(function () {
+            var option = $("#category_option option:selected").val();
+            $.ajax({
+                url: '/teacher/change_category/',
+                data: {option: option},
+                success: function (data) {
+                    var option_data = data.option_data;
+                    var num = option_data.length;
+                    $("div").remove("#question_list");
+                    $("#category_option").after('<div id="question_list" class="row qstlst-margin">' + '</div>');
+                    for (var i = 0; i < num; i++) {
+                        $("#question_list").append(
+                            '<div class="col-md-3 mb-5">' +
+                            '<div class="card h-100" align="center">' +
+                            '<div class="card-body">' +
+                            '<img class="img-fluid rounded mb-4 mb-lg-0 question-img" src="' +
+                            '/static/' +
+                            option_data[i].question_image +
+                            '">' +
+                            '</div>' +
+                            '<span class="card-footer ctm-check">' +
+                            '<input type="checkbox" id="' +
+                            option_data[i].question_id +
+                            '" name="question" value="' +
+                            option_data[i].question_id +
+                            '">' +
+                            '<label for="' +
+                            option_data[i].question_id +
+                            '"><i></i>' +
+                            option_data[i].question_name +
+                            '</label>' +
+                            '</span>' +
+                            '</div>' +
+                            '</div>'
+                        )
 
-<body>
-
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="{% url 'teacher' %}">WA3I</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto" id="menubar">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'teacher' %}">홈
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'question_selection' %}">문항선택</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'view_result' %}">결과보기</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'make_question' %}">문항생성</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'bigram_tree' %}">Bigram Tree</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'topic_analysis' %}">주제분석</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'response_analysis' %}">응답분석</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'qr_code' %}">QR코드</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'teacher_notice' %}">게시판</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown" id="login-menu">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="user-name"><i
-                            class="fa fa-user fa-fw"></i> User </a>
-                    <ul>
-                        <li><a class="nav-link" href="#">로그인</a></li>
-                        <li><a class="nav-link" href="#">회원가입</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+                    }
+                    jQuery(function ($) {
+                        /* Checkbox  */
+                        var checkBox = $('.ctm-check');
+                        var addClassCheckBox = function ($input) {
+                            if ($input.prop('checked')) {
+                                $input.parent().addClass('checked');
+                            } else {
+                                $input.parent().removeClass('checked');
+                            }
+                        };
+                        checkBox.on('change', 'input', function () {
+                            addClassCheckBox($(this));
+                        })
+                    });
+                }
+            })
+        })
+    });
+</script>
 
 <!-- Page Content -->
 <div class="container">
@@ -413,21 +347,9 @@
         </div>
     </form>
 </div>
-<img class="img-fluid rounded mb-4 mb-lg-0 cooper-img" src="{% static 'teacher/images/cooperation.png' %}">
-<!-- /.container -->
-
-<!-- Footer -->
-<footer class="py-5 bg-dark">
-    <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
-    </div>
-    <!-- /.container -->
-</footer>
 
 <!-- Bootstrap core JavaScript -->
 <script src="{% static 'mainpage/vendor/jquery/jquery.min.js' %}"></script>
 <script src="{% static 'mainpage/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
-</body>
-
-</html>
+{% endblock %}
