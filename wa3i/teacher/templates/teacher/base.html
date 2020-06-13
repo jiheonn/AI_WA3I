@@ -1,0 +1,89 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>WA3i</title>
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'teacher' %}">WA3I</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto" id="menubar">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'teacher' %}">홈
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'question_selection' %}">문항선택</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'view_result' %}">결과보기</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'make_question' %}">문항생성</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'bigram_tree' %}">Bigram Tree</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'topic_analysis' %}">주제분석</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'response_analysis' %}">응답분석</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'qr_code' %}">QR코드</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'teacher_notice' %}">게시판</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown" id="login-menu">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="user-name"><i
+                            class="fa fa-user fa-fw"></i> User </a>
+                    <ul>
+                        <li><a class="nav-link" href="#">로그인</a></li>
+                        <li><a class="nav-link" href="#">회원가입</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+{% block content %}
+
+{% endblock %}
+
+<img class="img-fluid rounded mb-4 mb-lg-0 cooper-img" src="{% static 'teacher/images/cooperation.png' %}">
+<!-- Footer -->
+
+<footer class="py-5 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; WA3I 2020</p>
+    </div>
+    <!-- /.container -->
+</footer>
+
+</body>
+
+</html>
