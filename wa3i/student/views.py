@@ -3,16 +3,13 @@ from builtins import dict
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 import q as q
 from django.db.models import Q
-from django.http import JsonResponse
+import datetime
 
 from mainpage.models import Question, SelfSolveData, AssignmentQuestionRel, Keyword, Solve, Assignment, MakeQuestion, \
-    Category
-
-from django.contrib.auth.hashers import check_password
-from django.urls import reverse
+    Category, StudySolveData
 
 
 def index(request):
@@ -30,6 +27,67 @@ def AI(request):
         'category': category
     }
     return render(request, 'student/AI.html', context)
+
+
+def AIques(request):
+    question_id = int(request.GET['question_id'])
+    data = Question.objects.filter(question_id=question_id)[0]
+    context = {
+        'data': data
+    }
+    return render(request, 'student/AIques.html', context)
+
+
+def AIdiag(request):
+    question_id = request.GET['question_id']
+    ques_ans = request.GET['ques_ans']
+
+    now = datetime.datetime.now()
+    now_date = now.strftime('%Y-%m-%d')
+
+    try:
+        school = "/static/student/school_gender_img/" + request.GET['category_school'] + ".png"
+        gender = "/static/student/school_gender_img/" + request.GET['category_gender'] + ".png"
+    except:
+        school = ""
+        gender = ""
+
+    key = AssignmentQuestionRel.objects.select_related('question').filter(question__question_id=question_id)
+    data = key[0]
+
+    # solve테이블과 question테이블 조인
+    as_qurel_id = key.values('as_qurel_id')[0]['as_qurel_id']
+    da = Solve.objects.prefetch_related('assignment_question_rel').filter(as_qurel_id=as_qurel_id)
+    # print(da.query)
+
+    context = {
+        'data': data,
+        'ques_ans': ques_ans,
+        'school': school,
+        'gender': gender,
+    }
+    # return render(request, 'student/AIdiag.html', context)
+
+    # 나의 답 DB에 저장
+    # ssd = StudySolveData.objects.select_related('question').filter(question__question_id=question_id)
+    try:
+        study_solve_data = StudySolveData(
+                           question_id=question_id,
+                           school=request.GET['category_school'],
+                           gender=request.GET['category_gender'],
+                           response=ques_ans,
+                           score=0,
+                           submit_date=now_date
+                                          )
+        print(study_solve_data)
+        study_solve_data.save()
+
+        # return HttpResponseRedirect(request.GET['path'])
+
+    except:
+        study_solve_data = None
+
+    return render(request, 'student/AIdiag.html', context)
 
 
 # def Studyques(request):
@@ -84,9 +142,7 @@ def Studyques(request):
 
         # 바꾼 코드
         question_info = request.GET['question_id']
-        print(question_info)
         question_id = int(question_info[0])
-        print(type(question_id))
         assignment_id = question_info[1]
 
         data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
@@ -205,16 +261,6 @@ def Selfgrade(request):
     return render(request, 'student/Selfgrade.html', context)
 
 
-def AIques(request):
-    question_id = int(request.GET['question_id'])
-    data = Question.objects.filter(question_id=question_id)[0]
-
-    context = {
-        'data': data
-    }
-    return render(request, 'student/AIques.html', context)
-
-
 def Homeworkques(request):
     data = Question.objects.first()
     context = {
@@ -234,33 +280,6 @@ def Homeworkdiag(request):
         'data': data
     }
     return render(request, 'student/Homeworkdiag.html', context)
-
-
-def AIdiag(request):
-    question_id = request.GET['question']
-    ques_ans = request.GET['ques_ans']
-    try:
-        school = "/static/student/school_gender_img/" + request.GET['category_school'] + ".png"
-        gender = "/static/student/school_gender_img/" + request.GET['category_gender'] + ".png"
-    except:
-        school = ""
-        gender = ""
-
-    key = AssignmentQuestionRel.objects.select_related('question').filter(question__question_id=question_id)
-    data = key[0]
-
-    # solve테이블과 question테이블 조인
-    d = key.values('as_qurel_id')[0]['as_qurel_id']
-    da = Solve.objects.prefetch_related('assignment_question_rel').filter(as_qurel_id=d)
-    print(da.query)
-
-    context = {
-        'data': data,
-        'ques_ans': ques_ans,
-        'school': school,
-        'gender': gender,
-    }
-    return render(request, 'student/AIdiag.html', context)
 
 
 def Homeworkselect(request):
