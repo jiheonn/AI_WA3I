@@ -199,12 +199,6 @@ def view_result_detail(request):
     return render(request, 'teacher/view_result_detail.html', context)
 
 
-def ex_response_analysis(request):
-    context = {
-    }
-    return render(request, 'teacher/ex_response_analysis.html', context)
-
-
 def change_qr_code(request):
     question_name = request.GET['question_name']
     qst_data = Question.objects.all().filter(question_name=question_name)

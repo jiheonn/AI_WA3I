@@ -12,6 +12,8 @@
 
     <title>WA3i</title>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
 </head>
 
 <body>
@@ -26,7 +28,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto" id="menubar">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'teacher' %}">홈
                         <span class="sr-only">(current)</span>
                     </a>
@@ -34,7 +36,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'question_selection' %}">문항선택</a>
                 </li>
-                <li class="nav-item">
+                <li id="view_result" class="nav-item">
                     <a class="nav-link" href="{% url 'view_result' %}">결과보기</a>
                 </li>
                 <li class="nav-item">
@@ -83,6 +85,8 @@
     </div>
     <!-- /.container -->
 </footer>
+
+<script src="{% static 'teacher/js/teacher.js' %}"></script>
 
 </body>
 

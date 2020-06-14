@@ -16,35 +16,7 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
       integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-
 <link href="{% static 'teacher/css/teacher.css' %}" rel="stylesheet">
-
-<script>
-    $(document).ready(function () {
-        $('.qr-button').on('click', (e) => {
-            var question_name = e.target.value;
-            alert(question_name);
-            $.ajax({
-                url: '/teacher/change_qr_code/',
-                data: {question_name: question_name},
-                success: function (data) {
-                    var question_data = data.question_data;
-                    var num = question_data.length;
-                    $('#QR_code_img').remove();
-                    for (var i = 0; i < num; i++) {
-                        $("#img_space").append(
-                            '<img id="QR_code_img" src="' +
-                            '/static/'
-                            + question_data[i].QR_code +
-                            '">'
-                        );
-                    }
-                }
-            });
-        });
-    });
-</script>
 
 <!-- Page Content -->
 <div class="container">
