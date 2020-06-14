@@ -15,24 +15,13 @@
 
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
       integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
 <link href="{% static 'teacher/css/teacher.css' %}" rel="stylesheet">
 
 <script>
-    $(document).ready(function () {
-        var abc = {};
-        abc['aaa'] = 'bbb';
-        $("#file_download").on("click", function (e) {
-            $("a#download").attr({
-                "download": "download.json",
-                "href": "data:application/json;charset=utf8;base64," + window.btoa(JSON.stringify(abc))
-            }).get(0).click();
-        });
-    });
+    $('#view_result').addClass('active');
 </script>
 
 <!-- Page Content -->
