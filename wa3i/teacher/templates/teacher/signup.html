@@ -1,0 +1,49 @@
+{% extends 'teacher/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- Bootstrap core CSS -->
+<link href="{% static 'mainpage/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="{% static 'mainpage/css/small-business.css' %}" rel="stylesheet">
+<link href="{% static 'mainpage/css/speech-bubble.css' %}" rel="stylesheet">
+<link href="{% static 'mainpage/css/basic.css' %}" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="{% static 'teacher/css/main.css' %}">
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+      integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+<link href="{% static 'teacher/css/teacher.css' %}" rel="stylesheet">
+
+<div class="container">
+    <h2>회원가입</h2><br>
+
+    <form action="{% url 'signup' %}" method="POST">
+        {% csrf_token %}
+        <p>아이디</p>
+        <input name="username" type="text" style="border-style: solid; border-width: 1px; border-color: gray;">
+        <p>비밀번호</p>
+        <input name="password" type="password" style="border-style: solid; border-width: 1px; border-color: gray;">
+        <p>성</p>
+        <input name="first_name" type="text" style="border-style: solid; border-width: 1px; border-color: gray;">
+        <p>이름</p>
+        <input name="last_name" type="text" style="border-style: solid; border-width: 1px; border-color: gray;">
+        <p>이메일</p>
+        <input name="email" type="text" style="border-style: solid; border-width: 1px; border-color: gray;">
+        <p>교사번호</p>
+        <input name="teacher_id" type="text" style="border-style: solid; border-width: 1px; border-color: gray;"><br><br>
+        <input type="submit" class="btn btn-primary" value="sign up">
+    </form>
+</div>
+
+
+<!-- Bootstrap core JavaScript -->
+<script src="{% static 'mainpage/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'mainpage/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+{% endblock %}

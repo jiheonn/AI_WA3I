@@ -1,6 +1,10 @@
 from django.contrib import admin
 from mainpage.models import *
+from .models import User
 from rangefilter.filter import DateRangeFilter, DateTimeRangeFilter
+
+
+admin.site.register(User)
 
 
 class AssignmentQuestionRelInline(admin.TabularInline):

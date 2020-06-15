@@ -1,5 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
 from mainpage.models import *
+from .models import User
 from django.http import JsonResponse
 from django.db.models import Q
 import datetime
@@ -325,3 +327,41 @@ def code_generation(request):
         'generation_code': generation_code
     }
     return JsonResponse(context)
+
+
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            print("인증성공")
+            login(request, user)
+        else:
+            print("인증실패")
+
+    return render(request, "teacher/login.html")
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("login")
+
+
+def signup_view(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        email = request.POST['email']
+        teacher_id = request.POST['teacher_id']
+
+        user = User.objects.create_user(username, email, password)
+        user.last_name = last_name
+        user.first_name = first_name
+        user.teacher_id = teacher_id
+        user.save()
+        return redirect("login")
+
+    return render(request, "teacher/signup.html")
