@@ -277,23 +277,25 @@ def Selfgrade(request):
 
     data = Mark.objects.select_related('make_question').filter(make_question_id=make_question_id)
 
+
     context = {
         'data': data
     }
     # return render(request, 'student/Selfgrade.html', context)
 
     # 채점결과 DB에 저장
-    try:
-        score_data = SelfSolveData(
-            make_question_id=make_question_id
-        )
-        print(score_data)
-        score_data.save()
-
-        # return HttpResponseRedirect(request.GET['path'])
-
-    except:
-        score_data = None
+    # try:
+    #     score_data = SelfSolveData(
+    #         self_id=request.GET['self_id'],
+    #         score=score
+    #     )
+    #     print(score_data)
+    #     score_data.save()
+    #
+    #     # return HttpResponseRedirect(request.GET['path'])
+    #
+    # except:
+    #     score_data = None
 
     return render(request, 'student/Selfgrade.html', context)
 
