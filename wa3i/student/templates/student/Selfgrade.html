@@ -53,12 +53,10 @@
     </div>
     <!-- /.row -->
 
-
     <!-- Content Row -->
     <div class="card text-white bg-secondary my-5 py-4">
         <div class="card-body">
             <h5 class="text-white m-0 text-center">점수 계산하기</h5>
-
         </div>
     </div>
 
@@ -71,21 +69,15 @@
               <th>예</th>
               <th>아니오</th>
             </tr>
+
+            {% for d in data %}
             <tr>
-              <td>햇빛을 설명에 적절히 넣었나요?</td>
+              <td>{{d.mark_text}}</td>
               <td><input type="radio" name="row-1" data-col="1"></td>
               <td><input type="radio" name="row-1" data-col="2"></td>
             </tr>
-            <tr>
-              <td>물을 설명에 적절히 넣었나요?</td>
-              <td><input type="radio" name="row-2" data-col="1"></td>
-              <td><input type="radio" name="row-2" data-col="2"></td>
-            </tr>
-            <tr>
-              <td>이산화탄소를 설명에 적절히 넣었나요?</td>
-              <td><input type="radio" name="row-3" data-col="1"></td>
-              <td><input type="radio" name="row-3" data-col="2"></td>
-            </tr>
+            {% endfor %}
+
         </table>
     </div>
 
@@ -101,6 +93,7 @@
         </div>
 
     </div>
+    <!-- /.row -->
 
 </div>
 <!-- /.container -->

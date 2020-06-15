@@ -43,42 +43,42 @@
     });
 
 <!--검색카테고리-->
-    $(document).ready(function () {
-    $('#category_option2').change(function () {
-        var option = $("#category_option2 option:selected").val();
-        $.ajax({
-            url: '/student/change_category_self/',
-            data: {option: option},
-            success: function (data) {
-                var option_data = data.option_data;
-                var num = option_data.length;
-                $("div").remove("#question_list");
-                $("#whole_card").after('<div id="question_list" class="row">' + '</div>');
-                    for (var i = 0; i < num; i++) {
-                        $("#question_list").append(
-                            '<div class="col-md-3 mb-5">' +
-                            '<div class="card h-100" align="center">' +
-                            '<div class="card-body">' +
-                            '<img class="img-fluid rounded mb-4 mb-lg-0" src="' +
-                            '/static/' +
-                            option_data[i].question_image +
-                            '" style="width:auto; height:100%;">' +
-                            '</div>' +
-                            '<span class="card-footer">' +
-                            '<button type="submit" class="w3-btn w3-round w3-dark" name="make_question_id" value="' +
-                            option_data[i].make_question_id  +
-                            '">' +
-                            option_data[i].question_name +
-                            '</button>' +
-                            '</span>' +
-                            '</div>' +
-                            '</div>'
-                        )
-                    }
-                }
-            });
-        });
-    });
+    // $(document).ready(function () {
+    // $('#category_option2').change(function () {
+    //     var option = $("#category_option2 option:selected").val();
+    //     $.ajax({
+    //         url: '/student/change_category_self/',
+    //         data: {option: option},
+    //         success: function (data) {
+    //             var option_data = data.option_data;
+    //             var num = option_data.length;
+    //             $("div").remove("#question_list");
+    //             $("#whole_card").after('<div id="question_list" class="row">' + '</div>');
+    //                 for (var i = 0; i < num; i++) {
+    //                     $("#question_list").append(
+    //                         '<div class="col-md-3 mb-5">' +
+    //                         '<div class="card h-100" align="center">' +
+    //                         '<div class="card-body">' +
+    //                         '<img class="img-fluid rounded mb-4 mb-lg-0" src="' +
+    //                         '/static/' +
+    //                         option_data[i].question_image +
+    //                         '" style="width:auto; height:100%;">' +
+    //                         '</div>' +
+    //                         '<span class="card-footer">' +
+    //                         '<button type="submit" class="w3-btn w3-round w3-dark" name="make_question_id" value="' +
+    //                         option_data[i].make_question_id  +
+    //                         '">' +
+    //                         option_data[i].question_name +
+    //                         '</button>' +
+    //                         '</span>' +
+    //                         '</div>' +
+    //                         '</div>'
+    //                     )
+    //                 }
+    //             }
+    //         });
+    //     });
+    // });
 </script>
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -131,7 +131,7 @@
         </div>
         <!-- /.col-md-4 -->
 
-        <div class="col-6" style="position: relative; left: 230px; top: 60px;">
+        <div class="col-4" style="position: relative; left: 230px; top: 60px;">
             <div class="card-body row no-gutters">
                 <div class="col">
                     <input id="name_input" class="form-control" placeholder="문항명을 입력하세요.">
@@ -139,15 +139,16 @@
                 <div class="col-auto">
                     <button id="search_name" class="w3-button w3-round w3-gray">검색</button>
                 </div>
+<!--카테고리-->
+<!--                <div id="category" class="col" style="left:10px">-->
+<!--                    <select id="category_option2" name="category">-->
+<!--                        <option value="select" selected="selected">카테고리</option>-->
+<!--                        {% for data in category %}-->
+<!--                        <option value="{{ data.category_name }}">{{ data.category_name }}</option>-->
+<!--                        {% endfor %}-->
+<!--                    </select>-->
+<!--                </div>-->
 
-                <div id="category" class="col" style="left:10px">
-                    <select id="category_option2" name="category">
-                        <option value="select" selected="selected">카테고리</option>
-                        {% for data in category %}
-                        <option value="{{ data.category_name }}">{{ data.category_name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
             </div>
         </div>
 
