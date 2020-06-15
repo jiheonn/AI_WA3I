@@ -9,7 +9,7 @@ from django.db.models import Q
 import datetime
 
 from mainpage.models import Question, SelfSolveData, AssignmentQuestionRel, Keyword, Solve, Assignment, MakeQuestion, \
-    Category, StudySolveData
+    Category, StudySolveData, Mark
 
 
 def index(request):
@@ -220,10 +220,10 @@ def Homework(request):
 
 def Self(request):
     qs = MakeQuestion.objects.all()
-    category = Category.objects.all()
+    # category = Category.objects.all()
     context = {
         'qs': qs,
-        'category': category
+        # 'category': category
     }
     return render(request, 'student/Self.html', context)
 
@@ -239,25 +239,62 @@ def Selfques(request):
 
 
 def Selfdiag(request):
-    question_id = request.GET['question']
+    make_question_id = request.GET['question']
     ques_ans = request.GET['ques_ans']
 
-    # img = MakeQuestion.objects.filter(make_question_id=question_id).get('image')
-    # print(img.values())
+    now = datetime.datetime.now()
+    now_date = now.strftime('%Y-%m-%d')
 
-    data = SelfSolveData.objects.select_related('make_question').filter(make_question_id=question_id)[0]
-    # print(data.values())
+    key = SelfSolveData.objects.select_related('make_question').filter(make_question_id=make_question_id)
+    data = key[0]
+
     context = {
         'data': data,
-        'ques_ans': ques_ans,
-        # 'img' : img
+        'ques_ans': ques_ans
     }
+    # return render(request, 'student/Selfdiag.html', context)
+
+    # 나의 답 DB에 저장
+    try:
+        self_solve_data = SelfSolveData(
+            make_question_id=make_question_id,
+            response=ques_ans,
+            score=0,
+            submit_date=now_date
+        )
+        self_solve_data.save()
+
+        # return HttpResponseRedirect(request.GET['path'])
+
+    except:
+        self_solve_data = None
+
     return render(request, 'student/Selfdiag.html', context)
 
 
 def Selfgrade(request):
+    make_question_id = request.GET['question_id']
+
+    data = Mark.objects.select_related('make_question').filter(make_question_id=make_question_id)
+
     context = {
+        'data': data
     }
+    # return render(request, 'student/Selfgrade.html', context)
+
+    # 채점결과 DB에 저장
+    try:
+        score_data = SelfSolveData(
+            make_question_id=make_question_id
+        )
+        print(score_data)
+        score_data.save()
+
+        # return HttpResponseRedirect(request.GET['path'])
+
+    except:
+        score_data = None
+
     return render(request, 'student/Selfgrade.html', context)
 
 
