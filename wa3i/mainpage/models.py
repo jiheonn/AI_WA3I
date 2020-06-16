@@ -29,7 +29,7 @@ class MakeQuestion(models.Model):
     question_name = models.CharField(max_length=200)
     discription = models.TextField()
     answer = models.TextField()
-    image = models.CharField(max_length=200)
+    image = models.ImageField(upload_to="makequestion/image")
     hint = models.TextField()
     made_date = models.DateField()
     upload_check = models.IntegerField(blank=True, null=True)
