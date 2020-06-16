@@ -22,7 +22,8 @@
 
 <!-- Page Content -->
 <div class="container">
-    <form action="{% url 'make_question' %}" method="GET">
+    <form action="{% url 'make_question' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
         <input type="hidden" name="path" value="{{ request.path }}">
         <!-- Heading Row -->
         <div class="row justify-content-center my-5">
