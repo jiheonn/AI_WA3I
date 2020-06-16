@@ -81,22 +81,25 @@ def make_question(request):
     }
 
     try:
+        print(request.POST)
         make_question_data = MakeQuestion(teacher=Teacher.objects.get(teacher_id=2),
-                                          question_name=request.GET['question_name'],
-                                          discription=request.GET['discription'],
-                                          answer=request.GET['answer'],
-                                          hint=request.GET['hint'],
-                                          made_date=now_date)
+                                          question_name=request.POST['question_name'],
+                                          discription=request.POST['discription'],
+                                          answer=request.POST['answer'],
+                                          image=request.FILES['image'],
+                                          hint=request.POST['hint'],
+                                          made_date=now_date,
+                                          upload_check=0)
         make_question_data.save()
 
-        mark_list = request.GET.getlist('mark_text')
-        temp = MakeQuestion.objects.get(hint=request.GET['hint'], made_date=now_date)
+        mark_list = request.POST.getlist('mark_text')
+        temp = MakeQuestion.objects.get(hint=request.POST['hint'], made_date=now_date)
         for i in mark_list:
             mark_data = Mark(mark_text=i,
                              make_question_id=temp.make_question_id)
             mark_data.save()
 
-        return HttpResponseRedirect(request.GET['path'])
+        return HttpResponseRedirect(request.POST['path'])
 
     except:
         make_question_data = None
