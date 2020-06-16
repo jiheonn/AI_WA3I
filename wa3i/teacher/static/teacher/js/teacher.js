@@ -295,14 +295,3 @@ $(document).ready(function () {
 $(document).ready(function () {
     $('#asi_info').DataTable();
 });
-
-$(document).ready(function () {
-    var abc = {};
-    abc['aaa'] = 'bbb';
-    $("#file_download").on("click", function (e) {
-        $("a#download").attr({
-            "download": "download.json",
-            "href": "data:application/json;charset=utf8;base64," + window.btoa(JSON.stringify(abc))
-        }).get(0).click();
-    });
-});

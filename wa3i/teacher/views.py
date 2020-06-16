@@ -4,6 +4,11 @@ from mainpage.models import *
 from .models import User
 from django.http import JsonResponse
 from django.db.models import Q
+
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from django.views.generic import View
+
 import datetime
 import string
 import random
@@ -81,7 +86,6 @@ def make_question(request):
     }
 
     try:
-        print(request.POST)
         make_question_data = MakeQuestion(teacher=Teacher.objects.get(teacher_id=2),
                                           question_name=request.POST['question_name'],
                                           discription=request.POST['discription'],
