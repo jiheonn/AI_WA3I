@@ -172,3 +172,5 @@ dmypy.json
 #
 # information json
 wa3i/information.json
+
+!media/.keep
