@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from mainpage.models import *
 from .models import User
 from django.http import JsonResponse
-from django.db.models import Q
+from django.db.models import Q, Sum
 
 import datetime
 import string
@@ -51,7 +51,6 @@ def question_selection(request):
         assignment_data.save()
 
         for i in select_code_list:
-
             asi_qst_rel_data = AssignmentQuestionRel(
                 question_id=int(i),
                 assignment_id=request.GET['code_num']
@@ -368,3 +367,28 @@ def signup_view(request):
         return redirect("login")
 
     return render(request, "teacher/signup.html")
+
+
+def chart(request):
+    assignment_id = request.GET['assignment_id']
+    print(assignment_id)
+
+    solve_data = Solve.objects.select_related('as_qurel').filter(
+        as_qurel_id__assignment_id=assignment_id)
+
+    labels = []
+    data = []
+
+    queryset = solve_data.values('student_name').annotate(student_score=Sum('score'))
+    for entry in queryset:
+        labels.append(entry['student_name'])
+        data.append(int(entry['student_score']))
+
+    context = {
+        'labels': labels,
+        'data': data,
+    }
+
+    return render(request, 'teacher/chart.html', context)
+
+    # return render(request, 'teacher/chart.html')
