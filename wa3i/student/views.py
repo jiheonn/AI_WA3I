@@ -117,6 +117,50 @@ def AIdiag(request):
 #     }
 #     return render(request, 'student/Studyques.html', context)
 
+# 2차 수정
+# def Studyques(request):
+#     try:
+#         # study페이지에서 숙제 코드 가져오기
+#         assignment_id = request.GET['code_num']
+#         data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
+#         f = data.first()
+#
+#         # 코드가 db에 없으면 원상복귀
+#         if f == None:
+#             context = {
+#             }
+#             return render(request, 'student/Study.html', context)
+#
+#         context = {
+#             'data': data,
+#             'f': f
+#         }
+#         return render(request, 'student/Studyques.html', context)
+#
+#     except:
+#         try:
+#             # id로 문항 불러오기
+#             question_info = request.GET['question_id'].split(',')
+#             question_id = int(question_info[0])
+#             assignment_id = question_info[1]
+#
+#             data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
+#             f = AssignmentQuestionRel.objects.select_related('question').filter(question__question_id=question_id)[0]
+#
+#             context = {
+#                 'data': data,
+#                 'f': f
+#             }
+#             return render(request, 'student/Studyques.html', context)
+#         except:
+#             context = {
+#             #     'data': data,
+#             #     'f': f
+#             }
+#             return render(request, 'student/Study.html',context)
+#             # return render(request, 'student/Study.html', context)
+#             # return render(request, 'student/check_code_st.html', context)
+
 
 def Study(request):
     context = {
@@ -127,32 +171,46 @@ def Study(request):
 
 def Studyques(request):
     try:
+        # study페이지에서 숙제 코드 가져오기
         assignment_id = request.GET['code_num']
         data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
         f = data.first()
 
+        # 코드가 db에 없으면 원상복귀
+        if f == None:
+            context = {
+            }
+            return render(request, 'student/Study.html', context)
+
+        context = {
+            'data': data,
+            'f': f
+        }
+        return render(request, 'student/Studyques.html', context)
+
     except:
-        # 원래 코드
-        # question_info = request.GET['question_name'].split(',')
-        # question_name = question_info[0]
-        # assignment_id = question_info[1]
-        #
-        # data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
-        # f = AssignmentQuestionRel.objects.select_related('question').filter(question__question_name=question_name)[0]
+        try:
+            # id로 문항 불러오기
+            question_info = request.GET['question_id'].split(',')
+            question_id = int(question_info[0])
+            assignment_id = question_info[1]
 
-        # 바꾼 코드
-        question_info = request.GET['question_id']
-        question_id = int(question_info[0])
-        assignment_id = question_info[1]
+            data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
+            f = AssignmentQuestionRel.objects.select_related('question').filter(question__question_id=question_id)[0]
 
-        data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
-        f = AssignmentQuestionRel.objects.select_related('question').filter(question__question_id=question_id)[0]
-
-    context = {
-        'data': data,
-        'f': f
-    }
-    return render(request, 'student/Studyques.html', context)
+            context = {
+                'data': data,
+                'f': f
+            }
+            return render(request, 'student/Studyques.html', context)
+        except:
+            context = {
+            #     'data': data,
+            #     'f': f
+            }
+            return render(request, 'student/Study.html',context)
+            # return render(request, 'student/Study.html', context)
+            # return render(request, 'student/check_code_st.html', context)
 
 
 def check_code_st(request):
@@ -221,6 +279,10 @@ def Homework(request):
 def Self(request):
     qs = MakeQuestion.objects.all()
     # category = Category.objects.all()
+
+    # media 경로 불러오기
+    # makequestion.photo = request.FILES['image']
+
     context = {
         'qs': qs,
         # 'category': category
@@ -302,6 +364,11 @@ def Selfgrade(request):
 
 def Homeworkques(request):
     data = Question.objects.first()
+
+    # 학습목록 출력 테스트
+    # assignment_id = request.GET['code_num']
+    # data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id).first()
+
     context = {
         'data': data
     }
