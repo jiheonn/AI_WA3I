@@ -49,9 +49,6 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'ques_review' %}">평가연습검토</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{% url 'notice' %}">게시판</a>
                 </li>
 <!--                <li class="nav-item">-->
@@ -90,11 +87,11 @@
                     <th width="110px">등록여부</th>
                 </tr>
                 <tr style="border: 1px solid #d6d6d6;">
-                    <td>{{ makequestion.make_question_id }}</td>
-                    <td>{{ makequestion.question_name }}</td>
-                    <td>{{ makequestion.teacher.teacher_name }}</td>
-                    <td> DB없음 제작필요함 </td>
-                    <td>{% if makequestion.check == 0 %}
+                    <td>{{ question.question_id }}</td>
+                    <td>{{ question.question_name }}</td>
+                    <td>{{ question.teacher.teacher_name }}</td>
+                    <td>{{ question.made_date }}</td>
+                    <td>{% if question.check == 0 %}
                         미등록
                         {% else %}
                         등록
@@ -104,20 +101,25 @@
             <table>
                 <tr style="border: 1px solid #d6d6d6;">
                     <th style="border: 1px solid #d6d6d6; text-align: center; background-color: #343a40; color: white;">문제</th>
-                    <td>{{ makequestion.discription }}</td>
+                    <td>{{ question.discription }}</td>
                 </tr>
                 <tr style="border: 1px solid #d6d6d6;">
                     <th style="border: 1px solid #d6d6d6; width: 50px; text-align: center; background-color: #343a40; color: white;">모범답안</th>
-                    <td>{{ makequestion.answer }}</td>
+                    <td>{{ question.answer }}</td>
                 </tr>
                 <tr style="border: 1px solid #d6d6d6;">
                     <th style="border: 1px solid #d6d6d6; text-align: center; background-color: #343a40; color: white;">채점기준</th>
-                    <td>{{ makequestion.hint }}</td>
+                    <td>{{ question.hint }}</td>
                 </tr>
             </table>
             <div class="button" style="float: right; margin: 20px auto; width: 100px">
-                <button type="submit">수정하기</button>
+                <button onclick="myFunction();" type="submit">등록하기</button>
             </div>
+            <form action="{% url 'write_quiz' %}?question_id={{item.question_id}}" method="GET">
+                <div class="button" style="float: right; margin: 20px auto; width: 100px">
+                    <button type="submit">수정하기</button>
+                </div>
+            </form>
         </div>
     </div>
     <!-- /.row -->
@@ -137,7 +139,15 @@
 <!-- Bootstrap core JavaScript -->
 <script src="{% static 'mainpage/vendor/jquery/jquery.min.js' %}"></script>
 <script src="{% static 'mainpage/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
+<script>
+    function myFunction() {
+        if(confirm("평가연습에 등록하시겠습니까?")) {
+            alert("저장하였습니다.");
+        }else {
+            alert("취소되었습니다.");
+        }
+    }
+</script>
 </body>
 
 </html>

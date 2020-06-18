@@ -3,7 +3,8 @@ from django.shortcuts import render
 # Create your views here.
 from django.http import HttpResponse
 from mainpage.models import *
-
+from django.http import JsonResponse
+from mainpage.models import *
 
 # def index(request):
 #     return HttpResponse("Hello, world. You're at the polls index.")
@@ -34,8 +35,8 @@ def quiz_review(request):
     return render(request, 'sysop/quiz_review.html', context)
 
 def quiz_produce(request):
-    makequestion = MakeQuestion.objects.select_related('teacher')
-    context = {'makequestion':makequestion
+    question = Question.objects.select_related()
+    context = {'question':question
     }
     return render(request, 'sysop/quiz_produce.html', context)
 
@@ -53,9 +54,10 @@ def detailed_review(request):
 
 def detailed_quiz(request):
     question_id = request.GET.get('question_id')
+    question = []
     for i in question_id:
-        makequestion = MakeQuestion.objects.select_related('teacher').filter(make_question_id=i)[0]
-    context = {'makequestion':makequestion
+        question = Question.objects.select_related('category').filter(question_id=i)[0]
+    context = {'question':question
     }
     return render(request, 'sysop/detailed_quiz.html', context)
 

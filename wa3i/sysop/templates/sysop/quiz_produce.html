@@ -60,9 +60,6 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'ques_review' %}">평가연습검토</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{% url 'notice' %}">게시판</a>
                 </li>
 <!--                <li class="nav-item">-->
@@ -97,17 +94,16 @@
                 <tr style="border: 1px solid #d6d6d6; background-color: #343a40; color: white;">
                     <th>문항번호</th>
                     <th>문항명</th>
-                    <th>등록자</th>
                     <th>등록일자</th>
                     <th>등록여부</th>
+                    <th>등록하기</th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for item in makequestion %}
+                {% for item in question %}
                 <tr style="border: 1px solid #d6d6d6;">
-                    <td> {{ item.make_question_id }}</td>
-                    <td> <a href="{% url 'detailed_quiz' %}?question_id={{item.make_question_id}}" style="color: black">{{ item.question_name }}</a></td>
-                    <td> {{ item.teacher.teacher_name }}</td>
+                    <td> {{ item.question_id }}</td>
+                    <td> {{ item.question_name }}</a></td>
                     <td> {{ item.made_date }}</td>
                     <td>{% if item.check == 0 %}
                         미등록
@@ -115,6 +111,14 @@
                         등록
                         {% endif%}
                     </td>
+                    <form action="{% url 'detailed_quiz' %}?question_id={{item.question_id}}" method="GET">
+                        <td>
+                            <button type="submit" class="w3-btn w3-round w3-blue" name="question_id"
+                                    value="{{ item.question_id }}">
+                                등록하기
+                            </button>
+                        </td>
+                    </form>
                 </tr>
                 {% endfor %}
                 </tbody>
@@ -129,14 +133,14 @@
         <!--                <tr style="border: 1px solid #d6d6d6; background-color: #343a40; color: white;">-->
         <!--                    <th width="80px">문항번호</th>-->
         <!--                    <th width="400px">문항명</th>-->
-        <!--                    <th width="100px">등록자</th>-->
         <!--                    <th width="130px">등록일자</th>-->
         <!--                    <th width="80px">등록여부</th>-->
+        <!--                    <th width="80px">등록여부</th>-->
         <!--                </tr>-->
-        <!--                {% for item in makequestion %}-->
+        <!--                {% for item in question %}-->
         <!--                <tr style="border: 1px solid #d6d6d6;">-->
-        <!--                    <td>{{ item.make_question_id }}</td>-->
-        <!--                    <td><a href="{% url 'detailed_quiz' %}" style="color: black">{{ item.question_name }}</a></td>-->
+        <!--                    <td>{{ item.question_id }}</td>-->
+        <!--                    <td>{{ item.question_name }}</a></td>-->
         <!--                    <td>{{ item.teacher.teacher_name }}</td>-->
         <!--                    <td>{{ item.made_date }}</td>-->
         <!--                    <td>{% if item.check == 0 %}-->
