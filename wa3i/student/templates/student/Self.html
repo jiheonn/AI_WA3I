@@ -166,13 +166,14 @@
 
     <!-- Content Row -->
     <form action="{% url 'Selfquestion' %}" method="get">
+        {% csrf_token %}
         <div id="whole_card" class="row my-5">
             <div id="question_list" class="row">
                 {% for data in qs %}
                 <div class="col-md-3 mb-5">
                     <div class="card h-100" align="center">
                         <div class="card-body">
-                            <img class="img-fluid rounded mb-4 mb-lg-0" src="{% static data.image %}"
+                            <img class="img-fluid rounded mb-4 mb-lg-0" src="{{ makequestion.image.url }}"
                             style="width:auto; height:100%;">
                         </div>
                         <span class="card-footer">
