@@ -49,9 +49,6 @@
                     <a class="nav-link" href="{% url 'quiz_produce' %}">문항생성</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'ques_review' %}">평가연습검토</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{% url 'notice' %}">게시판</a>
                 </li>
 <!--                <li class="nav-item">-->
@@ -95,7 +92,7 @@
                     <td>{{ makequestion.make_question_id }}</td>
                     <td>{{ makequestion.question_name }}</td>
                     <td>{{ makequestion.teacher.teacher_name }}</td>
-                    <td> DB없음 제작필요함 </td>
+                    <td> {{ makequestion.made_date }} </td>
                     <td>{% if makequestion.check == 0 %}
                         미등록
                         {% else %}
@@ -118,13 +115,10 @@
                 </tr>
             </table>
             <div class="button" style="float: right; margin: 20px auto; width: 100px">
-                <button type="submit">인쇄하기</button>
-            </div>
-            <div class="button" style="float: right; margin: 20px auto; width: 100px">
-                <button type="submit">다운로드</button>
-            </div>
-            <div class="button" style="float: right; margin: 20px auto; width: 100px">
                 <button type="submit" onclick="myFunction();">등록하기</button>
+            </div>
+            <div class="button" style="float: right; margin: 20px auto; width: 100px">
+                <button type="submit"">수정하기</button>
             </div>
         </div>
     </div>

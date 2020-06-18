@@ -49,9 +49,6 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'ques_review' %}">평가연습검토</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{% url 'notice' %}">게시판</a>
                 </li>
             </ul>
@@ -79,11 +76,15 @@
         <!-- /.col-md-4 -->
         <div style="margin: 50px;">
             <table style="text-align: center;">
-                <tr style="border: 1px solid #d6d6d6; background-color: #343a40; color: white;">
-                    <th width="400px">문항명</th>
-                    <th width="135px">학교분류</th>
-                    <th width="130px">과목</th>                  
-                </tr>
+                <thead>
+                    <tr style="border: 1px solid #d6d6d6; background-color: #343a40; color: white;">
+                        <th width="400px">문항명</th>
+                        <th width="135px">학교분류</th>
+                        <th width="130px">과목</th>                  
+                    </tr>
+                </thead>
+                <tbody>
+                {% for item in category %}
                 <tr style="border: 1px solid #d6d6d6;">
                     <td><input type="text" name="q_name" size="80px"></td>
                     <td>
@@ -97,13 +98,12 @@
                     <td>
                         <select name="evaluation_type">
                             <option value="total" selected="selected">전체</option>
-                            <option value="disapprove">수학</option>
-                            <option value="approve">과학</option>
-                            <option value="approve">영어</option>
-                            <option value="approve">국어</option>
+                            <option value="disapprove">{{ item.category_name }}</option>
                         </select>
                     </td>
                 </tr>
+                {% endfor %}
+            </tbody>
             </table><br>
             <table>
                 <tr style="border: 1px solid #d6d6d6;">
@@ -121,9 +121,6 @@
             </table>
             <div class="button" style="float: right; margin: 20px auto; width: 100px">
                 <button onclick="myFunction();" type="submit">등록하기</button>
-            </div>
-            <div class="button" style="float: right; margin: 20px auto; width: 100px">
-                <button type="submit">수정하기</button>
             </div>
         </div>
     </div>
