@@ -29,7 +29,6 @@ urlpatterns = [
     path('change_category/', views.change_category, name='change_category'),
     path('change_category_self/', views.change_category_self, name='change_category_self'),
     path('check_code/', views.check_code, name='check_code'),
-    path('check_code_st/', views.check_code_st, name='check_code_st'),
     path('check_ID/', views.check_ID, name='check_ID'),
 ]
 
