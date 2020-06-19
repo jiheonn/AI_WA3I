@@ -421,7 +421,7 @@ def search_name(request):
         search_data_dict = dict()
         search_data_dict['make_question_id'] = j.make_question_id
         search_data_dict['question_name'] = j.question_name
-        search_data_dict['question_image'] = j.image
+        search_data_dict['question_image'] = j.image.name
         search_data.append(search_data_dict)
     context = {
         'search_data': search_data
