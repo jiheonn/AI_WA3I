@@ -333,26 +333,32 @@ def Selfdiag(request):
     key = SelfSolveData.objects.select_related('make_question').filter(make_question_id=make_question_id)
     data = key[0]
 
+    mark = Mark.objects.select_related('make_question').filter(make_question_id=make_question_id)
+
+    # score = request.POST.getlist('score')
+    # print(score)
+
     context = {
         'data': data,
-        'ques_ans': ques_ans
+        'ques_ans': ques_ans,
+        'mark': mark
     }
     # return render(request, 'student/Selfdiag.html', context)
 
     # 나의 답 DB에 저장
-    try:
-        self_solve_data = SelfSolveData(
-            make_question_id=make_question_id,
-            response=ques_ans,
-            score=0,
-            submit_date=now_date
-        )
-        self_solve_data.save()
-
-        # return HttpResponseRedirect(request.GET['path'])
-
-    except:
-        self_solve_data = None
+    # try:
+    #     self_solve_data = SelfSolveData(
+    #         make_question_id=make_question_id,
+    #         response=ques_ans,
+    #         score=0,
+    #         submit_date=now_date
+    #     )
+    #     self_solve_data.save()
+    #
+    #     # return HttpResponseRedirect(request.GET['path'])
+    #
+    # except:
+    #     self_solve_data = None
 
     return render(request, 'student/Selfdiag.html', context)
 
@@ -402,7 +408,7 @@ def search(request):
         search_data_dict = dict()
         search_data_dict['question_id'] = i.question_id
         search_data_dict['question_name'] = i.question_name
-        search_data_dict['question_image'] = i.image
+        search_data_dict['question_image'] = i.image.name
         search_data.append(search_data_dict)
     context = {
         'search_data': search_data
@@ -464,7 +470,7 @@ def change_category(request):
         option_data_dict = dict()
         option_data_dict['question_id'] = i.question_id
         option_data_dict['question_name'] = i.question_name
-        option_data_dict['question_image'] = i.image
+        option_data_dict['question_image'] = i.image.name
         option_data.append(option_data_dict)
 
     context = {

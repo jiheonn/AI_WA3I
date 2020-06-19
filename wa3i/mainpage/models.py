@@ -61,10 +61,10 @@ class Question(models.Model):
     question_name = models.CharField(max_length=100)
     discription = models.TextField()
     answer = models.TextField()
-    image = models.CharField(max_length=200)
+    image = models.ImageField(upload_to="question/image")
     hint = models.TextField()
     made_date = models.DateField()
-    qr_code = models.CharField(max_length=100)  # Field name made lowercase.
+    qr_code = models.ImageField(upload_to="qr_code/image")  # Field name made lowercase.
     ques_concept = models.CharField(max_length=255)
 
 
