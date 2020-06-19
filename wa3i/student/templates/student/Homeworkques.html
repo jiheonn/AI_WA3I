@@ -103,7 +103,7 @@
 
             <!-- Title -->
             <form action="{% url 'Homeworkdiagnosis' %}" method="GET">
-                <input type="hidden" name="path" value="{{ student_id }}">
+                <input type="hidden" name="student_id" id ="student_id" value="{{student_id}}">
             <!-- Title -->
                 <h2 class="mt-4"><input type="hidden" class="w3-btn w3-round w3-blue" name="question_id" value="{{f.question.question_id}}"
                                                    id="{{f.question.question_id}}">{{f.question.question_name}}</h2>
