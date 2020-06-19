@@ -2,47 +2,49 @@
 {% load static %}
 {% block content %}
 <script>
-<!--문항명검색-->
+    // <!--문항명검색-->
     $(document).ready(function () {
         $('#search_name').click(function () {
             var name_input = $('#name_input').val();
-             $.ajax({
+            $.ajax({
                 url: '/student/search_name/',
                 data: {name_input: name_input},
                 success: function (data) {
                     var search_data = data.search_data;
                     var num = search_data.length;
-                    if ( num == 0 ) {
+                    if (num == 0) {
                         alert('검색 결과가 존재하지 않습니다.');
                     } else {
                         $("div").remove("#question_list");
                         $("#whole_card").after('<div id="question_list" class="row">' + '</div>');
-                            for (var i = 0; i < num; i++) {
-                                $("#question_list").append(
-                                    '<div class="col-md-3 mb-5">' +
-                                    '<div class="card h-100" align="center">' +
-                                    '<div class="card-body">' +
-                                    '<img class="img-fluid rounded mb-4 mb-lg-0" src="' +
-                                    '/static/' +
-                                    search_data[i].question_image +
-                                    '" style="width:auto; height:100%;">' +
-                                    '</div>' +
-                                    '<span class="card-footer">' +
-                                    '<button type="submit" class="w3-btn w3-round w3-dark" name="make_question_id" value="' +
-                                    search_data[i].make_question_id  +
-                                    '">' +
-                                    search_data[i].question_name +
-                                    '</button>' +
-                                    '</span>' +
-                                    '</div>' +
-                                    '</div>'
-                        )}
-                    }}
-             });
+                        for (var i = 0; i < num; i++) {
+                            $("#question_list").append(
+                                '<div class="col-md-3 mb-5">' +
+                                '<div class="card h-100" align="center">' +
+                                '<div class="card-body">' +
+                                '<img class="img-fluid rounded mb-4 mb-lg-0" src="' +
+                                '/static/' +
+                                search_data[i].question_image +
+                                '" style="width:auto; height:100%;">' +
+                                '</div>' +
+                                '<span class="card-footer">' +
+                                '<button type="submit" class="w3-btn w3-round w3-dark" name="make_question_id" value="' +
+                                search_data[i].make_question_id +
+                                '">' +
+                                search_data[i].question_name +
+                                '</button>' +
+                                '</span>' +
+                                '</div>' +
+                                '</div>'
+                            )
+                        }
+                    }
+                }
+            });
         });
     });
 
-<!--검색카테고리-->
+    <!--검색카테고리-->
     // $(document).ready(function () {
     // $('#category_option2').change(function () {
     //     var option = $("#category_option2 option:selected").val();
@@ -139,15 +141,15 @@
                 <div class="col-auto">
                     <button id="search_name" class="w3-button w3-round w3-gray">검색</button>
                 </div>
-<!--카테고리-->
-<!--                <div id="category" class="col" style="left:10px">-->
-<!--                    <select id="category_option2" name="category">-->
-<!--                        <option value="select" selected="selected">카테고리</option>-->
-<!--                        {% for data in category %}-->
-<!--                        <option value="{{ data.category_name }}">{{ data.category_name }}</option>-->
-<!--                        {% endfor %}-->
-<!--                    </select>-->
-<!--                </div>-->
+                <!--카테고리-->
+                <!--                <div id="category" class="col" style="left:10px">-->
+                <!--                    <select id="category_option2" name="category">-->
+                <!--                        <option value="select" selected="selected">카테고리</option>-->
+                <!--                        {% for data in category %}-->
+                <!--                        <option value="{{ data.category_name }}">{{ data.category_name }}</option>-->
+                <!--                        {% endfor %}-->
+                <!--                    </select>-->
+                <!--                </div>-->
 
             </div>
         </div>
@@ -173,11 +175,14 @@
                 <div class="col-md-3 mb-5">
                     <div class="card h-100" align="center">
                         <div class="card-body">
-                            <img class="img-fluid rounded mb-4 mb-lg-0" src="{{ makequestion.image.url }}"
-                            style="width:auto; height:100%;">
+<!--                            <img class="img-fluid rounded mb-4 mb-lg-0" src="{{ makequestion.image.url }}"-->
+<!--                                 style="width:auto; height:100%;">-->
+                            <img class="img-fluid rounded mb-4 mb-lg-0" src="{{ data.image.url }}"
+                                 style="width:auto; height:100%;">
                         </div>
                         <span class="card-footer">
-                            <button type="submit" class="w3-btn w3-round w3-dark" name="make_question_id" value="{{ data.make_question_id }}">{{ data.question_name }}
+                            <button type="submit" class="w3-btn w3-round w3-dark" name="make_question_id"
+                                    value="{{ data.make_question_id }}">{{ data.question_name }}
                             </button>
                         </span>
                     </div>
