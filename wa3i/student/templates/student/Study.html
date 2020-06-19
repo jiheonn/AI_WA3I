@@ -2,28 +2,6 @@
 {% load static %}
 {% block content %}
 
-<script type="text/javascript" language="javascript">
-
-
-//     function CodeAle() {
-//         var code_num = document.getElementById("code_num").value
-//         var ID_num = document.getElementById("ID_num").value
-//         var AImsg = confirm("입력하신 코드와 아이디가 맞는지 확인해주세요.\n맞다면 <확인>을 눌러주세요.\n\nCODE : "
-//         + code_num + "\nID : "+ ID_num);
-//          if ( AImsg == true) {
-//             // code_filt = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=code_num,assignment__type="학습평가");
-//             // confirm("t");
-// <!--             if ( (code_filt != None) == True) {-->
-// <!--             if(confirm("코드가 올바르지 않습니다.")==true) return false; }-->
-//          }else{
-//              return true;
-//          }
-//     }
-
-
-
-
-</script>
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
@@ -108,7 +86,7 @@
                     var AImsg = confirm("입력하신 코드와 아이디가 맞는지 확인해주세요.\n맞다면 <확인>을 눌러주세요.\n\nCODE : "
                     + code_num + "\nID : "+ ID_num);
                      if ( AImsg == true) {
-                         return checkInfo();
+                         return true;
                      }else{
                          return false;
                      }
@@ -117,33 +95,6 @@
 
 
         </div>
-
-            <script type="text/javascript" language="javascript">
-                 function checkInfo() {
-                     alert("hi");
-                    code_overlap_input = document.querySelector('input[id="code_num"]');
-                    alert("info");
-                    $.ajax({
-                        url: '/student/check_code_st/',
-                        data: {
-                            'code_num': code_overlap_input.value
-                        },
-                        datatype: 'json',
-                        success: function (data) {
-                            console.log(data['overlap']);
-                            if (data['overlap'] == "pass") {
-
-                            } else {
-                                // alert("코드를 다시 확인하세요.");
-                                // return false;
-                                document.location.href='{% url ' +
-                                ''Study'' +
-                                ' %}';
-                            }
-                        }
-                    });
-                    }
-            </script>
     </center>
     <!-- /.row -->
 

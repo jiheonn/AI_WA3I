@@ -85,7 +85,7 @@
         <div class="col-lg-12 w3-display-bottomright">
             <div class="w3-bar w3-light-grey">
                 <button class="w3-bar-item w3-button tablink w3-indigo" onclick="openCity(event,'myans')">나의 답</button>
-                <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'ans')">모범 답안</button>
+                <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'ans')">힌트 보기</button>
             </div>
 
             <div id="myans" class="w3-container w3-border city">
@@ -93,9 +93,7 @@
             </div>
 
             <div id="ans" class="w3-container w3-border city" style="display:none">
-                <p class=" w3-section">{{data.make_question.hint}}<br><br>
-                    선생님의 모범 답안:<br>
-                    {{data.make_question.answer}}
+                <p class=" w3-section">{{data.make_question.hint}}
                 </p>
             </div>
         </div>

@@ -131,7 +131,7 @@ admin.site.register(Question, QuestionAdmin)
 class SolveAdmin(admin.ModelAdmin):
     list_display = [
         'solve_id', 'as_qurel', 'student_id', 'submit_date',
-        'response', 'score', 'student_name'
+        'response', 'score'
     ]
     list_display_links = ['student_id']
 

@@ -58,7 +58,6 @@ def AIdiag(request):
     # solve테이블과 question테이블 조인
     as_qurel_id = key.values('as_qurel_id')[0]['as_qurel_id']
     da = Solve.objects.prefetch_related('assignment_question_rel').filter(as_qurel_id=as_qurel_id)
-    # print(da.query)
 
     context = {
         'data': data,
@@ -90,78 +89,6 @@ def AIdiag(request):
     return render(request, 'student/AIdiag.html', context)
 
 
-# def Studyques(request):
-#     try:
-#         assignment_id = request.GET['code_num']
-#         data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
-#         # f = data.first()
-#
-#         da = Assignment.objects.filter(assignment_id=assignment_id)
-#
-#         if da.values('type')[0]['type'] == "학습평가":
-#             f = data.first()
-#         else:
-#             f = None
-#
-#     except:
-#         question_info = request.GET['question_name'].split(',')
-#         question_name = question_info[0]
-#         assignment_id = question_info[1]
-#
-#         data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
-#         f = AssignmentQuestionRel.objects.select_related('question').filter(question__question_name=question_name)[0]
-#
-#     context = {
-#         'data': data,
-#         'f': f
-#     }
-#     return render(request, 'student/Studyques.html', context)
-
-# 2차 수정
-# def Studyques(request):
-#     try:
-#         # study페이지에서 숙제 코드 가져오기
-#         assignment_id = request.GET['code_num']
-#         data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
-#         f = data.first()
-#
-#         # 코드가 db에 없으면 원상복귀
-#         if f == None:
-#             context = {
-#             }
-#             return render(request, 'student/Study.html', context)
-#
-#         context = {
-#             'data': data,
-#             'f': f
-#         }
-#         return render(request, 'student/Studyques.html', context)
-#
-#     except:
-#         try:
-#             # id로 문항 불러오기
-#             question_info = request.GET['question_id'].split(',')
-#             question_id = int(question_info[0])
-#             assignment_id = question_info[1]
-#
-#             data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
-#             f = AssignmentQuestionRel.objects.select_related('question').filter(question__question_id=question_id)[0]
-#
-#             context = {
-#                 'data': data,
-#                 'f': f
-#             }
-#             return render(request, 'student/Studyques.html', context)
-#         except:
-#             context = {
-#             #     'data': data,
-#             #     'f': f
-#             }
-#             return render(request, 'student/Study.html',context)
-#             # return render(request, 'student/Study.html', context)
-#             # return render(request, 'student/check_code_st.html', context)
-
-
 def Study(request):
     context = {
 
@@ -173,7 +100,8 @@ def Studyques(request):
     try:
         # study페이지에서 숙제 코드 가져오기
         assignment_id = request.GET['code_num']
-        data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
+        data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id).filter(assignment__type="학습평가")
+        print(data.values)
         f = data.first()
 
         # 코드가 db에 없으면 원상복귀
@@ -181,6 +109,7 @@ def Studyques(request):
             context = {
             }
             return render(request, 'student/Study.html', context)
+
 
         context = {
             'data': data,
@@ -205,75 +134,171 @@ def Studyques(request):
             return render(request, 'student/Studyques.html', context)
         except:
             context = {
-            #     'data': data,
-            #     'f': f
+                'data': data,
+                'f': f
             }
-            return render(request, 'student/Study.html',context)
-            # return render(request, 'student/Study.html', context)
-            # return render(request, 'student/check_code_st.html', context)
-
-
-def check_code_st(request):
-    code_num = request.GET['code_num']
-
-    try:
-        code = Assignment.objects.get(assignment_id=code_num)
-
-    except:
-        code = None
-
-    if code is None:
-        overlap = "fail"
-        print("f")
-    else:
-        overlap = "pass"
-        print("p")
-
-        # da = Assignment.objects.filter(assignment_id=assignment_id)
-        # if da.values('type')[0]['type'] == "학습평가":
-
-        # types = Assignment.objects.filter(assignment_id=code).values('type')
-        #
-        # if types == "학습평가":
-        #     overlap = "pass"
-        # else:
-        #     overlap = "fail"
-
-    context = {
-        'overlap': overlap
-    }
-    return JsonResponse(context)
-
-
-# 테스트
-# def check_code_st(request):
-#     code_num = request.GET['code_num']
-#
-#     try:
-#         code = Assignment.objects.get(assignment_id=code_num)
-#
-#     except:
-#         code = None
-#
-#     if code is None:
-#         return render(request, 'student/Study.html')
-#     else:
-#
-#         # da = Assignment.objects.filter(assignment_id=assignment_id)
-#         # if da.values('type')[0]['type'] == "학습평가":
-#
-#         types = Assignment.objects.filter(assignment_id=code).values('type')
-#
-#         if types == "학습평가":
-#             return render(request, 'student/Studyques.html')
-#         else:
-#             return render(request, 'student/Study.html')
+            return render(request, 'student/Studyques.html', context)
 
 
 def Homework(request):
     context = {
     }
     return render(request, 'student/Homework.html', context)
+
+
+# def Homeworkques(request):
+#     data = Question.objects.first()
+#
+#     # 학습목록 출력 테스트
+#     # assignment_id = request.GET['code_num']
+#     # data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id).first()
+#
+#     context = {
+#         'data': data
+#     }
+#     return render(request, 'student/Homeworkques.html', context)
+
+
+def Homeworkques(request):
+    try:
+        # Homeworkques페이지에서 숙제 코드 가져오기
+        assignment_id = request.GET['code_num']
+        student_id = request.GET['ID_num']
+        data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id).filter(assignment__type="숙제하기")
+        f = data.first()
+
+        # 코드가 db에 없으면 원상복귀
+        if (f == None) or (student_id == ""):
+            context = {
+            }
+            return render(request, 'student/Homeworkcode.html', context)
+
+
+        context = {
+            'student_id': student_id,
+            'data': data,
+            'f': f
+        }
+        return render(request, 'student/Homeworkques.html', context)
+
+    except:
+        try:
+            # id로 문항 불러오기
+            question_info = request.GET['question_id'].split(',')
+            question_id = int(question_info[0])
+            assignment_id = question_info[1]
+
+            data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
+            f = AssignmentQuestionRel.objects.select_related('question').filter(question__question_id=question_id)[0]
+
+            context = {
+                'data': data,
+                'f': f
+            }
+            return render(request, 'student/Homeworkques.html', context)
+        except:
+            context = {
+                'data': data,
+                'f': f
+            }
+            return render(request, 'student/Homeworkques.html', context)
+
+
+def Homeworkdiag(request):
+    question_id = request.GET['question_id']
+    ques_ans = request.GET['ques_ans']
+    student_id = request.GET['student_id']
+
+    now = datetime.datetime.now()
+    now_date = now.strftime('%Y-%m-%d')
+
+    key = AssignmentQuestionRel.objects.select_related('question').filter(question__question_id=question_id)
+    data = key[0]
+
+    # solve테이블과 question테이블 조인
+    as_qurel_id = key.values('as_qurel_id')[0]['as_qurel_id']
+    da = Solve.objects.prefetch_related('assignment_question_rel').filter(as_qurel_id=as_qurel_id)
+
+    context = {
+        'ques_ans': ques_ans,
+        'data': data
+    }
+    # return render(request, 'student/Homeworkdiag.html', context)
+
+    # 나의 답 DB에 저장
+    # ssd = StudySolveData.objects.select_related('question').filter(question__question_id=question_id)
+    try:
+        solve_data = Solve(
+            student_id=student_id,
+            submit_date=now_date,
+            response=ques_ans,
+            score=0,
+            student_name=request.GET['category_school'],
+            as_querl_id=as_qurel_id
+
+        )
+        print(solve_data)
+        solve_data.save()
+
+        # return HttpResponseRedirect(request.GET['path'])
+
+    except:
+        solve_data = None
+
+    return render(request, 'student/Homeworkdiag.html', context)
+
+
+def Homeworkselect(request):
+    context = {
+    }
+    return render(request, 'student/Homeworkselect.html', context)
+
+
+def Homeworklist(request):
+    # question_info = request.GET['question_name'].split(',')
+    # question_name = question_info[0]
+    # assignment_id = question_info[1]
+    # data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
+    # f = AssignmentQuestionRel.objects.select_related('question').filter(question__question_name=question_name)[0]
+    student_id = int(request.GET['ID_num'])
+    # rel = AssignmentQuestionRel.objects.select_related('assignment', 'solve').filter(solve__student_id=student_id)
+
+    # 테스트
+    re = Solve.objects.prefetch_related('assignment_question_rel').filter(student_id=student_id)
+    d = re.values('as_qurel_id')[0]['as_qurel_id']
+    print(d)
+    rel = AssignmentQuestionRel.objects.prefetch_related('assignment').filter(as_qurel_id=d)
+
+    context = {
+        'rel': rel,
+        # 'da':da,
+        're': re
+    }
+    return render(request, 'student/Homeworklist.html', context)
+
+
+def Homeworkcheck(request):
+    student_id = int(request.GET['student_id'])
+    # assignment_title = request.GET['assignment_id']
+    # print(assignment_title.values())
+    # data = AssignmentQuestionRel.objects.select_related('assignment', 'question', 'solve').filter(solve__student_id=student_id)
+
+    # 테스트
+    re = Solve.objects.prefetch_related('assignment_question_rel').filter(student_id=student_id)
+    d = re.values('as_qurel_id')[0]['as_qurel_id']
+    print(d)
+    data = AssignmentQuestionRel.objects.prefetch_related('assignment', 'question').filter(as_qurel_id=d)
+
+    context = {
+        'data': data
+    }
+    return render(request, 'student/Homeworkcheck.html', context)
+
+
+def Homeworkcode(request):
+    context = {
+    }
+    return render(request, 'student/Homeworkcode.html', context)
 
 
 def Self(request):
@@ -360,85 +385,6 @@ def Selfgrade(request):
     #     score_data = None
 
     return render(request, 'student/Selfgrade.html', context)
-
-
-def Homeworkques(request):
-    data = Question.objects.first()
-
-    # 학습목록 출력 테스트
-    # assignment_id = request.GET['code_num']
-    # data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id).first()
-
-    context = {
-        'data': data
-    }
-    return render(request, 'student/Homeworkques.html', context)
-
-
-def Homeworkdiag(request):
-    # data = AssignmentQuestionRel.objects.select_related('question', 'solve').first()
-
-    re = Solve.objects.prefetch_related('assignment_question_rel').first()
-    as_qurel_id = re.values('as_qurel_id')[0]['as_qurel_id']
-    data = AssignmentQuestionRel.objects.select_related('question').filter(as_qurel_id=as_qurel_id)
-
-    context = {
-        'data': data
-    }
-    return render(request, 'student/Homeworkdiag.html', context)
-
-
-def Homeworkselect(request):
-    context = {
-    }
-    return render(request, 'student/Homeworkselect.html', context)
-
-
-def Homeworklist(request):
-    # question_info = request.GET['question_name'].split(',')
-    # question_name = question_info[0]
-    # assignment_id = question_info[1]
-    # data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
-    # f = AssignmentQuestionRel.objects.select_related('question').filter(question__question_name=question_name)[0]
-    student_id = int(request.GET['ID_num'])
-    # rel = AssignmentQuestionRel.objects.select_related('assignment', 'solve').filter(solve__student_id=student_id)
-
-    # 테스트
-    re = Solve.objects.prefetch_related('assignment_question_rel').filter(student_id=student_id)
-    d = re.values('as_qurel_id')[0]['as_qurel_id']
-    print(d)
-    rel = AssignmentQuestionRel.objects.prefetch_related('assignment').filter(as_qurel_id=d)
-
-    context = {
-        'rel': rel,
-        # 'da':da,
-        're': re
-    }
-    return render(request, 'student/Homeworklist.html', context)
-
-
-def Homeworkcheck(request):
-    student_id = int(request.GET['student_id'])
-    # assignment_title = request.GET['assignment_id']
-    # print(assignment_title.values())
-    # data = AssignmentQuestionRel.objects.select_related('assignment', 'question', 'solve').filter(solve__student_id=student_id)
-
-    # 테스트
-    re = Solve.objects.prefetch_related('assignment_question_rel').filter(student_id=student_id)
-    d = re.values('as_qurel_id')[0]['as_qurel_id']
-    print(d)
-    data = AssignmentQuestionRel.objects.prefetch_related('assignment', 'question').filter(as_qurel_id=d)
-
-    context = {
-        'data': data
-    }
-    return render(request, 'student/Homeworkcheck.html', context)
-
-
-def Homeworkcode(request):
-    context = {
-    }
-    return render(request, 'student/Homeworkcode.html', context)
 
 
 def Notice(request):
