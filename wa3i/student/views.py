@@ -187,17 +187,20 @@ def Homeworkques(request):
             question_info = request.GET['question_id'].split(',')
             question_id = int(question_info[0])
             assignment_id = question_info[1]
+            student_id = request.GET['student_id']
 
             data = AssignmentQuestionRel.objects.select_related('question').filter(assignment_id=assignment_id)
             f = AssignmentQuestionRel.objects.select_related('question').filter(question__question_id=question_id)[0]
 
             context = {
+                'student_id': student_id,
                 'data': data,
                 'f': f
             }
             return render(request, 'student/Homeworkques.html', context)
         except:
             context = {
+                'student_id': student_id,
                 'data': data,
                 'f': f
             }
@@ -220,27 +223,22 @@ def Homeworkdiag(request):
     da = Solve.objects.prefetch_related('assignment_question_rel').filter(as_qurel_id=as_qurel_id)
 
     context = {
+        'student_id': student_id,
         'ques_ans': ques_ans,
         'data': data
     }
     # return render(request, 'student/Homeworkdiag.html', context)
 
     # 나의 답 DB에 저장
-    # ssd = StudySolveData.objects.select_related('question').filter(question__question_id=question_id)
     try:
         solve_data = Solve(
             student_id=student_id,
             submit_date=now_date,
             response=ques_ans,
             score=0,
-            student_name=request.GET['category_school'],
             as_querl_id=as_qurel_id
-
         )
-        print(solve_data)
         solve_data.save()
-
-        # return HttpResponseRedirect(request.GET['path'])
 
     except:
         solve_data = None
