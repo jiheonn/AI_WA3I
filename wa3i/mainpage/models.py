@@ -97,3 +97,4 @@ class Solve(models.Model):
     submit_date = models.DateField()
     response = models.TextField()
     score = models.DecimalField(max_digits=5, decimal_places=2)
+    student_name = models.CharField(max_length=50, null=True)

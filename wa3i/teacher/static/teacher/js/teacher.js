@@ -59,7 +59,7 @@ $(document).ready(function () {
                 for (var i = 0; i < num; i++) {
                     $("#img_space").append(
                         '<img id="QR_code_img" src="' +
-                        '/static/'
+                        '/media/'
                         + question_data[i].QR_code +
                         '">'
                     );
@@ -195,7 +195,7 @@ $(document).ready(function () {
                             '<div class="card h-100" align="center">' +
                             '<div class="card-body">' +
                             '<img class="img-fluid rounded mb-4 mb-lg-0 question-img" src="' +
-                            '/static/' +
+                            '/media/' +
                             search_data[i].question_image +
                             '">' +
                             '</div>' +
@@ -252,7 +252,7 @@ $(document).ready(function () {
                         '<div class="card h-100" align="center">' +
                         '<div class="card-body">' +
                         '<img class="img-fluid rounded mb-4 mb-lg-0 question-img" src="' +
-                        '/static/' +
+                        '/media/' +
                         option_data[i].question_image +
                         '">' +
                         '</div>' +

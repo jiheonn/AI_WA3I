@@ -1,84 +1,50 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
     <title>WA3I</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
+    <!-- 차트 링크 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-
-    <!--    <script>-->
-    <!--        var ctx = document.getElementById('myChart').getContext('2d');-->
-    <!--    </script>-->
-
-
-    <!--    <script>-->
-
-    <!--        $(function () {-->
-
-    <!--            var $chart = $("#chart");-->
-    <!--            $.ajax({-->
-    <!--                url: $chart.data("url"),-->
-    <!--                success: function (data) {-->
-
-    <!--                    var ctx = $chart[0].getContext("2d");-->
-
-    <!--                    new Chart(ctx, {-->
-    <!--                        type: 'bar',-->
-    <!--                        data: {-->
-    <!--                            labels: data.labels,-->
-    <!--                            datasets: [{-->
-    <!--                                label: 'Score',-->
-    <!--                                backgroundColor: 'blue',-->
-    <!--                                data: data.data-->
-    <!--                            }]-->
-    <!--                        },-->
-    <!--                        options: {-->
-    <!--                            responsive: true,-->
-    <!--                            legend: {-->
-    <!--                                position: 'top',-->
-    <!--                            },-->
-    <!--                            title: {-->
-    <!--                                display: true,-->
-    <!--                                text: 'Score Bar Chart'-->
-    <!--                            }-->
-    <!--                        }-->
-    <!--                    });-->
-
-    <!--                }-->
-    <!--            });-->
-
-    <!--        });-->
-
-    <!--    </script>-->
-
 </head>
 <body>
-
 <div class="container">
     <canvas id="myChart"></canvas>
 </div>
 
-<div>
-    <input id="labels" value="{{ labels }}">
-    <input id="data" value="{{ data }}">
-</div>
+<input id="labels" type="hidden" value="{{ labels }}">
+<input id="data" type="hidden" value="{{ data }}">
 
 <!-- 차트 -->
-<script type="text/javascript">
-    var student_name = $('#labels').val();
-    alert(student_name);
-    var student_score = $('#data').val();
-    // alert(student_score);
+<script>
+    var labels = $('#labels').val().split(',');
+    for (i = 0; i < labels.length; i++) {
+        labels[i] = labels[i].replace('[', '');
+        labels[i] = labels[i].replace(']', '');
+        labels[i] = labels[i].replace(',', '');
+        labels[i] = labels[i].replace("'", '');
+        labels[i] = labels[i].replace("'", '');
+    }
+
+    var data = $('#data').val().split(',');
+    for (i = 0; i < data.length; i++) {
+        data[i] = data[i].replace('[', '');
+        data[i] = data[i].replace(']', '');
+        data[i] = data[i].replace(',', '');
+        data[i] = data[i].replace("'", '');
+        data[i] = data[i].replace("'", '');
+        data[i] = parseFloat(data[i]);
+    }
+
     var ctx = document.getElementById('myChart');
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: student_name,
+            labels: labels,
             datasets: [{
                 label: 'Score',
-                data: [0, 2, 2],
+                data: data,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -100,16 +66,14 @@
         },
         options: {
             scales: {
-                yAxes: [
-                    {
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
             }
         }
-    })
+    });
 </script>
-
 </body>
 </html>

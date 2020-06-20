@@ -57,7 +57,13 @@
         </div>
         <!-- /.col-md-4 -->
     </div>
-    <form action="{% url 'chart' %}" method="GET">
+    <form action="{% url 'chart' %}" method="POST">
+        {% csrf_token %}
+        {% for data in result %}
+        <input type="hidden" name="student_name" value="{{ data.student_name }}">
+        <input type="hidden" name="student_score" value="{{ data.student_score }}">
+        {% endfor %}
+
         <div style="margin-bottom: 100px;">
             <table border="1" bordercolor="gray" width="1200" height="100" align="center"
                    class="display">
@@ -92,7 +98,7 @@
                         <button type="button" class="btn21" onclick="tableToExcel('asi_info')">다운로드</button>
                     </td>
                     <td>
-                        <button type="submit" class="btn21" name="assignment_id" value="{{ data.assignment_id }}">더보기</button>
+                        <button type="submit" class="btn21">더보기</button>
                     </td>
                 </tr>
                 {% endfor %}

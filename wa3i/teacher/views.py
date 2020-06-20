@@ -3,11 +3,12 @@ from django.contrib.auth import authenticate, login, logout
 from mainpage.models import *
 from .models import User
 from django.http import JsonResponse
-from django.db.models import Q, Sum
+from django.db.models import Q
 
 import datetime
 import string
 import random
+import json
 
 # Create your views here.
 from django.http import HttpResponse, HttpResponseRedirect
@@ -210,7 +211,7 @@ def change_qr_code(request):
     question_data = []
     for i in qst_data:
         question_data_dict = dict()
-        question_data_dict['QR_code'] = i.qr_code
+        question_data_dict['QR_code'] = json.dumps(str( i.qr_code)).replace('"', '')
         question_data.append(question_data_dict)
 
     context = {
@@ -231,7 +232,7 @@ def question_search(request):
         search_data_dict = dict()
         search_data_dict['question_id'] = i.question_id
         search_data_dict['question_name'] = i.question_name
-        search_data_dict['question_image'] = i.image
+        search_data_dict['question_image'] = json.dumps(str(i.image)).replace('"', '')
         search_data.append(search_data_dict)
     # print(search_data)
     context = {
@@ -293,7 +294,7 @@ def change_category(request):
         option_data_dict = dict()
         option_data_dict['question_id'] = i.question_id
         option_data_dict['question_name'] = i.question_name
-        option_data_dict['question_image'] = i.image
+        option_data_dict['question_image'] = json.dumps(str(i.image)).replace('"', '')
         option_data.append(option_data_dict)
 
     context = {
@@ -370,25 +371,18 @@ def signup_view(request):
 
 
 def chart(request):
-    assignment_id = request.GET['assignment_id']
-    print(assignment_id)
+    studnet_name = request.POST.getlist('student_name')
+    studnet_score = request.POST.getlist('student_score')
 
-    solve_data = Solve.objects.select_related('as_qurel').filter(
-        as_qurel_id__assignment_id=assignment_id)
-
-    labels = []
+    labels = studnet_name
     data = []
 
-    queryset = solve_data.values('student_name').annotate(student_score=Sum('score'))
-    for entry in queryset:
-        labels.append(entry['student_name'])
-        data.append(int(entry['student_score']))
+    for i in studnet_score:
+        data.append(float(i))
 
     context = {
         'labels': labels,
-        'data': data,
+        'data': data
     }
 
     return render(request, 'teacher/chart.html', context)
-
-    # return render(request, 'teacher/chart.html')
