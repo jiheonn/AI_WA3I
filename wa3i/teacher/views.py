@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from mainpage.models import *
 from .models import User
 from django.http import JsonResponse
-from django.db.models import Q, Sum
+from django.db.models import Q
 
 import datetime
 import string
@@ -370,25 +370,18 @@ def signup_view(request):
 
 
 def chart(request):
-    assignment_id = request.GET['assignment_id']
-    print(assignment_id)
+    studnet_name = request.POST.getlist('student_name')
+    studnet_score = request.POST.getlist('student_score')
 
-    solve_data = Solve.objects.select_related('as_qurel').filter(
-        as_qurel_id__assignment_id=assignment_id)
-
-    labels = []
+    labels = studnet_name
     data = []
 
-    queryset = solve_data.values('student_name').annotate(student_score=Sum('score'))
-    for entry in queryset:
-        labels.append(entry['student_name'])
-        data.append(int(entry['student_score']))
+    for i in studnet_score:
+        data.append(float(i))
 
     context = {
         'labels': labels,
-        'data': data,
+        'data': data
     }
 
     return render(request, 'teacher/chart.html', context)
-
-    # return render(request, 'teacher/chart.html')
