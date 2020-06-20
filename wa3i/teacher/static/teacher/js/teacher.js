@@ -40,7 +40,8 @@ $(document).ready(function () {
         var as_discription = $('#as_discription').val();
         var result = confirm("문항제목 : " + as_name + "\n문항내용 :\n" + as_discription + "\n\n입력한 정보로 생성하겠습니까?");
         if (result) {
-            alert('문항 생성이 완료되었습니다.');
+        } else {
+            return false
         }
     });
 });
@@ -152,7 +153,8 @@ $(document).ready(function () {
         var en_date = $('#end-date').val();
         var result = confirm("코드 : " + code_num + "\n시험지 제목 : " + as_name + "\n타입 : " + type + "\n문항 수 : " + check_num + "\n시작날짜 : " + st_date + "\n종료날짜 : " + en_date + "\n\n입력한 정보로 생성하겠습니까?");
         if (result) {
-            alert('문항 선택이 완료되었습니다.');
+        } else {
+            return false
         }
     });
 });
@@ -295,3 +297,8 @@ $(document).ready(function () {
 $(document).ready(function () {
     $('#asi_info').DataTable();
 });
+
+var message = $('#message').val();
+if (message.length) {
+    alert(message);
+}

@@ -20,11 +20,17 @@
 
 <link href="{% static 'teacher/css/teacher.css' %}" rel="stylesheet">
 
+{% if messages %}
+{% for message in messages %}
+<input id="message" type="hidden" value="{{ message }}">
+{% endfor %}
+{% endif %}
+
 <!-- Page Content -->
 <div class="container">
-    <form action="{% url 'make_question' %}" method="POST" enctype="multipart/form-data">
+    <form action="{% url 'make_question_save' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <input type="hidden" name="path" value="{{ request.path }}">
+<!--        <input type="hidden" name="path" value="{{ request.path }}">-->
         <!-- Heading Row -->
         <div class="row justify-content-center my-5">
             <div class="col-lg-2">

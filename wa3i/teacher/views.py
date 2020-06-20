@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from mainpage.models import *
 from .models import User
 from django.http import JsonResponse
@@ -26,10 +27,7 @@ def index(request):
 
 def question_selection(request):
     category_data = Category.objects.all()
-    now = datetime.datetime.now()
-    now_date = now.strftime('%Y-%m-%d')
     question_data = Question.objects.all()
-
     assignment_id = Assignment.objects.all().values('assignment_id')
 
     context = {
@@ -37,6 +35,14 @@ def question_selection(request):
         'assignment_id': assignment_id,
         'category_data': category_data
     }
+
+    return render(request, 'teacher/question_selection.html', context)
+
+
+def question_selection_save(request):
+    now = datetime.datetime.now()
+    now_date = now.strftime('%Y-%m-%d')
+
     try:
         select_code_list = request.GET.getlist('question')
         assignment_data = Assignment(assignment_id=request.GET['code_num'],
@@ -59,12 +65,15 @@ def question_selection(request):
 
             asi_qst_rel_data.save()
 
+        messages.success(request, '성공적으로 등록되었습니다.')
+
         return HttpResponseRedirect(request.GET['path'])
 
-    except:
-        assignment_data = None
 
-    return render(request, 'teacher/question_selection.html', context)
+    except:
+        messages.error(request, '등록에 실패하였습니다. 다시 한번 확인해 주세요.')
+
+        return HttpResponseRedirect(request.GET['path'])
 
 
 def view_result(request):
@@ -73,70 +82,6 @@ def view_result(request):
         'assignment_data': assignment_data
     }
     return render(request, 'teacher/view_result.html', context)
-
-
-def make_question(request):
-    now = datetime.datetime.now()
-    now_date = now.strftime('%Y-%m-%d')
-    context = {
-    }
-
-    try:
-        make_question_data = MakeQuestion(teacher=Teacher.objects.get(teacher_id=2),
-                                          question_name=request.POST['question_name'],
-                                          discription=request.POST['discription'],
-                                          answer=request.POST['answer'],
-                                          image=request.FILES['image'],
-                                          hint=request.POST['hint'],
-                                          made_date=now_date,
-                                          upload_check=0)
-        make_question_data.save()
-
-        mark_list = request.POST.getlist('mark_text')
-        temp = MakeQuestion.objects.get(hint=request.POST['hint'], made_date=now_date)
-        for i in mark_list:
-            mark_data = Mark(mark_text=i,
-                             make_question_id=temp.make_question_id)
-            mark_data.save()
-
-        return HttpResponseRedirect(request.POST['path'])
-
-    except:
-        make_question_data = None
-
-    return render(request, 'teacher/make_question.html', context)
-
-
-def bigram_tree(request):
-    context = {
-    }
-    return render(request, 'teacher/bigram_tree.html', context)
-
-
-def topic_analysis(request):
-    context = {
-    }
-    return render(request, 'teacher/topic_analysis.html', context)
-
-
-def response_analysis(request):
-    context = {
-    }
-    return render(request, 'teacher/response_analysis.html', context)
-
-
-def qr_code(request):
-    question_data = Question.objects.all()
-    context = {
-        'question_data': question_data
-    }
-    return render(request, 'teacher/QR_code.html', context)
-
-
-def teacher_notice(request):
-    context = {
-    }
-    return render(request, 'teacher/teacher_notice.html', context)
 
 
 def view_result_detail(request):
@@ -204,6 +149,75 @@ def view_result_detail(request):
     return render(request, 'teacher/view_result_detail.html', context)
 
 
+def make_question(request):
+    return render(request, 'teacher/make_question.html')
+
+
+def make_question_save(request):
+    now = datetime.datetime.now()
+    now_date = now.strftime('%Y-%m-%d')
+
+    try:
+        make_question_data = MakeQuestion(teacher=Teacher.objects.get(teacher_id=2),
+                                          question_name=request.POST['question_name'],
+                                          discription=request.POST['discription'],
+                                          answer=request.POST['answer'],
+                                          image=request.FILES['image'],
+                                          hint=request.POST['hint'],
+                                          made_date=now_date,
+                                          upload_check=0)
+        make_question_data.save()
+
+        mark_list = request.POST.getlist('mark_text')
+        temp = MakeQuestion.objects.get(hint=request.POST['hint'], made_date=now_date)
+        for i in mark_list:
+            mark_data = Mark(mark_text=i,
+                             make_question_id=temp.make_question_id)
+            mark_data.save()
+
+        messages.success(request, '성공적으로 등록되었습니다.')
+
+        return redirect('make_question')
+
+
+    except:
+        messages.error(request, '등록에 실패하였습니다. 다시 한번 확인해 주세요.')
+
+        return redirect('make_question')
+
+
+def bigram_tree(request):
+    context = {
+    }
+    return render(request, 'teacher/bigram_tree.html', context)
+
+
+def topic_analysis(request):
+    context = {
+    }
+    return render(request, 'teacher/topic_analysis.html', context)
+
+
+def response_analysis(request):
+    context = {
+    }
+    return render(request, 'teacher/response_analysis.html', context)
+
+
+def qr_code(request):
+    question_data = Question.objects.all()
+    context = {
+        'question_data': question_data
+    }
+    return render(request, 'teacher/QR_code.html', context)
+
+
+def teacher_notice(request):
+    context = {
+    }
+    return render(request, 'teacher/teacher_notice.html', context)
+
+
 def change_qr_code(request):
     question_name = request.GET['question_name']
     qst_data = Question.objects.all().filter(question_name=question_name)
@@ -211,7 +225,7 @@ def change_qr_code(request):
     question_data = []
     for i in qst_data:
         question_data_dict = dict()
-        question_data_dict['QR_code'] = json.dumps(str( i.qr_code)).replace('"', '')
+        question_data_dict['QR_code'] = json.dumps(str(i.qr_code)).replace('"', '')
         question_data.append(question_data_dict)
 
     context = {
