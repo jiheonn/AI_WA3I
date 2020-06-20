@@ -25,9 +25,15 @@
 <link href="{% static 'teacher/css/teacher.css' %}" rel="stylesheet">
 <link href="{% static 'teacher/css/question_selection.css' %}" rel="stylesheet">
 
+{% if messages %}
+{% for message in messages %}
+<input id="message" type="hidden" value="{{ message }}">
+{% endfor %}
+{% endif %}
+
 <!-- Page Content -->
 <div class="container">
-    <form action="{% url 'question_selection' %}" method="GET">
+    <form action="{% url 'question_selection_save' %}" method="GET">
         <input type="hidden" name="path" value="{{ request.path }}">
         <!-- Heading Row -->
         <div class="row justify-content-center my-5">

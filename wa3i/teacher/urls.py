@@ -24,4 +24,6 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('signup/', views.signup_view, name='signup'),
     path('view_result/view_result_detail/chart/', views.chart, name='chart'),
+    path('question_selection_save/', views.question_selection_save, name='question_selection_save'),
+    path('make_question_save/', views.make_question_save, name='make_question_save'),
 ]
