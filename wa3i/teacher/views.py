@@ -8,6 +8,7 @@ from django.db.models import Q
 import datetime
 import string
 import random
+import json
 
 # Create your views here.
 from django.http import HttpResponse, HttpResponseRedirect
@@ -210,7 +211,7 @@ def change_qr_code(request):
     question_data = []
     for i in qst_data:
         question_data_dict = dict()
-        question_data_dict['QR_code'] = i.qr_code
+        question_data_dict['QR_code'] = json.dumps(str( i.qr_code)).replace('"', '')
         question_data.append(question_data_dict)
 
     context = {
@@ -231,7 +232,7 @@ def question_search(request):
         search_data_dict = dict()
         search_data_dict['question_id'] = i.question_id
         search_data_dict['question_name'] = i.question_name
-        search_data_dict['question_image'] = i.image
+        search_data_dict['question_image'] = json.dumps(str(i.image)).replace('"', '')
         search_data.append(search_data_dict)
     # print(search_data)
     context = {
@@ -293,7 +294,7 @@ def change_category(request):
         option_data_dict = dict()
         option_data_dict['question_id'] = i.question_id
         option_data_dict['question_name'] = i.question_name
-        option_data_dict['question_image'] = i.image
+        option_data_dict['question_image'] = json.dumps(str(i.image)).replace('"', '')
         option_data.append(option_data_dict)
 
     context = {
