@@ -16,16 +16,8 @@
 
     <script>
         $(document).ready(function () {
-            // $('#view_result').click(function () {
-                var teacher_id = $('#teacher_id').val();
-                // alert(teacher_id);
-                $.ajax({
-                    url: '/teacher/view_result/',
-                    data: {teacher_id: teacher_id},
-                    success: function (data) {
-
-                    }
-                // });
+            $('#view_result').click(function () {
+                document.getElementById("view_result_form").submit();
             });
         });
     </script>
@@ -34,6 +26,8 @@
 
 <body>
 
+<form id="view_result_form" action="{% url 'view_result' %}" method="POST">
+{% csrf_token %}
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
@@ -53,7 +47,7 @@
                     <a class="nav-link" href="{% url 'question_selection' %}">문항선택</a>
                 </li>
                 <li id="view_result" class="nav-item">
-                    <a class="nav-link" href="{% url 'view_result' %}">결과보기</a>
+                    <a class="nav-link" href="#">결과보기</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'make_question' %}">문항생성</a>
@@ -89,6 +83,7 @@
         </div>
     </div>
 </nav>
+</form>
 
 {% block content %}
 

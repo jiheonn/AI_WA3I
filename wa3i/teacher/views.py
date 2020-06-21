@@ -19,7 +19,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 #     return HttpResponse("Hello, world. You're at the polls index.")
 
 def index(request):
-
     return render(request, 'teacher/index.html')
 
 
@@ -42,31 +41,31 @@ def question_selection_save(request):
     now_date = now.strftime('%Y-%m-%d')
 
     try:
-        teacher_id = int(request.GET['teacher_id'])
-        select_code_list = request.GET.getlist('question')
-        assignment_data = Assignment(assignment_id=request.GET['code_num'],
+        teacher_id = int(request.POST['teacher_id'])
+        select_code_list = request.POST.getlist('question')
+        assignment_data = Assignment(assignment_id=request.POST['code_num'],
                                      teacher=Teacher.objects.get(teacher_id=teacher_id),
-                                     assignment_title=request.GET['question-title'],
-                                     type=request.GET['evaluation_type'],
-                                     start_date=datetime.datetime.strptime(request.GET['start-date'],
+                                     assignment_title=request.POST['question-title'],
+                                     type=request.POST['evaluation_type'],
+                                     start_date=datetime.datetime.strptime(request.POST['start-date'],
                                                                            '%Y-%m-%d').date(),
-                                     end_date=datetime.datetime.strptime(request.GET['end-date'], '%Y-%m-%d').date(),
+                                     end_date=datetime.datetime.strptime(request.POST['end-date'], '%Y-%m-%d').date(),
                                      made_date=now_date,
-                                     grade=int(request.GET['grade']),
-                                     school_class=int(request.GET['class']))
+                                     grade=int(request.POST['grade']),
+                                     school_class=int(request.POST['class']))
         assignment_data.save()
 
         for i in select_code_list:
             asi_qst_rel_data = AssignmentQuestionRel(
                 question_id=int(i),
-                assignment_id=request.GET['code_num']
+                assignment_id=request.POST['code_num']
             )
 
             asi_qst_rel_data.save()
 
         messages.success(request, '성공적으로 등록되었습니다.')
 
-        return HttpResponseRedirect(request.GET['path'])
+        return HttpResponseRedirect(request.POST['path'])
 
 
     except:
@@ -76,16 +75,11 @@ def question_selection_save(request):
 
 
 def view_result(request):
-    # assignment_data = Assignment.objects.all().order_by('start_date')
-
-    teacher_id = request.GET['teacher_id']
-    print(teacher_id)
-
-    assignment_data = Assignment.objects.filter(teacher_id=teacher_id).order_by('start_date')
-    print(assignment_data.values())
+    teacher_id = request.POST['teacher_id']
+    asi_data = Assignment.objects.filter(teacher_id=teacher_id).order_by('start_date')
 
     context = {
-        'assignment_data': assignment_data
+        'assignment_data': asi_data
     }
 
     return render(request, 'teacher/view_result.html', context)
@@ -100,7 +94,6 @@ def view_result_detail(request):
 
     result = {}
     for i in solve_data:
-        # print(i)
         test = {}
         if i.student_id in result:
             result[i.student_id]['student_id'] = i.student_id
@@ -112,17 +105,14 @@ def view_result_detail(request):
             test['student_response'] = []
             test['student_id'] = i.student_id
             test['student_name'] = i.student_name
-            # test['student_response'] = i.solve.response
             test['student_score'].append(int(i.score))
             test['student_response'].append(i.response)
 
             result[i.student_id] = test
 
-    # print(result)
     for data_row in result:
         check_data = result[data_row]
         result[data_row]['student_score'] = sum(check_data['student_score']) / len(check_data['student_score'])
-    # print(result.values())
 
     try:
         total = 0
@@ -135,9 +125,6 @@ def view_result_detail(request):
                     pgs = count / question_count * 100
             j['student_progress'] = round(pgs)
             total_pgs += j['student_progress']
-            # print(j['student_progress'])
-        # print(len(result.values()))
-        # print(total, len(result.values()))
         all_avg = total / len(result.values())
         all_pgs = round(total_pgs / len(result.values()))
     except ZeroDivisionError:
@@ -195,17 +182,14 @@ def make_question_save(request):
 
 
 def bigram_tree(request):
-
     return render(request, 'teacher/bigram_tree.html')
 
 
 def topic_analysis(request):
-
     return render(request, 'teacher/topic_analysis.html')
 
 
 def response_analysis(request):
-
     return render(request, 'teacher/response_analysis.html')
 
 
@@ -218,7 +202,6 @@ def qr_code(request):
 
 
 def teacher_notice(request):
-
     return render(request, 'teacher/teacher_notice.html')
 
 
@@ -240,11 +223,10 @@ def change_qr_code(request):
 
 def question_search(request):
     user_input = request.GET['user_input']
-
-    # sah_data = Keyword.objects.select_related('question').filter(keyword_name__icontains=user_input)
     sah_data = Keyword.objects.select_related('question').filter(keyword_name__icontains=user_input).values_list(
         'question_id', flat=True).distinct()
     data = Question.objects.filter(pk__in=sah_data)
+
     search_data = []
     for i in data:
         search_data_dict = dict()
@@ -252,7 +234,6 @@ def question_search(request):
         search_data_dict['question_name'] = i.question_name
         search_data_dict['question_image'] = json.dumps(str(i.image)).replace('"', '')
         search_data.append(search_data_dict)
-    # print(search_data)
     context = {
         'search_data': search_data
     }
@@ -283,7 +264,6 @@ def view_search(request):
 
 def assignment_copy(request):
     copy_code = request.GET['copy_code']
-    # print(copy_code)
     cp_data = AssignmentQuestionRel.objects.select_related('assignment', 'question').filter(assignment_id=copy_code)
 
     copy_data = []
@@ -323,24 +303,17 @@ def change_category(request):
 
 def code_generation(request):
     generation_code = request.GET['text']
-    # print(generation_code)
     assignment_id = Assignment.objects.all().values('assignment_id')
-    # print(assignment_id)
 
     _LENGTH = 8
     string_pool = string.ascii_uppercase + string.digits
 
-    # result = ""
-    # for j in range(_LENGTH):
-    #     result += random.choice(string_pool)
-    # print(result)
 
     for i in assignment_id:
         if i == generation_code:
             result = ""
             for j in range(_LENGTH):
                 result += random.choice(string_pool)
-            # print(result)
         else:
             generation_code = generation_code
 
@@ -380,7 +353,7 @@ def signup_view(request):
                 user.teacher_id = request.POST['teacher_id']
                 user.save()
 
-                teacher_data = Teacher(teacher_name=request.POST['last_name']+request.POST['first_name'],
+                teacher_data = Teacher(teacher_name=request.POST['last_name'] + request.POST['first_name'],
                                        school=request.POST['school'],
                                        email=request.POST['username'],
                                        password=request.POST['password1'],
