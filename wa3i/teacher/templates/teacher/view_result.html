@@ -28,6 +28,10 @@
 
 <link href="{% static 'teacher/css/teacher.css' %}" rel="stylesheet">
 
+<script>
+    $('#view_result').addClass('active');
+</script>
+
 <!-- Page Content -->
 <div class="container">
 
@@ -44,7 +48,7 @@
         </div>
     </div>
     <div class="container">
-        <form action="{% url 'view_result_detail' %}" method="GET">
+        <form id="view_detail_form" action="{% url 'view_result_detail' %}" method="GET">
 
             <table id="asi_info" class="display">
                 <thead>
