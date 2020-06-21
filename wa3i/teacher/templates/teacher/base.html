@@ -14,6 +14,22 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
+    <script>
+        $(document).ready(function () {
+            // $('#view_result').click(function () {
+                var teacher_id = $('#teacher_id').val();
+                // alert(teacher_id);
+                $.ajax({
+                    url: '/teacher/view_result/',
+                    data: {teacher_id: teacher_id},
+                    success: function (data) {
+
+                    }
+                // });
+            });
+        });
+    </script>
+
 </head>
 
 <body>
@@ -58,16 +74,18 @@
                     <a class="nav-link" href="{% url 'teacher_notice' %}">게시판</a>
                 </li>
             </ul>
+            {% if user.is_authenticated %}
+            <input id="teacher_id" name="teacher_id" type="hidden" value="{{ user.teacher_id }}">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown" id="login-menu">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="user-name"><i
-                            class="fa fa-user fa-fw"></i> User </a>
+                            class="fa fa-user fa-fw"></i> {{ user.last_name }}{{ user.first_name }} 님 </a>
                     <ul>
-                        <li><a class="nav-link" href="{% url 'login' %}">로그인</a></li>
-                        <li><a class="nav-link" href="{% url 'signup' %}">회원가입</a></li>
+                        <li><a class="nav-link" href="{% url 'logout' %}">로그아웃</a></li>
                     </ul>
                 </li>
             </ul>
+            {% endif %}
         </div>
     </div>
 </nav>
