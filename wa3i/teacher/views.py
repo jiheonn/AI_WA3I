@@ -19,10 +19,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 #     return HttpResponse("Hello, world. You're at the polls index.")
 
 def index(request):
-    context = {
 
-    }
-    return render(request, 'teacher/index.html', context)
+    return render(request, 'teacher/index.html')
 
 
 def question_selection(request):
@@ -44,9 +42,10 @@ def question_selection_save(request):
     now_date = now.strftime('%Y-%m-%d')
 
     try:
+        teacher_id = int(request.GET['teacher_id'])
         select_code_list = request.GET.getlist('question')
         assignment_data = Assignment(assignment_id=request.GET['code_num'],
-                                     teacher=Teacher.objects.get(teacher_id=2),
+                                     teacher=Teacher.objects.get(teacher_id=teacher_id),
                                      assignment_title=request.GET['question-title'],
                                      type=request.GET['evaluation_type'],
                                      start_date=datetime.datetime.strptime(request.GET['start-date'],
@@ -77,10 +76,18 @@ def question_selection_save(request):
 
 
 def view_result(request):
-    assignment_data = Assignment.objects.all().order_by('start_date')
+    # assignment_data = Assignment.objects.all().order_by('start_date')
+
+    teacher_id = request.GET['teacher_id']
+    print(teacher_id)
+
+    assignment_data = Assignment.objects.filter(teacher_id=teacher_id).order_by('start_date')
+    print(assignment_data.values())
+
     context = {
         'assignment_data': assignment_data
     }
+
     return render(request, 'teacher/view_result.html', context)
 
 
@@ -158,7 +165,8 @@ def make_question_save(request):
     now_date = now.strftime('%Y-%m-%d')
 
     try:
-        make_question_data = MakeQuestion(teacher=Teacher.objects.get(teacher_id=2),
+        teacher_id = int(request.POST['teacher_id'])
+        make_question_data = MakeQuestion(teacher=Teacher.objects.get(teacher_id=teacher_id),
                                           question_name=request.POST['question_name'],
                                           discription=request.POST['discription'],
                                           answer=request.POST['answer'],
@@ -187,21 +195,18 @@ def make_question_save(request):
 
 
 def bigram_tree(request):
-    context = {
-    }
-    return render(request, 'teacher/bigram_tree.html', context)
+
+    return render(request, 'teacher/bigram_tree.html')
 
 
 def topic_analysis(request):
-    context = {
-    }
-    return render(request, 'teacher/topic_analysis.html', context)
+
+    return render(request, 'teacher/topic_analysis.html')
 
 
 def response_analysis(request):
-    context = {
-    }
-    return render(request, 'teacher/response_analysis.html', context)
+
+    return render(request, 'teacher/response_analysis.html')
 
 
 def qr_code(request):
@@ -213,9 +218,8 @@ def qr_code(request):
 
 
 def teacher_notice(request):
-    context = {
-    }
-    return render(request, 'teacher/teacher_notice.html', context)
+
+    return render(request, 'teacher/teacher_notice.html')
 
 
 def change_qr_code(request):
