@@ -352,10 +352,9 @@ def login_view(request):
         password = request.POST["password"]
         user = authenticate(username=username, password=password)
         if user is not None:
-            print("인증성공")
             login(request, user)
         else:
-            print("인증실패")
+            messages.error(request, '아이디 또는 비밀번호가 일치하지 않습니다.')
 
     return render(request, "teacher/login.html")
 
@@ -366,22 +365,32 @@ def logout_view(request):
 
 
 def signup_view(request):
-    if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password']
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
-        email = request.POST['email']
-        teacher_id = request.POST['teacher_id']
+    teacher_id = Teacher.objects.count() + 1
+    try:
+        if request.method == "POST":
+            if request.POST['password1'] == request.POST['password2']:
+                user = User.objects.create_user(
+                    username=request.POST['username'], password=request.POST['password1'])
+                user.last_name = request.POST['last_name']
+                user.first_name = request.POST['first_name']
+                user.teacher_id = request.POST['teacher_id']
+                user.save()
 
-        user = User.objects.create_user(username, email, password)
-        user.last_name = last_name
-        user.first_name = first_name
-        user.teacher_id = teacher_id
-        user.save()
-        return redirect("login")
+                teacher_data = Teacher(teacher_name=request.POST['last_name']+request.POST['first_name'],
+                                       school=request.POST['school'],
+                                       email=request.POST['username'],
+                                       password=request.POST['password1'],
+                                       approve=0)
 
-    return render(request, "teacher/signup.html")
+                teacher_data.save()
+
+                messages.success(request, '회원가입이 완료되었습니다.')
+                return redirect("login")
+    except:
+        messages.error(request, '비밀번호가 일치하지 않거나 중복된 이메일입니다.')
+        return redirect("signup")
+
+    return render(request, "teacher/signup.html", {'teacher_id': teacher_id})
 
 
 def chart(request):

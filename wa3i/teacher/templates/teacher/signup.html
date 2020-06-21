@@ -20,23 +20,31 @@
 
 <link href="{% static 'teacher/css/teacher.css' %}" rel="stylesheet">
 
+{% if messages %}
+{% for message in messages %}
+<input id="message" type="hidden" value="{{ message }}">
+{% endfor %}
+{% endif %}
+
 <div class="container">
     <h2>회원가입</h2><br>
 
     <form action="{% url 'signup' %}" method="POST">
         {% csrf_token %}
         <p>아이디</p>
-        <input name="username" type="text" style="border-style: solid; border-width: 1px; border-color: gray;">
+        <input name="username" type="text" style="border-style: solid; border-width: 1px; border-color: gray; padding-left: 10px;"><span style="margin-left: 20px; color: gray;">학교 이메일을 사용해 주세요.</span>
         <p>비밀번호</p>
-        <input name="password" type="password" style="border-style: solid; border-width: 1px; border-color: gray;">
+        <input name="password1" type="password" style="border-style: solid; border-width: 1px; border-color: gray; padding-left: 10px;">
+        <p>비밀번호 확인</p>
+        <input name="password2" type="password" style="border-style: solid; border-width: 1px; border-color: gray; padding-left: 10px;">
         <p>성</p>
-        <input name="first_name" type="text" style="border-style: solid; border-width: 1px; border-color: gray;">
+        <input name="last_name" type="text" style="border-style: solid; border-width: 1px; border-color: gray; padding-left: 10px;">
         <p>이름</p>
-        <input name="last_name" type="text" style="border-style: solid; border-width: 1px; border-color: gray;">
-        <p>이메일</p>
-        <input name="email" type="text" style="border-style: solid; border-width: 1px; border-color: gray;">
+        <input name="first_name" type="text" style="border-style: solid; border-width: 1px; border-color: gray; padding-left: 10px;">
+        <p>학교 이름</p>
+        <input name="school" type="text" style="border-style: solid; border-width: 1px; border-color: gray; padding-left: 10px;">
         <p>교사번호</p>
-        <input name="teacher_id" type="text" style="border-style: solid; border-width: 1px; border-color: gray;"><br><br>
+        <input name="teacher_id" type="text" value="{{ teacher_id }}" readonly style="border-style: solid; border-width: 1px; border-color: gray; padding-left: 10px;"><br><br>
         <input type="submit" class="btn btn-primary" value="sign up">
     </form>
 </div>
