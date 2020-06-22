@@ -18,24 +18,24 @@ from django.http import HttpResponse, HttpResponseRedirect
 # def index(request):
 #     return HttpResponse("Hello, world. You're at the polls index.")
 
+# 홈 화면 view 함수
 def index(request):
     return render(request, 'teacher/index.html')
 
 
+# 문항선택 화면 view 함수
 def question_selection(request):
-    category_data = Category.objects.all()
-    question_data = Question.objects.all()
-    assignment_id = Assignment.objects.all().values('assignment_id')
+    question_queryset = Question.objects.all()
+    category_queryset = Category.objects.all()
 
     context = {
-        'question_data': question_data,
-        'assignment_id': assignment_id,
-        'category_data': category_data
+        'question_data': question_queryset,
+        'category_data': category_queryset
     }
-
     return render(request, 'teacher/question_selection.html', context)
 
 
+# 문항선택 > 문항선택완료 버튼 클릭 시  Assignment Table DB 저장
 def question_selection_save(request):
     now = datetime.datetime.now()
     now_date = now.strftime('%Y-%m-%d')
@@ -55,13 +55,14 @@ def question_selection_save(request):
                                      school_class=int(request.POST['class']))
         assignment_data.save()
 
+        # Assignment Table 과 연결된 AssignmentQuestionRel Table 에 데이터 추가
         for i in select_code_list:
-            asi_qst_rel_data = AssignmentQuestionRel(
+            assignment_question_rel_data = AssignmentQuestionRel(
                 question_id=int(i),
                 assignment_id=request.POST['code_num']
             )
 
-            asi_qst_rel_data.save()
+            assignment_question_rel_data.save()
 
         messages.success(request, '성공적으로 등록되었습니다.')
 
@@ -74,6 +75,7 @@ def question_selection_save(request):
         return HttpResponseRedirect(request.GET['path'])
 
 
+# 결과보기 화면 view 함수
 def view_result(request):
     teacher_id = request.POST['teacher_id']
     asi_data = Assignment.objects.filter(teacher_id=teacher_id).order_by('start_date')
@@ -81,72 +83,75 @@ def view_result(request):
     context = {
         'assignment_data': asi_data
     }
-
     return render(request, 'teacher/view_result.html', context)
 
 
+# 결과보기 > 더보기 클릭 시 보여지는 화면 view 함수
 def view_result_detail(request):
-    select_code = request.GET['select_code']
-    assignment_data = Assignment.objects.all().filter(assignment_id=select_code)
-    solve_data = Solve.objects.select_related('as_qurel').filter(
-        as_qurel_id__assignment_id=select_code).order_by('student_id')
-    question_count = solve_data.values('as_qurel_id__question_id').distinct().count()  # 문항 수
+    request_selection_code = request.GET['select_code'] # 사용자가 요청한 코드
+    assignment_queryset = Assignment.objects.all().filter(assignment_id=request_selection_code)
+    solve_queryset = Solve.objects.select_related('as_qurel').filter(
+        as_qurel_id__assignment_id=request_selection_code).order_by('student_id')   # 요청된 코드에 속하는 solve queryset
+    count_question = solve_queryset.values('as_qurel_id__question_id').distinct().count()   # 중복 제외 문항 수
 
+    # 한 학생은 여러 score 와 response 를 가집니다.
+    # 따라서 하나의 student_id(=result key 값)에 여러 해당하는 데이터의 삽입이 필요합니다. (중복 해결)
+    # ex) {12345678: {'student_name': '가나다', 'student_response': ['~~~', '~~~', '~~~']}}
     result = {}
-    for i in solve_data:
-        test = {}
+    for i in solve_queryset:
+        solve_question_data = {}
         if i.student_id in result:
             result[i.student_id]['student_id'] = i.student_id
             result[i.student_id]['student_score'].append(int(i.score))
             result[i.student_id]['student_response'].append(i.response)
         else:
-            test['student_progress'] = []
-            test['student_score'] = []
-            test['student_response'] = []
-            test['student_id'] = i.student_id
-            test['student_name'] = i.student_name
-            test['student_score'].append(int(i.score))
-            test['student_response'].append(i.response)
+            solve_question_data['student_progress'] = []
+            solve_question_data['student_score'] = []
+            solve_question_data['student_response'] = []
+            solve_question_data['student_id'] = i.student_id
+            solve_question_data['student_name'] = i.student_name
+            solve_question_data['student_score'].append(int(i.score))
+            solve_question_data['student_response'].append(i.response)
 
-            result[i.student_id] = test
+            result[i.student_id] = solve_question_data
 
-    for data_row in result:
-        check_data = result[data_row]
-        result[data_row]['student_score'] = sum(check_data['student_score']) / len(check_data['student_score'])
+    for student_id in result:   # 한 학생의 평균 점수 구하기
+        student_data = result[student_id]
+        result[student_id]['student_score'] = sum(student_data['student_score']) / len(student_data['student_score'])
 
     try:
-        total = 0
-        total_pgs = 0
+        total_score = 0     # 총 점수
+        total_progress = 0      # 총 진행률
         for j in result.values():
-            total += j['student_score']
+            total_score += j['student_score']
             if len(j['student_response']) >= 1:
-                for c in j['student_response']:
-                    count = len(j['student_response'])
-                    pgs = count / question_count * 100
-            j['student_progress'] = round(pgs)
-            total_pgs += j['student_progress']
-        all_avg = total / len(result.values())
-        all_pgs = round(total_pgs / len(result.values()))
+                count = len(j['student_response'])
+                j['student_progress'] = round(count / count_question * 100)
+            total_progress += j['student_progress']
+        all_avg = round(total_score / len(result.values()), 2)      # 전체 학생 평균 점수
+        all_progress = round(total_progress / len(result.values()))     # 전체 학생 평균 진행률
+
     except ZeroDivisionError:
         all_avg = 0
-        all_pgs = 0
+        all_progress = 0
 
     context = {
-        'assignment_data': assignment_data,
-        'question_count': question_count,
+        'assignment_data': assignment_queryset,
+        'question_count': count_question,
         'result': result.values(),
         'result_item': result.items(),
-        'all_avg': round(all_avg, 2),
-        'all_pgs': all_pgs
-
+        'all_avg': all_avg,
+        'all_pgs': all_progress
     }
     return render(request, 'teacher/view_result_detail.html', context)
 
 
+# 문항생성 화면 view 함수
 def make_question(request):
     return render(request, 'teacher/make_question.html')
 
 
+# 문항생성 > 문항생성완료 버튼 클릭 시  MakeQuestion Table DB 저장
 def make_question_save(request):
     now = datetime.datetime.now()
     now_date = now.strftime('%Y-%m-%d')
@@ -165,6 +170,7 @@ def make_question_save(request):
 
         mark_list = request.POST.getlist('mark_text')
         temp = MakeQuestion.objects.get(hint=request.POST['hint'], made_date=now_date)
+        # MakeQuestion Table 과 연결된 Mark Table 데이터 추가
         for i in mark_list:
             mark_data = Mark(mark_text=i,
                              make_question_id=temp.make_question_id)
@@ -181,18 +187,22 @@ def make_question_save(request):
         return redirect('make_question')
 
 
+# Bigram Tree 화면 view 함수
 def bigram_tree(request):
     return render(request, 'teacher/bigram_tree.html')
 
 
+# 주제분석 화면 view 함수
 def topic_analysis(request):
     return render(request, 'teacher/topic_analysis.html')
 
 
+# 응답분석 화면 view 함수
 def response_analysis(request):
     return render(request, 'teacher/response_analysis.html')
 
 
+# QR 코드 화면 view 함수
 def qr_code(request):
     question_data = Question.objects.all()
     context = {
@@ -201,10 +211,12 @@ def qr_code(request):
     return render(request, 'teacher/QR_code.html', context)
 
 
+# 게시판 화면 view 함수
 def teacher_notice(request):
     return render(request, 'teacher/teacher_notice.html')
 
 
+# QR 코드 > 버튼 클릭 시 QR 코드 이미지 변경 함수
 def change_qr_code(request):
     question_name = request.GET['question_name']
     qst_data = Question.objects.all().filter(question_name=question_name)
@@ -221,6 +233,7 @@ def change_qr_code(request):
     return JsonResponse(context)
 
 
+# 문항선택 > 문항 검색 함수
 def question_search(request):
     user_input = request.GET['user_input']
     sah_data = Keyword.objects.select_related('question').filter(keyword_name__icontains=user_input).values_list(
@@ -234,34 +247,14 @@ def question_search(request):
         search_data_dict['question_name'] = i.question_name
         search_data_dict['question_image'] = json.dumps(str(i.image)).replace('"', '')
         search_data.append(search_data_dict)
+
     context = {
         'search_data': search_data
     }
     return JsonResponse(context)
 
 
-def view_search(request):
-    user_input = request.GET['user_input']
-    asi_data = Assignment.objects.all().filter(assignment_title__icontains=user_input)
-
-    assignment_data = []
-    for i in asi_data:
-        assignment_data_dict = dict()
-        assignment_data_dict['assignment_id'] = i.assignment_id
-        assignment_data_dict['assignment_title'] = i.assignment_title
-        assignment_data_dict['assignment_type'] = i.type
-        assignment_data_dict['start_date'] = i.start_date
-        assignment_data_dict['end_date'] = i.end_date
-        assignment_data_dict['student_grade'] = i.grade
-        assignment_data_dict['student_class'] = i.school_class
-        assignment_data.append(assignment_data_dict)
-
-    context = {
-        'assignment_data': assignment_data
-    }
-    return JsonResponse(context)
-
-
+# 문항선택 > 기존 시험지 복사 버튼 클릭 시 작동 함수
 def assignment_copy(request):
     copy_code = request.GET['copy_code']
     cp_data = AssignmentQuestionRel.objects.select_related('assignment', 'question').filter(assignment_id=copy_code)
@@ -280,6 +273,7 @@ def assignment_copy(request):
     return JsonResponse(context)
 
 
+# 문항선택 > 카테고리 변경 시 작동 함수
 def change_category(request):
     category_option = request.GET['option']
     if category_option == 'select':
@@ -301,6 +295,7 @@ def change_category(request):
     return JsonResponse(context)
 
 
+# 문항선택 > 코드 생성 버튼 클릭시 작동 함수
 def code_generation(request):
     generation_code = request.GET['text']
     assignment_id = Assignment.objects.all().values('assignment_id')
@@ -323,6 +318,7 @@ def code_generation(request):
     return JsonResponse(context)
 
 
+# 홈 > 로그인 함수
 def login_view(request):
     if request.method == "POST":
         username = request.POST["username"]
@@ -336,11 +332,13 @@ def login_view(request):
     return render(request, "teacher/login.html")
 
 
+# 로그아웃 함수
 def logout_view(request):
     logout(request)
     return redirect("login")
 
 
+# 회원가입 함수
 def signup_view(request):
     teacher_id = Teacher.objects.count() + 1
     try:
@@ -362,14 +360,17 @@ def signup_view(request):
                 teacher_data.save()
 
                 messages.success(request, '회원가입이 완료되었습니다.')
+
                 return redirect("login")
     except:
         messages.error(request, '비밀번호가 일치하지 않거나 중복된 이메일입니다.')
+
         return redirect("signup")
 
     return render(request, "teacher/signup.html", {'teacher_id': teacher_id})
 
 
+# 결과보기 > 더보기 > 더보기 클릭 시 결과를 차트로 보여주는 기능
 def chart(request):
     studnet_name = request.POST.getlist('student_name')
     studnet_score = request.POST.getlist('student_score')
@@ -384,5 +385,4 @@ def chart(request):
         'labels': labels,
         'data': data
     }
-
     return render(request, 'teacher/chart.html', context)
