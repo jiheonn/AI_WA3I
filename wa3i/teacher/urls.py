@@ -16,7 +16,6 @@ urlpatterns = [
     path('view_result/view_result_detail/', views.view_result_detail, name='view_result_detail'),
     path('change_qr_code/', views.change_qr_code, name='change_qr_code'),
     path('question_search/', views.question_search, name='question_search'),
-    path('view_search/', views.view_search, name='view_search'),
     path('assignment_copy/', views.assignment_copy, name='assignment_copy'),
     path('change_category/', views.change_category, name='change_category'),
     path('code_generation/', views.code_generation, name='code_generation'),
