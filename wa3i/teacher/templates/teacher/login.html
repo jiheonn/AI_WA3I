@@ -161,7 +161,7 @@
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
+        <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto" id="menubar">
                 <li class="nav-item">
                     <a class="nav-link">홈
@@ -171,7 +171,7 @@
                 <li class="nav-item">
                     <a class="nav-link">문항선택</a>
                 </li>
-                <li id="view_result" class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link">결과보기</a>
                 </li>
                 <li class="nav-item">
@@ -195,7 +195,7 @@
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown" id="login-menu">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="user-name"><i
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown"><i
                             class="fa fa-user fa-fw"></i> User </a>
                     <ul>
                         <li><a class="nav-link" href="{% url 'login' %}">로그인</a></li>
@@ -257,17 +257,6 @@
                     </button>
                 </div>
                 <br>
-
-                <!--                <div class="text-center p-t-45 p-b-4">-->
-                <!--						<span class="txt1">-->
-                <!--							Forgot-->
-                <!--						</span>-->
-
-                <!--                    <a href="#" class="txt2 hov1">-->
-                <!--                        Email / Password?-->
-                <!--                    </a>-->
-                <!--                </div>-->
-
                 <div class="text-center">
 						<span class="txt1">
 							Create an account?
@@ -283,80 +272,6 @@
 </div>
 
 {% endif %}}
-
-<!--&lt;!&ndash; Page Content &ndash;&gt;-->
-<!--<div class="container">-->
-
-<!--    &lt;!&ndash; Heading Row &ndash;&gt;-->
-<!--    <div class="row justify-content-center my-5">-->
-<!--        <div class="col-lg-2">-->
-<!--            <img class="img-fluid rounded mb-4 mb-lg-0" src="{% static 'mainpage/image/logo.png' %}" width="120"-->
-<!--                 height="120" alt="">-->
-<!--        </div>-->
-<!--        &lt;!&ndash; /.col-lg-8 &ndash;&gt;-->
-<!--        <div class="col-lg-5">-->
-<!--            <p class="font-weight-bolder triangle-border left">-->
-<!--                안녕하세요!<br>-->
-<!--                교사용 모드를 이용하시려면 먼저 로그인을 해주세요.<br>-->
-<!--                회원이 아니신 선생님께서는 회원가입을 부탁드립니다.</p>-->
-<!--        </div>-->
-<!--        &lt;!&ndash; /.col-md-4 &ndash;&gt;-->
-<!--    </div>-->
-<!--    &lt;!&ndash; /.row &ndash;&gt;-->
-
-<!--</div>-->
-<!--&lt;!&ndash; /.container &ndash;&gt;-->
-
-<!--<div class="limiter sct-margin">-->
-<!--    <div class="col-11" style="margin-left: 40px;">-->
-<!--        <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50 login-center">-->
-<!--            <form action="" method="POST" class="login100-form validate-form">-->
-<!--                {% csrf_token %}-->
-<!--					<span class="login100-form-title p-b-33">-->
-<!--						Login-->
-<!--					</span>-->
-
-<!--                <div class="wrap-input100 validate-input" data-validate="가입하지 않은 이메일이거나, 비밀번호가 일치하지 않습니다.">-->
-<!--                    <input class="input100" type="text" name="username" placeholder="User Name">-->
-<!--                    <span class="focus-input100-1"></span>-->
-<!--                    <span class="focus-input100-2"></span>-->
-<!--                </div>-->
-
-<!--                <div class="wrap-input100 rs1 validate-input" data-validate="비밀번호를 입력해 주세요.">-->
-<!--                    <input class="input100" type="password" name="password" placeholder="Password">-->
-<!--                    <span class="focus-input100-1"></span>-->
-<!--                    <span class="focus-input100-2"></span>-->
-<!--                </div>-->
-
-<!--                <div class="container-login100-form-btn m-t-20">-->
-<!--                    <button type="submit" class="login100-form-btn">-->
-<!--                        Sign in-->
-<!--                    </button>-->
-<!--                </div><br>-->
-
-<!--&lt;!&ndash;                <div class="text-center p-t-45 p-b-4">&ndash;&gt;-->
-<!--&lt;!&ndash;						<span class="txt1">&ndash;&gt;-->
-<!--&lt;!&ndash;							Forgot&ndash;&gt;-->
-<!--&lt;!&ndash;						</span>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                    <a href="#" class="txt2 hov1">&ndash;&gt;-->
-<!--&lt;!&ndash;                        Email / Password?&ndash;&gt;-->
-<!--&lt;!&ndash;                    </a>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-
-<!--                <div class="text-center">-->
-<!--						<span class="txt1">-->
-<!--							Create an account?-->
-<!--						</span>-->
-
-<!--                    <a href="#" class="txt2 hov1">-->
-<!--                        Sign up-->
-<!--                    </a>-->
-<!--                </div>-->
-<!--            </form>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
 
 <!-- Bootstrap core JavaScript -->
 <script src="{% static 'mainpage/vendor/jquery/jquery.min.js' %}"></script>
