@@ -72,11 +72,12 @@ def question_selection_save(request):
     except:
         messages.error(request, '등록에 실패하였습니다. 다시 한번 확인해 주세요.')
 
-        return HttpResponseRedirect(request.GET['path'])
+        return HttpResponseRedirect(request.POST['path'])
 
 
 # 결과보기 화면 view 함수
 def view_result(request):
+    # teacher_id = 1
     teacher_id = request.POST['teacher_id']
     asi_data = Assignment.objects.filter(teacher_id=teacher_id).order_by('start_date')
 
