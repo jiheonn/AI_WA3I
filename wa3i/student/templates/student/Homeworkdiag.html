@@ -83,7 +83,7 @@
             <h2 class="mt-4">{{data.question_name}}</h2>
             <hr>
             <!-- Preview Image -->
-            <img class="img-fluid rounded mb-4 mb-lg-0" src="{% static data.question.image %}">
+            <img class="img-fluid rounded mb-4 mb-lg-0" src="{{ data.question.image.url }}">
             <hr>
             <!-- Post Content -->
             <p>{{data.question.discription}}

@@ -66,11 +66,14 @@
     <!-- Content Row -->
     <div class="row">
 
-        <div class="col-lg-3">
+        <div class="col-lg-4">
             <table class="w3-table-all w3-centered" id="ques_table">
-                <tr class="w3-indigo">
-                    <th>학습 목록</th>
-                </tr>
+                <th class="w3-indigo">
+                    학습 목록
+                </th>
+                <th class="w3-indigo">
+                    완료
+                </th>
                 {% for d in data %}
                 <tr id="t_id">
                     <td>
@@ -83,17 +86,22 @@
                             <!--                        <a href="{% url 'Studyquestion' %}">{{d.question.question_name}}</a>-->
                         </form>
                     </td>
+                    <td>
+
+                    </td>
                 </tr>
                 {% endfor %}
             </table>
         </div>
 
       <!-- Post Content Column -->
-        <div class="col-lg-9">
+        <div class="col-lg-8">
 
             <!-- Title -->
             <form action="{% url 'Homeworkdiagnosis' %}" method="GET">
+<!--                {% csrf_token %}-->
                 <input type="hidden" name="student_id" id ="student_id" value="{{student_id}}">
+                <input type="hidden" name="student_name" id ="student_name" value="{{student_name}}">
             <!-- Title -->
                 <h2 class="mt-4"><input type="hidden" class="w3-btn w3-round w3-blue" name="question_id" value="{{f.question.question_id}}"
                                                    id="{{f.question.question_id}}">{{f.question.question_name}}</h2>
