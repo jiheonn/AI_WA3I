@@ -32,19 +32,18 @@
     <form action="{% url 'signup' %}" method="POST">
         {% csrf_token %}
         <p>아이디</p>
-        <input name="username" type="text" style="border-style: solid; border-width: 1px; border-color: gray; padding-left: 10px;"><span style="margin-left: 20px; color: gray;">학교 이메일을 사용해 주세요.</span>
+        <input class="input-box" name="username" type="text"><span class="input-text">학교 이메일을 사용해 주세요.</span>
         <p>비밀번호</p>
-        <input name="password1" type="password" style="border-style: solid; border-width: 1px; border-color: gray; padding-left: 10px;">
+        <input class="input-box" name="password1" type="password">
         <p>비밀번호 확인</p>
-        <input name="password2" type="password" style="border-style: solid; border-width: 1px; border-color: gray; padding-left: 10px;">
+        <input class="input-box" name="password2" type="password">
         <p>성</p>
-        <input name="last_name" type="text" style="border-style: solid; border-width: 1px; border-color: gray; padding-left: 10px;">
+        <input class="input-box" name="last_name" type="text">
         <p>이름</p>
-        <input name="first_name" type="text" style="border-style: solid; border-width: 1px; border-color: gray; padding-left: 10px;">
+        <input class="input-box" name="first_name" type="text">
         <p>학교 이름</p>
-        <input name="school" type="text" style="border-style: solid; border-width: 1px; border-color: gray; padding-left: 10px;">
-        <p>교사번호</p>
-        <input name="teacher_id" type="text" value="{{ teacher_id }}" readonly style="border-style: solid; border-width: 1px; border-color: gray; padding-left: 10px;"><br><br>
+        <input class="input-box" name="school" type="text"><br><br>
+        <input name="teacher_id" type="hidden" value="{{ teacher_id }}">
         <input type="submit" class="btn btn-primary" value="sign up">
     </form>
 </div>
